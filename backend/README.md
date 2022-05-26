@@ -1,16 +1,11 @@
-Symfony Demo Application
-========================
-
-The "Symfony Demo Application" is a reference application created to show how
-to develop applications following the [Symfony Best Practices][1].
-
-You can also learn about these practices in [the official Symfony Book][5].
+Backend Application de gestion des inscriptions
+===============================================
 
 Requirements
 ------------
 
+  * Symfony 5.4
   * PHP 8.0.2 or higher;
-  * PDO-SQLite PHP extension enabled;
   * and the [usual Symfony application requirements][2].
 
 Installation
@@ -18,23 +13,6 @@ Installation
 
 [Download Symfony][4] to install the `symfony` binary on your computer and run
 this command:
-
-```bash
-$ symfony new --demo my_project
-```
-
-Alternatively, you can use Composer:
-
-```bash
-$ composer create-project symfony/symfony-demo my_project
-```
-
-If you want to test the demo without installing anything locally, you can also
-deploy it on Platform.sh, the official Symfony PaaS:
-
-<p align="center">
-<a href="https://console.platform.sh/projects/create-project?template=https://raw.githubusercontent.com/symfonycorp/platformsh-symfony-template-metadata/main/template-metadata-demo.yaml&utm_content=symfonycorp&utm_source=github&utm_medium=button&utm_campaign=deploy_on_platform"><img src="https://platform.sh/images/deploy/lg-blue.svg" alt="Deploy on Platform.sh" width="180px" /></a>
-</p>
 
 Usage
 -----
