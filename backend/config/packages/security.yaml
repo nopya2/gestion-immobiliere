@@ -43,6 +43,13 @@ security:
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
+        authentication:
+            json_login:
+                check_path: /api/login
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
             # this firewall does not have a 'pattern' option because it applies to all URLs
             # lazy: true
             # provider: database_users
@@ -85,6 +92,8 @@ security:
         # additional security lives in the controllers
         # - { path: '^/(%app_locales%)/admin', roles: ROLE_ADMIN }
         - { path: ^/api/docs, roles: PUBLIC_ACCESS } # Allows accessing API documentations and Swagger UI
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/authentication, roles: PUBLIC_ACCESS }
         - { path: ^/authentication_token, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }

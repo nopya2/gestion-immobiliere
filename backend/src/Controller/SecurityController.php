@@ -17,6 +17,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+
+use App\Repository\UserRepository;
 
 /**
  * Controller used to manage the application security.
@@ -29,26 +33,30 @@ class SecurityController extends AbstractController
 {
     use TargetPathTrait;
 
-    #[Route('/login', name: 'security_login')]
-    public function login(Request $request, AuthenticationUtils $helper): Response
+    #[Route('/api/login', name: 'security_login')]
+    public function login(
+        Request $request, 
+        AuthenticationUtils $helper,
+        UserRepository $userRepository,
+        UserPasswordHasherInterface $userPasswordEncoder,
+        JWTTokenManagerInterface $JWTManager): Response
     {
-        // if user is already logged in, don't display the login page again
-        if ($this->getUser()) {
-            return $this->redirectToRoute('blog_index');
-        }
+        $data = json_decode($request->getContent(), true);
+        //On verifie si l'utilisateur avec cette e-mail existe
+        $user = $userRepository->findOneBy(['email' => $data['email']]);
+        if(empty($user))
+            return $this->json(['error' => "Cet utilisateur n'existe pas!"], 400);
+        //Ensuite on verifie si les mots de passe correspondent
+        $match = $userPasswordEncoder->isPasswordValid($user, $data['password']);
+        if(!$match)
+            return $this->json(['error' => "Mot de passe invalide!"], 400);
 
-        // this statement solves an edge-case: if you change the locale in the login
-        // page, after a successful login you are redirected to a page in the previous
-        // locale. This code regenerates the referrer URL whenever the login page is
-        // browsed, to ensure that its locale is always the current one.
-        $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('admin_index'));
+        $token = $JWTManager->create($user);
 
-        return $this->render('security/login.html.twig', [
-            // last username entered by the user (if any)
-            'last_username' => $helper->getLastUsername(),
-            // last authentication error (if any)
-            'error' => $helper->getLastAuthenticationError(),
-        ]);
+        return $this->json([
+            'token' => $token,
+            'user' => $user
+        ], 200);
     }
 
     /**

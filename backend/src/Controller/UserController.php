@@ -16,6 +16,7 @@ use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -69,5 +70,30 @@ class UserController extends AbstractController
         return $this->render('user/change_password.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/authentication', methods: ['POST'], name: 'authentication')]
+    public function login(
+        Request $request, 
+        UserPasswordHasherInterface $passwordHasher, 
+        EntityManagerInterface $entityManager): JsonResponse
+    {
+        $user = $this->getUser();
+
+        $form = $this->createForm(ChangePasswordType::class);
+        $form->handleRequest($request);
+
+        // if ($form->isSubmitted() && $form->isValid()) {
+        //     $user->setPassword($passwordHasher->hashPassword($user, $form->get('newPassword')->getData()));
+        //     $entityManager->flush();
+
+        //     return $this->redirectToRoute('security_logout');
+        // }
+
+        // return $this->render('user/change_password.html.twig', [
+        //     'form' => $form->createView(),
+        // ]);
+
+        return new JsonResponse('yvon', 200);
     }
 }
