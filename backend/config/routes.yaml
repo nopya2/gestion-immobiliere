@@ -14,3 +14,7 @@ homepage:
 authentication_token:
     path: /authentication_token
     methods: ['POST']
+# authentication:
+#     controller: App\Controller\UserController::login
+#     path: /authentication
+#     methods: ['POST']
