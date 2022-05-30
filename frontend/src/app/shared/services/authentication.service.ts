@@ -8,7 +8,9 @@ import { User } from '../interfaces/user.type';
 
 const USER_AUTH_API_URL = '/api-url';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
@@ -24,7 +26,7 @@ export class AuthenticationService {
     }
 
     login(email: string, password: string) {
-        return this.http.post<any>(this.endpoint, { email, password })
+        return this.http.post<any>(`${this.endpoint}/api/login`, { email, password })
         .pipe(map(user => {
             if (user && user.token) {
                 localStorage.setItem('currentUser', JSON.stringify(user));

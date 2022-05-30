@@ -1,6 +1,7 @@
 import { Component } from '@angular/core'
 import { FormBuilder, FormGroup,  Validators } from '@angular/forms';
 import { AuthenticationService } from "../../shared/services/authentication.service";
+import { TestService } from "../../../app/test.service";
 
 
 @Component({
@@ -18,12 +19,21 @@ export class Login1Component {
             this.loginForm.controls[ i ].updateValueAndValidity();
         }
 
-        // this.authService.login
+        this.authService.login(this.loginForm.value.email, this.loginForm.value.password)
+            .subscribe(response => {
+                this.isLoading = false;
+                console.log(response);
+            }, error => {
+                console.log(error);
+                this.isLoading = false;
+            })
     }
 
     constructor(
         private fb: FormBuilder,
-        private authService: AuthenticationService) {
+        private test: TestService,
+        private authService: AuthenticationService
+        ) {
     }
 
     ngOnInit(): void {
