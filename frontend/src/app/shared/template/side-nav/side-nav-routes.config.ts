@@ -44,6 +44,47 @@ export const ROUTES: SideNavInterface[] = [
     },
     {
         path: '',
+        title: 'Administration',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        icon: 'setting',
+        submenu: [
+            {
+                path: '/pages/users',
+                title: 'Utilisateurs',
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                submenu: []
+            },
+            {
+                path: '/dashboard/crm',
+                title: 'CRM',
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                submenu: []
+            },
+            {
+                path: '/dashboard/e-commerce',
+                title: 'E-commerce',
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                submenu: []
+            },
+            {
+                path: '/dashboard/projects',
+                title: 'Projects',
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                submenu: []
+            },
+        ]
+    },
+    {
+        path: '',
         title: 'Apps',
         iconType: 'nzIcon',
         iconTheme: 'outline',

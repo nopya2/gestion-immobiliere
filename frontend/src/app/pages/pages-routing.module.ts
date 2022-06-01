@@ -9,8 +9,16 @@ import { SettingComponent } from './setting/setting.component';
 import { BlogGridComponent } from './blog/blog-grid/blog-grid.component';
 import { BlogListComponent } from './blog/blog-list/blog-list.component';
 import { BlogPostComponent } from './blog/blog-post/blog-post.component';
+import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
+    {
+        path: 'users',
+        component: UserComponent,
+        data: {
+            title: 'Gestion des utilisateurs'
+        }
+    },
     {
         path: 'profile',
         component: ProfileComponent,
