@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { registerLocaleData, PathLocationStrategy, LocationStrategy } from '@angular/common';
 import en from '@angular/common/locales/en';
@@ -17,6 +19,7 @@ import { FullLayoutComponent } from './layouts/full-layout/full-layout.component
 
 import { NgChartjsModule } from 'ng-chartjs';
 import { ThemeConstantService } from './shared/services/theme-constant.service';
+import { JwtInterceptor } from './shared/interceptor/token.interceptor';
 
 registerLocaleData(en);
 
@@ -44,7 +47,13 @@ registerLocaleData(en);
             provide: LocationStrategy, 
             useClass: PathLocationStrategy
         },
-        ThemeConstantService
+        ThemeConstantService,
+        NzNotificationService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: JwtInterceptor,
+            multi: true
+        }
     ],
     bootstrap: [AppComponent]
 })

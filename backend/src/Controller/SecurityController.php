@@ -52,11 +52,9 @@ class SecurityController extends AbstractController
             return $this->json(['error' => "Mot de passe invalide!"], 400);
 
         $token = $JWTManager->create($user);
+        $user->setToken($token);
 
-        return $this->json([
-            'token' => $token,
-            'user' => $user
-        ], 200);
+        return $this->json($user, 200);
     }
 
     /**

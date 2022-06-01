@@ -18,6 +18,10 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 
 /**
  * Defines the properties of the User entity to represent the application users.
@@ -33,8 +37,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 // #[ORM\Table(name: 'symfony_demo_user')]
 #[ApiResource(
     normalizationContext: ["groups" => ["read:user"]],
-    denormalizationContext: ["groups" => ["write:user"]]
+    denormalizationContext: ["groups" => ["write:user"]],
+    attributes: [
+        "pagination_client_enabled" => true,
+        "pagination_client_items_per_page" => true
+    ]
 )]
+#[ApiFilter(
+    OrderFilter::class,
+    properties: ["name", "firstname"],
+    arguments: ["orderParameterName" => "order"]
+)]
+#[ApiFilter(BooleanFilter::class, properties: ['enabled'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -42,11 +56,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'integer')]
     #[Groups("read:user")]
     private ?int $id = null;
-
-    #[ORM\Column(type: 'string')]
-    #[Assert\NotBlank]
-    #[Groups(["read:user", "write:user"])]
-    private ?string $fullName = null;
 
     #[ORM\Column(type: 'string', unique: true)]
     #[Assert\NotBlank]
@@ -67,19 +76,44 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(["read:user", "write:user"])]
     private array $roles = [];
 
+    #[Groups("read:user")]
+    private ?string $token = null;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["read:user", "write:user"])]
+    #[Assert\NotBlank]
+    private $phoneNumber1;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(["read:user", "write:user"])]
+    private $phoneNumber2;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 50)]
+    #[Groups(["read:user", "write:user"])]
+    #[ApiFilter(SearchFilter::class, strategy: 'partial')]
+    private $name;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 50)]
+    #[Groups(["read:user", "write:user"])]
+    #[ApiFilter(SearchFilter::class, strategy: 'partial')]
+    private $firstname;
+
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    #[Groups(["read:user", "write:user"])]
+    private $enabled = true;
+
+    public function __construct()
+    {
+        $this->enabled = true;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setFullName(string $fullName): void
-    {
-        $this->fullName = $fullName;
-    }
-
-    public function getFullName(): ?string
-    {
-        return $this->fullName;
     }
 
     public function getUserIdentifier(): string
@@ -172,5 +206,77 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // add $this->salt too if you don't use Bcrypt or Argon2i
         [$this->id, $this->username, $this->password] = $data;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    public function getPhoneNumber1(): ?string
+    {
+        return $this->phoneNumber1;
+    }
+
+    public function setPhoneNumber1(string $phoneNumber1): self
+    {
+        $this->phoneNumber1 = $phoneNumber1;
+
+        return $this;
+    }
+
+    public function getPhoneNumber2(): ?string
+    {
+        return $this->phoneNumber2;
+    }
+
+    public function setPhoneNumber2(?string $phoneNumber2): self
+    {
+        $this->phoneNumber2 = $phoneNumber2;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): self
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getEnabled(): ?bool
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled(?bool $enabled): self
+    {
+        $this->enabled = $enabled;
+
+        return $this;
     }
 }
