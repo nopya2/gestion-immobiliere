@@ -44,6 +44,10 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
     ]
 )]
 #[ApiFilter(
+    SearchFilter::class,
+    properties: ["name" => "ipartial"]
+)]
+#[ApiFilter(
     OrderFilter::class,
     properties: ["name", "firstname"],
     arguments: ["orderParameterName" => "order"]
@@ -92,14 +96,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
     #[Groups(["read:user", "write:user"])]
-    #[ApiFilter(SearchFilter::class, strategy: 'partial')]
     private $name;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
     #[Groups(["read:user", "write:user"])]
-    #[ApiFilter(SearchFilter::class, strategy: 'partial')]
     private $firstname;
 
     #[ORM\Column(type: 'boolean', nullable: true)]

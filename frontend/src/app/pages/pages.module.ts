@@ -25,6 +25,11 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 import { ProfileComponent } from './profile/profile.component';
 import { InvoiceComponent } from './invoice/invoice.component';
@@ -35,6 +40,8 @@ import { BlogGridComponent } from './blog/blog-grid/blog-grid.component';
 import { BlogListComponent } from './blog/blog-list/blog-list.component';
 import { BlogPostComponent } from './blog/blog-post/blog-post.component';
 import { UserComponent } from './user/user.component';
+import { UserAddComponent } from './user/user-add/user-add.component';
+import { UserResetPwdComponent } from './user/user-reset-pwd/user-reset-pwd.component';
 
 const antdModule = [
     NzCardModule,
@@ -57,7 +64,12 @@ const antdModule = [
     NzToolTipModule,
     NzModalModule,
     NzMessageModule,
-    NzInputModule
+    NzInputModule,
+    NzCheckboxModule,
+    NgxMaskModule.forRoot(),
+    NzBadgeModule,
+    NzIconModule,
+    NzPopoverModule
 ]
 
 @NgModule({
@@ -77,7 +89,9 @@ const antdModule = [
         BlogGridComponent,
         BlogListComponent,
         BlogPostComponent,
-        UserComponent
+        UserComponent,
+        UserAddComponent,
+        UserResetPwdComponent
     ],
     providers: [
     ]

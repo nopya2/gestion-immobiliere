@@ -50,6 +50,9 @@ class SecurityController extends AbstractController
         $match = $userPasswordEncoder->isPasswordValid($user, $data['password']);
         if(!$match)
             return $this->json(['error' => "Mot de passe invalide!"], 400);
+        //On verifi si le comte est active
+        if($user->getEnabled() === false)
+            return $this->json(['error' => "Compte désactivé!"], 400);
 
         $token = $JWTManager->create($user);
         $user->setToken($token);
@@ -67,5 +70,14 @@ class SecurityController extends AbstractController
     public function logout(): void
     {
         throw new \Exception('This should never be reached!');
+    }
+
+    /**
+     * Page de verification sz l'existence du Token
+     */
+    #[Route('/api/verify', name: 'security_verify')]
+    public function verify()
+    {
+        return $this->json(['message' => 'Authenticated']);
     }
 }

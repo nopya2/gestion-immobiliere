@@ -1,13 +1,13 @@
 export interface User {
-    id: number;
+    id?: number;
+    name: string;
+    firstname: string;
     username: string;
     email: string;
     roles: string[];
-    token: string;
-    password: string;
+    token?: string;
+    password?: string;
     phoneNumber1: string;
-    phoneNumber2: string;
-    name: string;
-    firstname: string;
+    phoneNumber2?: string;
     enabled: boolean;
 }
