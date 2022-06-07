@@ -33,6 +33,18 @@ export class UserAddComponent implements OnInit {
 
   initForm(){
     if(this.action === 'create'){
+      this.user = {
+        username: '',
+        email: '',
+        enabled: true,
+        firstname: '',
+        name: '',
+        phoneNumber1: '',
+        phoneNumber2: '',
+        roles: [],
+        password: ''
+      }
+
       this.validateForm = this.fb.group({
         username: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
         name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
@@ -41,7 +53,7 @@ export class UserAddComponent implements OnInit {
         roles: [null, [Validators.required]],
         password: [null, [Validators.required, Validators.minLength(6)]],
         checkPassword: [null, [Validators.required, this.confirmationValidator]],
-        phoneNumber1: [null],
+        phoneNumber1: [null, [Validators.required]],
         phoneNumber2: [null],
         enabled: [true]
       });
@@ -52,7 +64,7 @@ export class UserAddComponent implements OnInit {
         firstname: [this.action == 'edit' ? this.user.firstname : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
         email: [this.action == 'edit' ? this.user.email : null, [Validators.email, Validators.required]],
         roles: [this.action == 'edit' ? this.user.roles : null, [Validators.required]],
-        phoneNumber1: [this.action == 'edit' ? this.user.phoneNumber1 : null],
+        phoneNumber1: [this.action == 'edit' ? this.user.phoneNumber1 : null, [Validators.required]],
         phoneNumber2: [this.action == 'edit' ? this.user.phoneNumber2 : null],
         enabled: [this.action == 'edit' ? this.user.enabled : true]
       });
@@ -74,8 +86,8 @@ export class UserAddComponent implements OnInit {
     if(this.action === 'create'){
       this.user.password = this.validateForm.value.password;
     }
-    this.user.phoneNumber1 = this.validateForm.value.phoneNumber1;
-    this.user.phoneNumber2 = this.validateForm.value.phoneNumber2;
+    this.user.phoneNumber1 = '+241'+this.validateForm.value.phoneNumber1;
+    this.user.phoneNumber2 = this.validateForm.value.phoneNumber2 !== '' ? '+241'+this.validateForm.value.phoneNumber2 : null;
     this.user.enabled = this.validateForm.value.enabled;
 
     this.isLoading = true;
@@ -99,7 +111,7 @@ export class UserAddComponent implements OnInit {
         }, error => {
           this.isLoading = false;
           console.log(error);
-          // this.notification.error("Echec création", "Login ou mot de passse invalide!");
+          this.notification.error("Echec", "Erreur lors de l'enregistrement des informations!");
         });
     }
   }

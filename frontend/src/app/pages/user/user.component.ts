@@ -11,6 +11,7 @@ import { UserService } from "../../shared/services/user.service";
 import { Helper } from '../../shared/helper';
 //components
 import { UserAddComponent } from './user-add/user-add.component';
+import { UserResetPwdComponent } from './user-reset-pwd/user-reset-pwd.component';
 //enums
 import { RoleEnum } from '../../shared/enumarations/role.enum';
 
@@ -154,6 +155,23 @@ export class UserComponent implements OnInit {
               reject();
             })
         }).catch(() => console.log('Oops errors!'))
+    });
+  }
+
+  resetPassword(user){
+    const a: any = this.modalService.create({
+      nzTitle: 'Réinitialisation du mot de passe',
+      nzContent: UserResetPwdComponent,
+      nzComponentParams: {
+        user: user
+      },
+      nzStyle: {
+        top: '30px'
+      },
+      nzMaskClosable: false,
+      // nzWidth: 650,
+      nzOnOk: (event) => {
+      }
     });
   }
 

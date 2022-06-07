@@ -150,7 +150,7 @@
                     [nzValidateStatus]="validateForm.controls['phoneNumber1']"
                     nzHasFeedback [nzErrorTip]="errorTpl"
                 >
-                    <input formControlName="phoneNumber1" id="'phoneNumber1'" nz-input nzSize="small" prefix="+241" mask=" 99 99 99 99"/>
+                    <input formControlName="phoneNumber1" id="'phoneNumber1'" nz-input nzSize="small" prefix="+241" mask=" 00 00 00 00"/>
                     <ng-template #errorTpl let-control>
                         <ng-container *ngIf="control.hasError('required')">
                             Le champs est requis!
@@ -161,17 +161,12 @@
         </div>
         <div nz-col class="gutter-row" nzSpan="12">
             <nz-form-item>
-                <nz-form-label nzFor="phoneNumber1" nzRequired>Téléphone secondaire</nz-form-label>
+                <nz-form-label nzFor="phoneNumber2">Téléphone secondaire</nz-form-label>
                 <nz-form-control
                     [nzValidateStatus]="validateForm.controls['phoneNumber2']"
-                    nzHasFeedback [nzErrorTip]="errorTpl"
+                    nzHasFeedback
                 >
-                    <input formControlName="phoneNumber2" id="'phoneNumber2'" nz-input nzSize="small" prefix="+241" mask=" 99 99 99 99"/>
-                    <ng-template #errorTpl let-control>
-                        <ng-container *ngIf="control.hasError('required')">
-                            Le champs est requis!
-                        </ng-container>
-                    </ng-template>
+                    <input formControlName="phoneNumber2" id="'phoneNumber2'" nz-input nzSize="small" prefix="+241" mask=" 00 00 00 00"/>
                 </nz-form-control>
             </nz-form-item>
         </div>
