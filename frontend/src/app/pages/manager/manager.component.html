@@ -31,7 +31,7 @@
         <div class="col-lg-4 text-right">
             <a nz-button nzType="primary" (click)="openAdd()">
                 <i nz-icon nzType="plus-circle" theme="outline"></i>
-                <span>Ajouter un utilisateur</span>
+                <span>Ajouter un responsable</span>
             </a>
         </div>
     </div>
@@ -41,7 +41,7 @@
     </div>
     <nz-table
       nzShowSizeChanger
-      [nzData]="users"
+      [nzData]="managers"
       [nzFrontPagination]="false"
       [nzLoading]="loading"
       [nzTotal]="total"
@@ -63,7 +63,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let data of users">
+            <tr *ngFor="let data of managers">
                 <td>{{ data.name }}</td>
                 <td>{{ data.firstname }}</td>
                 <td>{{ data.email }}</td>

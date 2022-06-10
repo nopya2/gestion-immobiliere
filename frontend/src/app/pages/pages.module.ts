@@ -42,6 +42,10 @@ import { BlogPostComponent } from './blog/blog-post/blog-post.component';
 import { UserComponent } from './user/user.component';
 import { UserAddComponent } from './user/user-add/user-add.component';
 import { UserResetPwdComponent } from './user/user-reset-pwd/user-reset-pwd.component';
+import { EtablishmentComponent } from './etablishment/etablishment.component';
+import { ManagerComponent } from './manager/manager.component';
+import { ManagerAddComponent } from './manager/manager-add/manager-add.component';
+import { ManagerResetPwdComponent } from './manager/manager-reset-pwd/manager-reset-pwd.component';
 
 const antdModule = [
     NzCardModule,
@@ -91,7 +95,11 @@ const antdModule = [
         BlogPostComponent,
         UserComponent,
         UserAddComponent,
-        UserResetPwdComponent
+        UserResetPwdComponent,
+        EtablishmentComponent,
+        ManagerComponent,
+        ManagerAddComponent,
+        ManagerResetPwdComponent
     ],
     providers: [
     ]

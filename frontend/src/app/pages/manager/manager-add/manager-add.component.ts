@@ -3,30 +3,30 @@ import { FormBuilder, FormControl, FormGroup, Validators, ValidationErrors } fro
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
-import { User } from '../../../shared/interfaces/user.type';
-import { UserService } from '../../../shared/services/user.service';
+import { Manager } from '../../../shared/interfaces/manager.type';
+import { ManagerService } from '../../../shared/services/manager.service';
 import { RoleEnum } from '../../../shared/enumarations/role.enum';
 //others
 import { Helper } from '../../../shared/helper';
 
 @Component({
-  selector: 'app-user-add',
-  templateUrl: './user-add.component.html',
-  styleUrls: ['./user-add.component.css']
+  selector: 'app-manager-add',
+  templateUrl: './manager-add.component.html',
+  styleUrls: ['./manager-add.component.css']
 })
-export class UserAddComponent implements OnInit {
+export class ManagerAddComponent implements OnInit {
 
   keys = Object.keys;
   validateForm: FormGroup;
   isLoading: Boolean = false;
   rolesEnum = RoleEnum;
-  @Input() user: User;
+  @Input() manager: Manager;
   @Input() action: string;
 
   constructor(
     private fb: FormBuilder,
     private modal: NzModalRef,
-    private userService: UserService,
+    private managerService: ManagerService,
     private notification: NzNotificationService) {}
 
   ngOnInit(): void {
@@ -35,7 +35,7 @@ export class UserAddComponent implements OnInit {
 
   initForm(){
     if(this.action === 'create'){
-      this.user = {
+      this.manager = {
         "@id": null,
         username: '',
         email: '',
@@ -44,7 +44,7 @@ export class UserAddComponent implements OnInit {
         name: '',
         phoneNumber1: '',
         phoneNumber2: '',
-        roles: [],
+        roles: ["ROLE_RES_ETA"],
         password: ''
       }
 
@@ -53,7 +53,6 @@ export class UserAddComponent implements OnInit {
         name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
         firstname: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
         email: [null, [Validators.email, Validators.required]],
-        roles: [null, [Validators.required]],
         password: [null, [Validators.required, Validators.minLength(6)]],
         checkPassword: [null, [Validators.required, this.confirmationValidator]],
         phoneNumber1: [null, [Validators.required]],
@@ -62,14 +61,13 @@ export class UserAddComponent implements OnInit {
       });
     }else{
       this.validateForm = this.fb.group({
-        username: [this.action == 'edit' ? this.user.username : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-        name: [this.action == 'edit' ? this.user.name : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-        firstname: [this.action == 'edit' ? this.user.firstname : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-        email: [this.action == 'edit' ? this.user.email : null, [Validators.email, Validators.required]],
-        roles: [this.action == 'edit' ? this.user.roles : null, [Validators.required]],
-        phoneNumber1: [this.action == 'edit' ? this.user.phoneNumber1 : null, [Validators.required]],
-        phoneNumber2: [this.action == 'edit' ? this.user.phoneNumber2 : null],
-        enabled: [this.action == 'edit' ? this.user.enabled : true]
+        username: [this.action == 'edit' ? this.manager.username : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+        name: [this.action == 'edit' ? this.manager.name : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+        firstname: [this.action == 'edit' ? this.manager.firstname : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+        email: [this.action == 'edit' ? this.manager.email : null, [Validators.email, Validators.required]],
+        phoneNumber1: [this.action == 'edit' ? this.manager.phoneNumber1 : null, [Validators.required]],
+        phoneNumber2: [this.action == 'edit' ? this.manager.phoneNumber2 : null],
+        enabled: [this.action == 'edit' ? this.manager.enabled : true]
       });
     }
   }
@@ -80,22 +78,21 @@ export class UserAddComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
 
-    //Format user
-    this.user.username = this.validateForm.value.username; 
-    this.user.name = this.validateForm.value.name;
-    this.user.firstname = this.validateForm.value.firstname;
-    this.user.email = this.validateForm.value.email;
-    this.user.roles = this.validateForm.value.roles;
+    //Format manager
+    this.manager.username = this.validateForm.value.username; 
+    this.manager.name = this.validateForm.value.name;
+    this.manager.firstname = this.validateForm.value.firstname;
+    this.manager.email = this.validateForm.value.email;
     if(this.action === 'create'){
-      this.user.password = this.validateForm.value.password;
+      this.manager.password = this.validateForm.value.password;
     }
-    this.user.phoneNumber1 = Helper.formatPhoneNumber(this.validateForm.value.phoneNumber1);
-    this.user.phoneNumber2 = Helper.formatPhoneNumber(this.validateForm.value.phoneNumber2);
-    this.user.enabled = this.validateForm.value.enabled;
+    this.manager.phoneNumber1 = Helper.formatPhoneNumber(this.validateForm.value.phoneNumber1);
+    this.manager.phoneNumber2 = Helper.formatPhoneNumber(this.validateForm.value.phoneNumber2);
+    this.manager.enabled = this.validateForm.value.enabled;
 
     this.isLoading = true;
     if(this.action === 'create'){
-      this.userService.create(this.user)
+      this.managerService.create(this.manager)
         .subscribe((res) => {
           this.isLoading = false;
           this.notification.success("Succés", "Elément ajouté avec succè!");
@@ -106,7 +103,7 @@ export class UserAddComponent implements OnInit {
           // this.notification.error("Echec création", "Login ou mot de passse invalide!");
         });
     }else{
-      this.userService.patch(this.user)
+      this.managerService.patch(this.manager)
         .subscribe((res) => {
           this.isLoading = false;
           this.notification.success("Succés", "Informations enregistrées!");

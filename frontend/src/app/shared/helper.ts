@@ -8,7 +8,19 @@ export class Helper {
             case 'descend':
                 return 'desc';
             default:
-                return null;
+                return 'asc';
+        }
+    }
+
+    static formatPhoneNumber(phoneNumber: string){
+        if(phoneNumber === '' || phoneNumber === null)
+            return null;
+        if(phoneNumber !== '' && phoneNumber !== null){
+            if(phoneNumber.includes('+241')){
+                return phoneNumber;
+            }else{
+                return '+241'+phoneNumber;
+            }
         }
     }
 }

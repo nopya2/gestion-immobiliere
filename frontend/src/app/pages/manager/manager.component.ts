@@ -4,25 +4,25 @@ import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
 //interfaces
-import { User } from '../../shared/interfaces/user.type';
+import { Manager } from '../../shared/interfaces/manager.type';
 //services
-import { UserService } from "../../shared/services/user.service";
+import { ManagerService } from "../../shared/services/manager.service";
 //others
 import { Helper } from '../../shared/helper';
 //components
-import { UserAddComponent } from './user-add/user-add.component';
-import { UserResetPwdComponent } from './user-reset-pwd/user-reset-pwd.component';
+import { ManagerAddComponent } from './manager-add/manager-add.component';
+import { ManagerResetPwdComponent } from './manager-reset-pwd/manager-reset-pwd.component';
 //enums
 import { RoleEnum } from '../../shared/enumarations/role.enum';
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  selector: 'app-manager',
+  templateUrl: './manager.component.html',
+  styleUrls: ['./manager.component.css']
 })
-export class UserComponent implements OnInit {
+export class ManagerComponent implements OnInit {
 
-  users: User[] = [];
+  managers: Manager[] = [];
   total = 0;
   loading = true;
   searchInput: string = "";
@@ -41,21 +41,21 @@ export class UserComponent implements OnInit {
   confirmModal?: NzModalRef;
 
   constructor(
-    private userService: UserService,
+    private managerService: ManagerService,
     private notification: NzNotificationService,
     private modalService: NzModalService
   ) { }
 
   ngOnInit(): void {
-    // this.getUsers();
+    // this.getManagers();
   }
 
-  getUsers(): void {
+  getManagers(): void {
     this.loading = true;
-    this.userService.getAll(this.params)
+    this.managerService.getAll(this.params)
       .subscribe((res) => {
         this.loading = false;
-        this.users = res['hydra:member'];
+        this.managers = res['hydra:member'];
         this.total = res['hydra:totalItems'];
       }, error => {
         this.loading = false;
@@ -74,20 +74,20 @@ export class UserComponent implements OnInit {
     console.log(sortOrder);
     this.params['order['+sortField+']'] = Helper.transformOrder(sortOrder);
     // this.loadDataFromServer(pageIndex, pageSize, sortField, sortOrder, filter);
-    this.getUsers();
+    this.getManagers();
   }
 
   search(){
     this.params.page = 1;
     this.params.name = this.searchInput;
-    this.getUsers();
+    this.getManagers();
   }
 
   openAdd(){
     this.action = 'create';
     const a: any = this.modalService.create({
-      nzTitle: 'Ajouter un utilisateur',
-      nzContent: UserAddComponent,
+      nzTitle: 'Ajouter un responsable',
+      nzContent: ManagerAddComponent,
       nzComponentParams: {
         action: this.action
       },
@@ -107,13 +107,13 @@ export class UserComponent implements OnInit {
     });
   }
 
-  openEdit(user){
+  openEdit(manager){
     this.action = 'edit';
     const a: any = this.modalService.create({
-      nzTitle: 'Modifier l\'utilisateur',
-      nzContent: UserAddComponent,
+      nzTitle: 'Modifier le responsable',
+      nzContent: ManagerAddComponent,
       nzComponentParams: {
-        user: {...user},
+        manager: {...manager},
         action: this.action
       },
       nzStyle: {
@@ -131,15 +131,15 @@ export class UserComponent implements OnInit {
           this.search();
         }
         if(this.action === 'edit'){
-          let index = this.users.findIndex(x => x.id === e.id);
+          let index = this.managers.findIndex(x => x.id === e.id);
           if(index !== -1)
-            this.users[index] = {...e};
+            this.managers[index] = {...e};
         }
       }
     });
   }
 
-  deleteItem(user){
+  deleteItem(manager){
     this.confirmModal = this.modalService.confirm({
       nzTitle: 'Etes-vous sûr de vouloir supprimer cet élément?',
       nzContent: 'Une fois supprimée, vous ne pourrez plus récupérer cet élement',
@@ -147,7 +147,7 @@ export class UserComponent implements OnInit {
       nzOkText: 'Confirmer',
       nzOnOk: () =>
         new Promise((resolve, reject) => {
-          this.userService.delete(user.id)
+          this.managerService.delete(manager.id)
             .subscribe(() => {
               this.notification.success("Succés", "Elément supprimé avec succès!");
               this.search();
@@ -159,12 +159,12 @@ export class UserComponent implements OnInit {
     });
   }
 
-  resetPassword(user){
+  resetPassword(manager){
     const a: any = this.modalService.create({
       nzTitle: 'Réinitialisation du mot de passe',
-      nzContent: UserResetPwdComponent,
+      nzContent: ManagerResetPwdComponent,
       nzComponentParams: {
-        user: user
+        manager: manager
       },
       nzStyle: {
         top: '30px'

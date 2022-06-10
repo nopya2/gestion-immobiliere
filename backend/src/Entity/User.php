@@ -22,6 +22,9 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use Doctrine\ORM\Mapping\DiscriminatorColumn;
+use Doctrine\ORM\Mapping\DiscriminatorMap;
+use Doctrine\ORM\Mapping\InheritanceType;
 
 /**
  * Defines the properties of the User entity to represent the application users.
@@ -34,6 +37,9 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  */
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[InheritanceType("SINGLE_TABLE")]
+#[DiscriminatorColumn(name: 'discr', type: 'string')]
+#[DiscriminatorMap(["user" => "User", "manager" => "Manager"])]
 // #[ORM\Table(name: 'symfony_demo_user')]
 #[ApiResource(
     normalizationContext: ["groups" => ["read:user"]],
@@ -58,54 +64,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups("read:user")]
+    #[Groups(["read:user", "read:manager"])]
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', unique: true)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
-    #[Groups(["read:user", "write:user"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager"])]
     private ?string $username = null;
 
     #[ORM\Column(type: 'string', unique: true)]
     #[Assert\Email]
-    #[Groups(["read:user", "write:user"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager"])]
     private ?string $email = null;
 
     #[ORM\Column(type: 'string')]
-    #[Groups(["write:user"])]
+    #[Groups(["write:user", "write:manager"])]
     private ?string $password = null;
 
     #[ORM\Column(type: 'json')]
-    #[Groups(["read:user", "write:user"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager"])]
     private array $roles = [];
 
-    #[Groups("read:user")]
+    #[Groups(["read:user", "read:manager"])]
     private ?string $token = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["read:user", "write:user"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager"])]
     #[Assert\NotBlank]
     private $phoneNumber1;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(["read:user", "write:user"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager"])]
     private $phoneNumber2;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
-    #[Groups(["read:user", "write:user"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager"])]
     private $name;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
-    #[Groups(["read:user", "write:user"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager"])]
     private $firstname;
 
     #[ORM\Column(type: 'boolean', nullable: true)]
-    #[Groups(["read:user", "write:user"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager"])]
     private $enabled = true;
 
     public function __construct()

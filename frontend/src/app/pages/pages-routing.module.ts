@@ -10,6 +10,7 @@ import { BlogGridComponent } from './blog/blog-grid/blog-grid.component';
 import { BlogListComponent } from './blog/blog-list/blog-list.component';
 import { BlogPostComponent } from './blog/blog-post/blog-post.component';
 import { UserComponent } from './user/user.component';
+import { ManagerComponent } from './manager/manager.component';
 
 const routes: Routes = [
     {
@@ -17,6 +18,13 @@ const routes: Routes = [
         component: UserComponent,
         data: {
             title: 'Gestion des utilisateurs'
+        }
+    },
+    {
+        path: 'managers',
+        component: ManagerComponent,
+        data: {
+            title: 'Gestion des responsables d\'établissement'
         }
     },
     {

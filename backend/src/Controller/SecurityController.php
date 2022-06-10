@@ -44,6 +44,7 @@ class SecurityController extends AbstractController
         $data = json_decode($request->getContent(), true);
         //On verifie si l'utilisateur avec cette e-mail existe
         $user = $userRepository->findOneBy(['email' => $data['email']]);
+
         if(empty($user))
             return $this->json(['error' => "Cet utilisateur n'existe pas!"], 400);
         //Ensuite on verifie si les mots de passe correspondent

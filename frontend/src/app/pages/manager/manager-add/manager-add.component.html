@@ -78,35 +78,6 @@
         </div>
     </div>
 
-    <div nz-row [nzGutter]="16">
-        <div nz-col class="gutter-row" nzSpan="24">
-            <nz-form-item>
-                <nz-form-label nzFor="roles" nzRequired>Roles</nz-form-label>
-                <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-                    <nz-select
-                        nzMode="tags"
-                        nzMode="multiple"
-                        nzPlaceHolder="Veuillez sélectionner"
-                        formControlName="roles"
-                    >
-                        <!-- <nz-option [nzLabel]="'Administrateur'" [nzValue]="'ROLE_ADMIN'"></nz-option>
-                        <nz-option [nzLabel]="'Directeur Général'" [nzValue]="'ROLE_DG'"></nz-option>
-                        <nz-option [nzLabel]="'Directeur des affaires financières'" [nzValue]="'ROLE_DAF'"></nz-option>
-                        <nz-option [nzLabel]="'Responsable d\'établissement'" [nzValue]="'ROLE_RES_ETA'"></nz-option> -->
-                        <nz-option *ngFor="let item of keys(rolesEnum)"
-                            [nzLabel]="rolesEnum[item]" 
-                            [nzValue]="item">
-                        </nz-option>
-                    </nz-select>
-                    <ng-template #errorTpl let-control>
-                        <ng-container *ngIf="control.hasError('required')">
-                            Le champs est requis!
-                        </ng-container>
-                    </ng-template>
-                </nz-form-control>
-            </nz-form-item>
-        </div>
-    </div>
     <div nz-row [nzGutter]="16" *ngIf="action == 'create'">
         <div nz-col class="gutter-row" nzSpan="12">
             <nz-form-item>
