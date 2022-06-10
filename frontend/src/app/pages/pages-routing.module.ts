@@ -11,6 +11,7 @@ import { BlogListComponent } from './blog/blog-list/blog-list.component';
 import { BlogPostComponent } from './blog/blog-post/blog-post.component';
 import { UserComponent } from './user/user.component';
 import { ManagerComponent } from './manager/manager.component';
+import { EtablishmentComponent } from './etablishment/etablishment.component';
 
 const routes: Routes = [
     {
@@ -25,6 +26,13 @@ const routes: Routes = [
         component: ManagerComponent,
         data: {
             title: 'Gestion des responsables d\'établissement'
+        }
+    },
+    {
+        path: 'etablishments',
+        component: EtablishmentComponent,
+        data: {
+            title: 'Gestion des établissements'
         }
     },
     {

@@ -66,6 +66,14 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: []
             },
             {
+                path: '/pages/etablishments',
+                title: 'Etablissements',
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                submenu: []
+            },
+            {
                 path: '/dashboard/crm',
                 title: 'CRM',
                 iconType: '',

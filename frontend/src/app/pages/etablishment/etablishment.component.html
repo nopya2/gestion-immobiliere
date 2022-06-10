@@ -1,1 +1,96 @@
-<p>etablishment works!</p>
+<nz-card>
+    <div class="row m-b-30">
+        <div class="col-lg-8">
+            <div class="d-md-flex">
+                <div class="m-b-10 m-r-20">
+                    <nz-input-group [nzPrefix]="prefixTemplate">
+                        <input type="text" nz-input placeholder="Rechercher" [(ngModel)]="searchInput" (ngModelChange)="search()">
+                    </nz-input-group>      
+                    <ng-template #prefixTemplate>
+                        <i nz-icon nzType="search" class="opacity-05"></i>
+                    </ng-template>   
+                </div>
+                <!--
+                <div class="m-b-10 m-r-20 d-flex align-items-center">
+                    <nz-select style="min-width: 220px;" class="w-100" nzPlaceHolder="Category" [(ngModel)]="selectedCategory" (ngModelChange)="categoryChange($event)">
+                        <nz-option nzLabel="All" nzValue="All"></nz-option>
+                        <nz-option nzLabel="Home Decoration" nzValue="Home Decoration"></nz-option>
+                        <nz-option nzLabel="Eletronic" nzValue="Eletronic"></nz-option>
+                        <nz-option nzLabel="Jewellery" nzValue="Jewellery"></nz-option>
+                    </nz-select>
+                </div>
+                <div class="m-b-10 m-r-20 d-flex align-items-center">
+                    <nz-select style="min-width: 220px;" class="w-100" nzPlaceHolder="Status" [(ngModel)]="selectedStatus" (ngModelChange)="statusChange($event)">
+                        <nz-option nzLabel="All" nzValue="All"></nz-option>
+                        <nz-option nzLabel="In Stock" nzValue="in stock"></nz-option>
+                        <nz-option nzLabel="Out Of Stock" nzValue="out of stock"></nz-option>
+                    </nz-select>
+                </div> -->
+            </div>          
+        </div>
+        <div class="col-lg-4 text-right">
+            <a nz-button nzType="primary" (click)="openAdd()">
+                <i nz-icon nzType="plus-circle" theme="outline"></i>
+                <span>Ajouter un établissement</span>
+            </a>
+        </div>
+    </div>
+
+    <div>
+        <nz-badge [nzCount]="total" [nzStyle]="{ backgroundColor: '#5796F6' }"></nz-badge> Elément(s)
+    </div>
+    <nz-table
+      nzShowSizeChanger
+      [nzData]="etablishments"
+      [nzFrontPagination]="false"
+      [nzLoading]="loading"
+      [nzTotal]="total"
+      [nzPageSize]="params.itemsPerPage"
+      [nzPageIndex]="params.page"
+      (nzQueryParams)="onQueryParamsChange($event)"
+    >
+        <thead>
+            <tr>
+                <th nzColumnKey="logo"></th>
+                <th nzColumnKey="name" [nzSortFn]="true">Nom</th>
+                <th nzColumnKey="address">Adresse</th>
+                <th nzColumnKey="email">E-mail</th>
+                <th nzColumnKey="country">Pays</th>
+                <th nzColumnKey="city">Ville</th>
+                <th nzColumnKey="website">Siteweb</th>
+                <th nzColumnKey="phones">Téléphones</th>
+                <th nzRight>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of etablishments">
+                <td>{{ data.logo }}</td>
+                <td>{{ data.name }}</td>
+                <td>{{ data.address }}</td>
+                <td>{{ data.email }}</td>
+                <td>{{ data.country }}</td>
+                <td>{{ data.city }}</td>
+                <td>{{ data.website }}</td>
+                <td>{{ data.phones }}</td>
+                <td nzRight>
+                    <nz-button-group>
+                        <button 
+                            nz-button 
+                            nzType="primary"
+                            nz-popover 
+                            nzPopoverContent="Modifier"
+                            (click)="openEdit(data)"><i nz-icon nzType="edit" nzTheme="outline"></i></button>
+                        <button 
+                            nz-button 
+                            nzType="primary" 
+                            nzDanger
+                            nz-popover 
+                            nzPopoverContent="Supprimer"
+                            (click)="deleteItem(data)"><i nz-icon nzType="delete" nzTheme="outline"></i></button>
+                    </nz-button-group>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+    
+</nz-card>

@@ -46,6 +46,7 @@ import { EtablishmentComponent } from './etablishment/etablishment.component';
 import { ManagerComponent } from './manager/manager.component';
 import { ManagerAddComponent } from './manager/manager-add/manager-add.component';
 import { ManagerResetPwdComponent } from './manager/manager-reset-pwd/manager-reset-pwd.component';
+import { EtablishmentAddComponent } from './etablishment/etablishment-add/etablishment-add.component';
 
 const antdModule = [
     NzCardModule,
@@ -99,7 +100,8 @@ const antdModule = [
         EtablishmentComponent,
         ManagerComponent,
         ManagerAddComponent,
-        ManagerResetPwdComponent
+        ManagerResetPwdComponent,
+        EtablishmentAddComponent
     ],
     providers: [
     ]
