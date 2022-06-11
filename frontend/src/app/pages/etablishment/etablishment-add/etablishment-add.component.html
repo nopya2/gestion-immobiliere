@@ -1,1 +1,142 @@
-<p>etablishment-add works!</p>
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" nzLayout="vertical">
+    <div nz-row [nzGutter]="16">
+        <div nz-col class="gutter-row" nzSpan="24">
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="name">Nom</nz-form-label>
+                <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+                    <input nz-input formControlName="name" id="name" nzSize="small" autocomplete="off"/>
+                    <ng-template #errorTpl let-control>
+                        <ng-container *ngIf="control.hasError('minlength')">
+                            Le champs doit contenir au moins 3 caractères!
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                            Le champs doit contenir au plus 50 caractères!
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Le champs est requis!
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+    <div nz-row [nzGutter]="16">
+        <div nz-col class="gutter-row" nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="email">E-mail</nz-form-label>
+                <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+                    <input nz-input formControlName="email" id="email" nzSize="small" autocomplete="off"/>
+                    <ng-template #errorTpl let-control>
+                        <ng-container *ngIf="control.hasError('email')">
+                            E-mail invalide!
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Le champs est requis!
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div nz-col class="gutter-row" nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="email">Adresse</nz-form-label>
+                <nz-form-control nzHasFeedback [nzErrorTip]="errorAdress">
+                    <textarea nz-input formControlName="address" id="address" nzSize="address" autocomplete="off"></textarea>
+
+                    <ng-template #errorAdress let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Le champs est requis!
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+
+    <div nz-row [nzGutter]="16">
+        <div nz-col class="gutter-row" nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="country">Pays</nz-form-label>
+                <nz-form-control nzHasFeedback [nzErrorTip]="errorCountry">
+                    <nz-select 
+                        formControlName="country" 
+                        id="country" 
+                        nzSize="small" 
+                        autocomplete="off"
+                        nzPlaceHolder="Veuillez sélectionner un pays">
+                        <nz-option *ngFor="let item of countries"
+                            [nzLabel]="item" 
+                            [nzValue]="item">
+                        </nz-option>
+                    </nz-select>
+                    <ng-template #errorCountry let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Le champs est requis!
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div nz-col class="gutter-row" nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="city">Ville</nz-form-label>
+                <nz-form-control nzHasFeedback [nzErrorTip]="errorCity">
+                    <input nz-input formControlName="city" id="email" nzSize="small" autocomplete="off"/>
+                    <ng-template #errorCity let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Le champs est requis!
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+
+    <div nz-row [nzGutter]="16">
+        <div nz-col class="gutter-row" nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="website">Siteweb</nz-form-label>
+                <nz-form-control nzHasFeedback [nzErrorTip]="errorWebsite">
+                    <input nz-input formControlName="website" id="website" nzSize="small" autocomplete="off"/>
+                    <ng-template #errorWebsite let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Le champs est requis!
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div nz-col class="gutter-row" nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="phones">Téléphones</nz-form-label>
+                <ng-container formArrayName="phones" *ngFor="let item of phones.controls; let i = index">
+                    <ng-container [formGroupName]="i">
+                        <div nz-row nzJustify="space-around" nzAlign="middle">
+                            <div nz-col nzSpan="16">
+                                <nz-form-control nzHasFeedback [nzErrorTip]="errorPhone">
+                                    <input nz-input formControlName="item" id="item" nzSize="small" autocomplete="off" prefix="+241" mask=" 00 00 00 00"/>
+                                    <ng-template #errorPhone let-control>
+                                        <ng-container *ngIf="control.hasError('required')">
+                                            Le champs est requis!
+                                        </ng-container>
+                                    </ng-template>
+                                </nz-form-control>
+                            </div>
+                            <div nz-col nzSpan="8">
+                                <a nz-button nzType="link" nzSize="small" nzDanger>
+                                    <i nz-icon nzType="delete" nzTheme="outline"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+                <a nz-button nzType="link" nzSize="small">Ajouter</a>
+            </nz-form-item>
+        </div>
+    </div>
+</form>
+
+<div *nzModalFooter>
+    <button nz-button nzType="default" (click)="closeModal()">Annuler</button>
+    <button nz-button nzType="primary" (click)="submitForm()" [nzLoading]="isLoading" [disabled]="!validateForm.valid">Enregistrer</button>
+</div>

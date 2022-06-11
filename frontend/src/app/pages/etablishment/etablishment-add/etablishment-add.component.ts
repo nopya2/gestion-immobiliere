@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, ValidationErrors, FormArray } from '@angular/forms';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
@@ -22,6 +22,7 @@ export class EtablishmentAddComponent implements OnInit {
   rolesEnum = RoleEnum;
   @Input() etablishment: Etablishment;
   @Input() action: string;
+  countries: String[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -31,6 +32,11 @@ export class EtablishmentAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+  }
+
+  get phones(){
+    console.log(this.validateForm.controls['phones']);
+    return this.validateForm.controls['phones'] as FormArray;
   }
 
   initForm(){
@@ -43,7 +49,8 @@ export class EtablishmentAddComponent implements OnInit {
         country: "",
         logo: "",
         phones: [],
-        url: ''
+        url: '',
+        website: ''
       }
 
       this.validateForm = this.fb.group({
@@ -53,7 +60,8 @@ export class EtablishmentAddComponent implements OnInit {
         city: [null, [Validators.required, Validators.minLength(3)]],
         country: [null, [Validators.required]],
         url: [null, [Validators.required]],
-        phones: [[], [Validators.required]]
+        website: [null],
+        phones: this.fb.array([''])
       });
     }else{
       this.validateForm = this.fb.group({
@@ -63,7 +71,8 @@ export class EtablishmentAddComponent implements OnInit {
         city: [this.action == 'edit' ? this.etablishment.city : null, [Validators.required, Validators.minLength(3)]],
         country: [this.action == 'edit' ? this.etablishment.country : [Validators.required]],
         url: [this.action == 'edit' ? this.etablishment.logo : true, [Validators.required]],
-        phones: [[], [Validators.required]]
+        website: [this.action == 'edit' ? this.etablishment.website : true],
+        phones: this.fb.array([this.action == 'edit' ? this.etablishment.phones : ['']])
       });
     }
   }
@@ -80,6 +89,7 @@ export class EtablishmentAddComponent implements OnInit {
     this.etablishment.address = this.validateForm.value.address;
     this.etablishment.city = this.validateForm.value.city;
     this.etablishment.country = this.validateForm.value.country;
+    this.etablishment.website = this.validateForm.value.website;
     this.etablishment.phones = this.validateForm.value.phones;
 
     this.isLoading = true;

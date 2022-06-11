@@ -94,7 +94,7 @@ export class EtablishmentComponent implements OnInit {
         top: '30px'
       },
       nzMaskClosable: false,
-      nzWidth: 650,
+      nzWidth: 750,
       nzOnOk: (event) => {
       }
     });
@@ -119,7 +119,7 @@ export class EtablishmentComponent implements OnInit {
         top: '30px'
       },
       nzMaskClosable: false,
-      nzWidth: 650,
+      nzWidth: 750,
       nzOnOk: (event) => {
       }
     });
