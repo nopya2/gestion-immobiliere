@@ -69,7 +69,7 @@ export class EtablishmentAddComponent implements OnInit {
         name: '',
         address: "",
         city: "",
-        country: "",
+        country: "Gabon",
         logo: {
           id: null,
           "@id": null,
@@ -87,7 +87,7 @@ export class EtablishmentAddComponent implements OnInit {
         email: [null, [Validators.email, Validators.required]],
         address: [null, [Validators.required]],
         city: [null, [Validators.required, Validators.minLength(3)]],
-        country: [null, [Validators.required]],
+        country: ['Gabon', [Validators.required]],
         url: [null, Validators.required],
         website: [null],
         phones: this.fb.array([])
@@ -99,7 +99,7 @@ export class EtablishmentAddComponent implements OnInit {
         email: [this.action == 'edit' ? this.etablishment.email : null, [Validators.email, Validators.required]],
         address: [this.action == 'edit' ? this.etablishment.address : null, [Validators.required]],
         city: [this.action == 'edit' ? this.etablishment.city : null, [Validators.required, Validators.minLength(3)]],
-        country: [this.action == 'edit' ? this.etablishment.country : [Validators.required]],
+        country: [this.action == 'edit' ? this.etablishment.country : 'Gabon', [Validators.required]],
         url: [null],
         website: [this.action == 'edit' ? this.etablishment.website : null],
         phones: this.fb.array([])
@@ -208,7 +208,7 @@ export class EtablishmentAddComponent implements OnInit {
 
       this.etablishment.logo.extension = info.file.type;
       this.etablishment.logo.size = info.file.size;
-      this.etablishment.logo.filename = img;
+      this.etablishment.logo.filename = info.file.filename;
       this.etablishment.logo.url = img;
     });
 

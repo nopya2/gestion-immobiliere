@@ -1,3 +1,5 @@
+import { environment } from "../../environments/environment";
+
 export class Helper {
     
     static transformOrder(order: string): string
@@ -23,4 +25,9 @@ export class Helper {
             }
         }
     }
+
+    static formatUrl(url: string): string{
+        return environment.endpoint + url;
+    }
+
 }

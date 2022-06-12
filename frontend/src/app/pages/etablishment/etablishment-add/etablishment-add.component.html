@@ -12,7 +12,7 @@
                 >
                 <ng-container *ngIf="!avatarUrl">
                     <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
-                    <div class="ant-upload-text">Upload</div>
+                    <div class="ant-upload-text">Modifier l'image</div>
                 </ng-container>
                 <img *ngIf="avatarUrl" [src]="avatarUrl" style="width: 100%" />
             </nz-upload>

@@ -94,7 +94,7 @@ export class EtablishmentComponent implements OnInit {
         top: '30px'
       },
       nzMaskClosable: false,
-      nzWidth: 750,
+      nzWidth: 700,
       nzOnOk: (event) => {
       }
     });
@@ -119,7 +119,7 @@ export class EtablishmentComponent implements OnInit {
         top: '30px'
       },
       nzMaskClosable: false,
-      nzWidth: 750,
+      nzWidth: 700,
       nzOnOk: (event) => {
       }
     });
@@ -156,6 +156,10 @@ export class EtablishmentComponent implements OnInit {
             })
         }).catch(() => console.log('Oops errors!'))
     });
+  }
+
+  formatUrl(url: string){
+    return Helper.formatUrl(url);
   }
 
 }

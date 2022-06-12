@@ -32,7 +32,7 @@ final class EtablishmentDataPersister implements ContextAwareDataPersisterInterf
     public function persist($data, array $context = [])
     {
         //Start transform base64 to image
-        if($data->getLogo()->getFilename() !== null){
+        if($data->getLogo()->getUrl() !== null){
             $arr = explode(',', $data->getLogo()->getFilename());
             $base64 = $arr[1];
     
@@ -44,10 +44,9 @@ final class EtablishmentDataPersister implements ContextAwareDataPersisterInterf
                 die('Base64 value is not a valid image');
             }
     
-            $imgFile = 'uploads/images/etablishments/'.uniqid().'.png';
+            $imgFile = '/uploads/images/etablishments/'.uniqid().'.png';
             imagepng($img, $imgFile, 0);
-    
-            $data->getLogo()->setFilename($imgFile);
+            
             $data->getLogo()->setUrl($imgFile);
 
             //Compression de l'image
