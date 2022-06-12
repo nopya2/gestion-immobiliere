@@ -5,4 +5,5 @@ export interface Image {
     extension: string;
     size: number;
     url: string;
+    oldUrl?: string;
 }

@@ -16,6 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         "pagination_client_items_per_page" => true
     ]
 )]
+#[ORM\HasLifecycleCallbacks()]
 class Image
 {
     #[ORM\Id]

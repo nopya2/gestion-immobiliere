@@ -4,6 +4,7 @@ namespace App\DataPersister;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 use App\Entity\Etablishment;
 use App\Service\ImageOptimizer;
@@ -12,13 +13,16 @@ final class EtablishmentDataPersister implements ContextAwareDataPersisterInterf
 {
     private $em;
     private $imageOptimizer;
+    private $_request;
 
     public function __construct(
         EntityManagerInterface $em,
-        ImageOptimizer $imageOptimizer)
+        ImageOptimizer $imageOptimizer,
+        RequestStack $request)
     {
         $this->em = $em;
         $this->imageOptimizer = $imageOptimizer;
+        $this->_request = $request->getCurrentRequest();
     }
 
     public function supports($data, array $context = []): bool
@@ -33,24 +37,31 @@ final class EtablishmentDataPersister implements ContextAwareDataPersisterInterf
     {
         //Start transform base64 to image
         if($data->getLogo()->getUrl() !== null){
-            $arr = explode(',', $data->getLogo()->getFilename());
-            $base64 = $arr[1];
+            $arr = explode(',', $data->getLogo()->getUrl());
+            if(count($arr) > 1){
+                $base64 = $arr[1];
     
-            $bin = base64_decode($base64);
-            $size = getimagesizefromstring($bin);
-            $img = imagecreatefromstring($bin);
-    
-            if(!$img){
-                die('Base64 value is not a valid image');
-            }
-    
-            $imgFile = '/uploads/images/etablishments/'.uniqid().'.png';
-            imagepng($img, $imgFile, 0);
-            
-            $data->getLogo()->setUrl($imgFile);
+                $bin = base64_decode($base64);
+                // $size = getimagesizefromstring($bin);
+                $img = imagecreatefromstring($bin);
+        
+                if(!$img){
+                    die('Base64 value is not a valid image');
+                }
+                
+                if($data->getLogo()->getId()){
+                    $imgFile = $this->_request->toArray()['logo']['oldUrl'];
+                    // dd($imgFile);
+                }else{
+                    $imgFile = 'uploads/images/etablishments/'.uniqid().'.png';
+                }
+                imagepng($img, $imgFile, 0);
 
-            //Compression de l'image
-            $this->imageOptimizer->resize($data->getLogo()->getUrl());
+                $data->getLogo()->setUrl($imgFile);
+
+                //Compression de l'image
+                $this->imageOptimizer->resize($data->getLogo()->getUrl());
+            }
 
         }
         //End transform base64 to image

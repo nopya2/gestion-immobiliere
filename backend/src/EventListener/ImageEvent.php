@@ -28,11 +28,26 @@ class ImageEvent
         $em->flush();
     }
 
-    public function preRemove(LifecycleEventArgs $args): void
+    public function preUdate(Image $image, LifecycleEventArgs $args): void
     {
-        $entity = $args->getObject();
-        $url = $entity->getUrl();
+        // if(!$image instanceof Image){
+        //     return;
+        // }
+
+        // $url = $image->getUrl();
         
+        // unlink($url);
+    }
+
+
+    public function preRemove(Image $image, LifecycleEventArgs $args): void
+    {
+        if(!$image instanceof Image){
+            return;
+        }
+
+        $url = $image->getUrl();
+
         unlink($url);
     }
 

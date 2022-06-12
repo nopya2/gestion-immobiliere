@@ -63,7 +63,7 @@ class Etablishment
     private $country;
     
     #[Assert\NotBlank(message: 'Le champs est requis')]
-    #[ORM\OneToOne(targetEntity: Image::class, cascade: ["persist"])]
+    #[ORM\OneToOne(targetEntity: Image::class, cascade: ["persist", "remove"])]
     #[ORM\JoinColumn(nullable: true, onDelete: "cascade")]
     #[Groups(["read:etablishment", "write:etablishment"])]
     private ?Image $logo;

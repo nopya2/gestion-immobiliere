@@ -95,6 +95,7 @@ export class EtablishmentAddComponent implements OnInit {
       this.addPhone(null);
     }else{
       this.avatarUrl = Helper.formatUrl(this.etablishment.logo.url);
+      this.etablishment.logo.oldUrl = this.etablishment.logo.url;
       this.validateForm = this.fb.group({
         name: [this.action == 'edit' ? this.etablishment.name : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
         email: [this.action == 'edit' ? this.etablishment.email : null, [Validators.email, Validators.required]],
