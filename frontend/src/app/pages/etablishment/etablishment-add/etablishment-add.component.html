@@ -1,6 +1,25 @@
 <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" nzLayout="vertical">
     <div nz-row [nzGutter]="16">
         <div nz-col class="gutter-row" nzSpan="24">
+            <nz-upload
+                class="avatar-uploader"
+                nzAction="http://localhost:4200"
+                nzName="avatar"
+                nzListType="picture-card"
+                [nzShowUploadList]="false"
+                [nzBeforeUpload]="beforeUpload"
+                (nzChange)="handleChange($event)"
+                >
+                <ng-container *ngIf="!avatarUrl">
+                    <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
+                    <div class="ant-upload-text">Upload</div>
+                </ng-container>
+                <img *ngIf="avatarUrl" [src]="avatarUrl" style="width: 100%" />
+            </nz-upload>
+        </div>
+    </div>
+    <div nz-row [nzGutter]="16">
+        <div nz-col class="gutter-row" nzSpan="24">
             <nz-form-item>
                 <nz-form-label nzRequired nzFor="name">Nom</nz-form-label>
                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
@@ -63,10 +82,11 @@
                         id="country" 
                         nzSize="small" 
                         autocomplete="off"
-                        nzPlaceHolder="Veuillez sélectionner un pays">
+                        nzPlaceHolder="Veuillez sélectionner un pays"
+                        nzShowSearch nzAllowClear >
                         <nz-option *ngFor="let item of countries"
-                            [nzLabel]="item" 
-                            [nzValue]="item">
+                            [nzLabel]="item.name" 
+                            [nzValue]="item.name">
                         </nz-option>
                     </nz-select>
                     <ng-template #errorCountry let-control>
@@ -109,12 +129,12 @@
         <div nz-col class="gutter-row" nzSpan="12">
             <nz-form-item>
                 <nz-form-label nzRequired nzFor="phones">Téléphones</nz-form-label>
-                <ng-container formArrayName="phones" *ngFor="let item of phones.controls; let i = index">
+                <ng-container formArrayName="phones" *ngFor="let phone of validateForm.get('phones')['controls']; let i = index">
                     <ng-container [formGroupName]="i">
                         <div nz-row nzJustify="space-around" nzAlign="middle">
                             <div nz-col nzSpan="16">
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorPhone">
-                                    <input nz-input formControlName="item" id="item" nzSize="small" autocomplete="off" prefix="+241" mask=" 00 00 00 00"/>
+                                    <input nz-input formControlName="phoneNumber" id="phone-number" nzSize="small" autocomplete="off" prefix="+241" mask=" 00 00 00 00"/>
                                     <ng-template #errorPhone let-control>
                                         <ng-container *ngIf="control.hasError('required')">
                                             Le champs est requis!
@@ -123,14 +143,14 @@
                                 </nz-form-control>
                             </div>
                             <div nz-col nzSpan="8">
-                                <a nz-button nzType="link" nzSize="small" nzDanger>
+                                <a nz-button nzType="link" nzSize="small" nzDanger (click)="removePhone(i)">
                                     <i nz-icon nzType="delete" nzTheme="outline"></i>
                                 </a>
                             </div>
                         </div>
                     </ng-container>
                 </ng-container>
-                <a nz-button nzType="link" nzSize="small">Ajouter</a>
+                <a nz-button nzType="link" nzSize="small" (click)="addPhone(null)">Ajouter</a>
             </nz-form-item>
         </div>
     </div>

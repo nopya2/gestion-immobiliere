@@ -2,12 +2,24 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators, ValidationErrors, FormArray } from '@angular/forms';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { Store, select } from '@ngrx/store';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { Observable, Observer } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
-import { Etablishment } from '../../../shared/interfaces/etablishment.type';
-import { EtablishmentService } from '../../../shared/services/etablishment.service';
-import { RoleEnum } from '../../../shared/enumarations/role.enum';
 //others
 import { Helper } from '../../../shared/helper';
+import { RoleEnum } from '../../../shared/enumarations/role.enum';
+//store
+import { retrievedCountryList } from '../../../shared/store/country.action';
+//interfaces
+import { Country } from '../../../shared/interfaces/country.type';
+import { Etablishment } from '../../../shared/interfaces/etablishment.type';
+//services
+import { EtablishmentService } from '../../../shared/services/etablishment.service';
+import { CountryService } from '../../../shared/services/country.service';
+import { albumCollectionByAlbumId } from 'src/app/shared/store/country.selector';
+
 
 @Component({
   selector: 'app-etablishment-add',
@@ -22,22 +34,33 @@ export class EtablishmentAddComponent implements OnInit {
   rolesEnum = RoleEnum;
   @Input() etablishment: Etablishment;
   @Input() action: string;
-  countries: String[] = [];
+  countries: any = [];
+  allCountries= this.store.pipe(
+    select(albumCollectionByAlbumId(''))
+  )
+  loading = false;
+  avatarUrl?: string;
 
   constructor(
     private fb: FormBuilder,
     private modal: NzModalRef,
     private etablishmentService: EtablishmentService,
-    private notification: NzNotificationService) {}
+    private notification: NzNotificationService,
+    private store: Store<{ countries: Country[] }>,
+    private countryService: CountryService,
+    private msg: NzMessageService) {}
 
   ngOnInit(): void {
     this.initForm();
+
+    this.countryService.getCountries().subscribe((countries) => {
+      this.countries = countries;
+    });
   }
 
-  get phones(){
-    console.log(this.validateForm.controls['phones']);
-    return this.validateForm.controls['phones'] as FormArray;
-  }
+  // get phones(){
+  //   return this.validateForm.controls['phones'] as FormArray;
+  // }
 
   initForm(){
     if(this.action === 'create'){
@@ -47,9 +70,15 @@ export class EtablishmentAddComponent implements OnInit {
         address: "",
         city: "",
         country: "",
-        logo: "",
+        logo: {
+          id: null,
+          "@id": null,
+          filename: null,
+          size: null,
+          extension: null,
+          url: null
+        },
         phones: [],
-        url: '',
         website: ''
       }
 
@@ -59,10 +88,11 @@ export class EtablishmentAddComponent implements OnInit {
         address: [null, [Validators.required]],
         city: [null, [Validators.required, Validators.minLength(3)]],
         country: [null, [Validators.required]],
-        url: [null, [Validators.required]],
+        url: [null, Validators.required],
         website: [null],
-        phones: this.fb.array([''])
+        phones: this.fb.array([])
       });
+      this.addPhone(null);
     }else{
       this.validateForm = this.fb.group({
         name: [this.action == 'edit' ? this.etablishment.name : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
@@ -70,9 +100,12 @@ export class EtablishmentAddComponent implements OnInit {
         address: [this.action == 'edit' ? this.etablishment.address : null, [Validators.required]],
         city: [this.action == 'edit' ? this.etablishment.city : null, [Validators.required, Validators.minLength(3)]],
         country: [this.action == 'edit' ? this.etablishment.country : [Validators.required]],
-        url: [this.action == 'edit' ? this.etablishment.logo : true, [Validators.required]],
-        website: [this.action == 'edit' ? this.etablishment.website : true],
-        phones: this.fb.array([this.action == 'edit' ? this.etablishment.phones : ['']])
+        url: [null],
+        website: [this.action == 'edit' ? this.etablishment.website : null],
+        phones: this.fb.array([])
+      });
+      this.etablishment.phones.forEach(el => {
+        this.addPhone(el);
       });
     }
   }
@@ -90,7 +123,11 @@ export class EtablishmentAddComponent implements OnInit {
     this.etablishment.city = this.validateForm.value.city;
     this.etablishment.country = this.validateForm.value.country;
     this.etablishment.website = this.validateForm.value.website;
-    this.etablishment.phones = this.validateForm.value.phones;
+    //Format phones
+    this.etablishment.phones = [];
+    this.validateForm.value.phones.forEach(element => {
+      this.etablishment.phones.push(Helper.formatPhoneNumber(element.phoneNumber));
+    });
 
     this.isLoading = true;
     if(this.action === 'create'){
@@ -125,6 +162,73 @@ export class EtablishmentAddComponent implements OnInit {
 
   closeModal(){
     this.modal.destroy();
+  }
+
+  addPhone(phoneNumber: string){
+    let phones = this.validateForm.get('phones') as FormArray;
+    phones.push(this.fb.group({
+      phoneNumber : [phoneNumber, Validators.required]
+    }));
+  }
+
+  removePhone(i){
+    let phones = this.validateForm.get('phones') as FormArray;
+    phones.removeAt(i);
+  }
+
+  beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]): Observable<boolean> =>
+    new Observable((observer: Observer<boolean>) => {
+      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+      if (!isJpgOrPng) {
+        this.msg.error('You can only upload JPG file!');
+        observer.complete();
+        return;
+      }
+      const isLt2M = file.size! / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        this.msg.error('Image must smaller than 2MB!');
+        observer.complete();
+        return;
+      }
+      observer.next(isJpgOrPng && isLt2M);
+      observer.complete();
+    });
+
+  private getBase64(img: File, callback: (img: string) => void): void {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result!.toString()));
+    reader.readAsDataURL(img);
+  }
+
+  handleChange(info: { file: NzUploadFile }): void {
+    this.getBase64(info.file!.originFileObj!, (img: string) => {
+      this.loading = false;
+      this.avatarUrl = img;
+      this.validateForm.controls['url'].setValue(img);
+
+      this.etablishment.logo.extension = info.file.type;
+      this.etablishment.logo.size = info.file.size;
+      this.etablishment.logo.filename = img;
+      this.etablishment.logo.url = img;
+    });
+
+    console.log(this.etablishment);
+    // switch (info.file.status) {
+    //   case 'uploading':
+    //     this.loading = true;
+    //     break;
+    //   case 'done':
+    //     // Get this url from response in real world.
+    //     this.getBase64(info.file!.originFileObj!, (img: string) => {
+    //       this.loading = false;
+    //       this.avatarUrl = img;
+    //     });
+    //     break;
+    //   case 'error':
+    //     this.msg.error('Network error');
+    //     this.loading = false;
+    //     break;
+    // }
   }
 
 }

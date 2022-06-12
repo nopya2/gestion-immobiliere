@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PagesRoutingModule } from './pages-routing.module';
+import { StoreModule } from '@ngrx/store';
 
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
@@ -48,6 +49,9 @@ import { ManagerAddComponent } from './manager/manager-add/manager-add.component
 import { ManagerResetPwdComponent } from './manager/manager-reset-pwd/manager-reset-pwd.component';
 import { EtablishmentAddComponent } from './etablishment/etablishment-add/etablishment-add.component';
 
+//Reducers
+import { countryReducer } from '../shared/store/country.reducer';
+
 const antdModule = [
     NzCardModule,
     NzSkeletonModule,
@@ -74,7 +78,8 @@ const antdModule = [
     NgxMaskModule.forRoot(),
     NzBadgeModule,
     NzIconModule,
-    NzPopoverModule
+    NzPopoverModule,
+    StoreModule.forRoot({ countries: countryReducer })
 ]
 
 @NgModule({

@@ -63,9 +63,10 @@ class Etablishment
     private $country;
     
     #[Assert\NotBlank(message: 'Le champs est requis')]
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\OneToOne(targetEntity: Image::class, cascade: ["persist"])]
+    #[ORM\JoinColumn(nullable: true, onDelete: "cascade")]
     #[Groups(["read:etablishment", "write:etablishment"])]
-    private $logo;
+    private ?Image $logo;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Groups(["read:etablishment", "write:etablishment"])]
@@ -154,18 +155,6 @@ class Etablishment
         return $this;
     }
 
-    public function getLogo(): ?string
-    {
-        return $this->logo;
-    }
-
-    public function setLogo(string $logo): self
-    {
-        $this->logo = $logo;
-
-        return $this;
-    }
-
     public function getWebsite(): ?string
     {
         return $this->website;
@@ -212,6 +201,16 @@ class Etablishment
         $this->phones = $phones;
 
         return $this;
+    }
+
+    public function getLogo(): ?Image
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(Image $logo): void
+    {
+        $this->logo = $logo;
     }
 
 }

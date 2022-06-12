@@ -1,3 +1,5 @@
+import { Image } from "./image.type";
+
 export interface Etablishment {
     "@id"?: string;
     id?: string;
@@ -6,10 +8,9 @@ export interface Etablishment {
     address: string;
     city: string;
     country: string;
-    logo?: string;
+    logo?: Image;
     website?: string;
     createdAt?: Date;
     updatedAt?: Date;
     phones: string[];
-    url: string;
 }
