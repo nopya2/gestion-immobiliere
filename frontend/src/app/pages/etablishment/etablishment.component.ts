@@ -154,7 +154,7 @@ export class EtablishmentComponent implements OnInit {
             }, err => {
               reject();
             })
-        }).catch(() => console.log('Oops errors!'))
+        }).catch(() => this.notification.error("Echec", "Erreur lors de la suppression de l'élément!"))
     });
   }
 
