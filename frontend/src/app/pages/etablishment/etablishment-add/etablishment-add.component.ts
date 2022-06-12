@@ -94,6 +94,7 @@ export class EtablishmentAddComponent implements OnInit {
       });
       this.addPhone(null);
     }else{
+      this.avatarUrl = Helper.formatUrl(this.etablishment.logo.url);
       this.validateForm = this.fb.group({
         name: [this.action == 'edit' ? this.etablishment.name : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
         email: [this.action == 'edit' ? this.etablishment.email : null, [Validators.email, Validators.required]],
@@ -134,18 +135,17 @@ export class EtablishmentAddComponent implements OnInit {
       this.etablishmentService.create(this.etablishment)
         .subscribe((res) => {
           this.isLoading = false;
-          this.notification.success("Succés", "Elément ajouté avec succè!");
+          this.notification.success("Succès", "Elément ajouté avec succè!");
           this.modal.close(res);
         }, error => {
           this.isLoading = false;
-          console.log(error);
-          // this.notification.error("Echec création", "Login ou mot de passse invalide!");
+          this.notification.error("Echec création", "Erreur lors de la création de l'élément!");
         });
     }else{
       this.etablishmentService.patch(this.etablishment)
         .subscribe((res) => {
           this.isLoading = false;
-          this.notification.success("Succés", "Informations enregistrées!");
+          this.notification.success("Succès", "Informations enregistrées!");
           this.modal.close(res);
         }, error => {
           this.isLoading = false;
@@ -208,11 +208,11 @@ export class EtablishmentAddComponent implements OnInit {
 
       this.etablishment.logo.extension = info.file.type;
       this.etablishment.logo.size = info.file.size;
-      this.etablishment.logo.filename = info.file.filename;
+      this.etablishment.logo.filename = info.file.name;
       this.etablishment.logo.url = img;
     });
 
-    console.log(this.etablishment);
+    console.log(info);
     // switch (info.file.status) {
     //   case 'uploading':
     //     this.loading = true;
