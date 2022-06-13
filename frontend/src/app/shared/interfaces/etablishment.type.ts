@@ -1,4 +1,5 @@
 import { Image } from "./image.type";
+import { EtablishmentTypeEnum } from '../enumarations/etablishment-type.enum';
 
 export interface Etablishment {
     "@id"?: string;
@@ -13,4 +14,5 @@ export interface Etablishment {
     createdAt?: Date;
     updatedAt?: Date;
     phones: string[];
+    etablishmentType: EtablishmentTypeEnum;
 }

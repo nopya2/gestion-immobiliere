@@ -83,6 +83,11 @@ class Etablishment
     #[ORM\Column(type: 'array')]
     #[Groups(["read:etablishment", "write:etablishment"])]
     private $phones = [];
+
+    #[Assert\NotBlank(message: 'Le champs est requis')]
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["read:etablishment", "write:etablishment"])]
+    private $etablishmentType;
     
     public function __construct()
     {
@@ -211,6 +216,18 @@ class Etablishment
     public function setLogo(Image $logo): void
     {
         $this->logo = $logo;
+    }
+
+    public function getEtablishmentType(): ?string
+    {
+        return $this->etablishmentType;
+    }
+
+    public function setEtablishmentType(string $etablishmentType): self
+    {
+        $this->etablishmentType = $etablishmentType;
+
+        return $this;
     }
 
 }

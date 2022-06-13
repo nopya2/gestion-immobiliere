@@ -9,7 +9,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 
 //others
 import { Helper } from '../../../shared/helper';
-import { RoleEnum } from '../../../shared/enumarations/role.enum';
+import { EtablishmentTypeEnum } from '../../../shared/enumarations/etablishment-type.enum';
 //store
 import { retrievedCountryList } from '../../../shared/store/country.action';
 //interfaces
@@ -31,7 +31,7 @@ export class EtablishmentAddComponent implements OnInit {
   keys = Object.keys;
   validateForm: FormGroup;
   isLoading: Boolean = false;
-  rolesEnum = RoleEnum;
+  etablishmentTypes = EtablishmentTypeEnum;
   @Input() etablishment: Etablishment;
   @Input() action: string;
   countries: any = [];
@@ -79,17 +79,19 @@ export class EtablishmentAddComponent implements OnInit {
           url: null
         },
         phones: [],
-        website: ''
+        website: '',
+        etablishmentType: null
       }
 
       this.validateForm = this.fb.group({
-        name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+        name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
         email: [null, [Validators.email, Validators.required]],
         address: [null, [Validators.required]],
         city: [null, [Validators.required, Validators.minLength(3)]],
         country: ['Gabon', [Validators.required]],
         url: [null, Validators.required],
         website: [null],
+        etablishmentType: [null, [Validators.required]],
         phones: this.fb.array([])
       });
       this.addPhone(null);
@@ -104,6 +106,7 @@ export class EtablishmentAddComponent implements OnInit {
         country: [this.action == 'edit' ? this.etablishment.country : 'Gabon', [Validators.required]],
         url: [null],
         website: [this.action == 'edit' ? this.etablishment.website : null],
+        etablishmentType: [this.action == 'edit' ? this.etablishment.etablishmentType : null, [Validators.required]],
         phones: this.fb.array([])
       });
       this.etablishment.phones.forEach(el => {
@@ -125,6 +128,7 @@ export class EtablishmentAddComponent implements OnInit {
     this.etablishment.city = this.validateForm.value.city;
     this.etablishment.country = this.validateForm.value.country;
     this.etablishment.website = this.validateForm.value.website;
+    this.etablishment.etablishmentType = this.validateForm.value.etablishmentType;
     //Format phones
     this.etablishment.phones = [];
     this.validateForm.value.phones.forEach(element => {

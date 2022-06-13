@@ -3,6 +3,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { ActivatedRoute } from '@angular/router';
 
 //services
 import { EtablishmentService } from '../../../shared/services/etablishment.service';
@@ -20,6 +21,11 @@ export class EtablishmentShowComponent implements OnInit {
   productEditForm: FormGroup;
   previewImage: string = '';
   previewVisible: boolean = false;
+  etablishment: Etablishment;
+  showSkeleton: boolean = true;
+  isLoading: boolean = true;
+  itemId: any = null;
+  sub: any;
 
   fileList = [
       {
@@ -56,7 +62,12 @@ export class EtablishmentShowComponent implements OnInit {
       description: '<p><span style="color: rgb(114, 132, 154);">Special cloth alert. The key to more success is to have a lot of pillows. Surround yourself with angels, positive energy, beautiful people, beautiful souls, clean heart, angel. They will try to close the door on you, just open it. A major key, never panic. Don’t panic, when it gets crazy and rough, don’t panic, stay calm. They key is to have every key, the key to open every door.</span></p><p><span style="color: rgb(114, 132, 154);">The other day the grass was brown, now it’s green because I ain’t give up. Never surrender. Lion! I’m up to something. Always remember in the jungle there’s a lot of they in there, after you overcome they, you will make it to paradise.</span></p>'
   }
 
-  constructor(private modalService: NzModalService, private fb: FormBuilder, private msg: NzMessageService) {
+  constructor(
+    private modalService: NzModalService, 
+    private fb: FormBuilder, 
+    private msg: NzMessageService,
+    private etablishmentService: EtablishmentService,
+    private route: ActivatedRoute) {
   }
   
   ngOnInit(): void {
@@ -73,6 +84,13 @@ export class EtablishmentShowComponent implements OnInit {
           shipFrom:       [ this.productData.shipFrom,        [ Validators.required ] ],
           description:    [ this.productData.description,     [ Validators.required ] ],
       });
+
+      this.sub = this.route.params.subscribe(params => {
+        this.itemId = +params['id']; // (+) converts string 'id' to a number
+  
+        this.getItem(this.itemId);
+  
+     });
   }
 
   submitForm(): void {
@@ -113,5 +131,15 @@ export class EtablishmentShowComponent implements OnInit {
           ['link', 'image']                        
       ]
   };
+
+  getItem(itemId){
+    this.etablishmentService.getOne(itemId)
+      .subscribe((res) => {
+        this.etablishment = res;
+        this.showSkeleton = false;
+      }, error => {
+        this.showSkeleton = false;
+      })
+  }
 
 }
