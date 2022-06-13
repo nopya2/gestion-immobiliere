@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { Router } from '@angular/router';
 
 //interfaces
 import { Etablishment } from '../../shared/interfaces/etablishment.type';
@@ -42,7 +43,8 @@ export class EtablishmentComponent implements OnInit {
   constructor(
     private etablishmentService: EtablishmentService,
     private notification: NzNotificationService,
-    private modalService: NzModalService
+    private modalService: NzModalService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -106,13 +108,13 @@ export class EtablishmentComponent implements OnInit {
     });
   }
 
-  openEdit(etablishment){
+  openEdit(item){
     this.action = 'edit';
     const a: any = this.modalService.create({
       nzTitle: 'Modifier l\'établissement',
       nzContent: EtablishmentAddComponent,
       nzComponentParams: {
-        etablishment: {...etablishment},
+        etablishment: {...item},
         action: this.action
       },
       nzStyle: {
@@ -138,7 +140,7 @@ export class EtablishmentComponent implements OnInit {
     });
   }
 
-  deleteItem(etablishment){
+  deleteItem(item){
     this.confirmModal = this.modalService.confirm({
       nzTitle: 'Etes-vous sûr de vouloir supprimer cet élément?',
       nzContent: 'Une fois supprimée, vous ne pourrez plus récupérer cet élement',
@@ -146,7 +148,7 @@ export class EtablishmentComponent implements OnInit {
       nzOkText: 'Confirmer',
       nzOnOk: () =>
         new Promise((resolve, reject) => {
-          this.etablishmentService.delete(etablishment.id)
+          this.etablishmentService.delete(item.id)
             .subscribe(() => {
               this.notification.success("Succés", "Elément supprimé avec succès!");
               this.search();
@@ -156,6 +158,10 @@ export class EtablishmentComponent implements OnInit {
             })
         }).catch(() => this.notification.error("Echec", "Erreur lors de la suppression de l'élément!"))
     });
+  }
+
+  showItem(item){
+    this.router.navigate(['/pages/etablishments/show', item.id]);
   }
 
   formatUrl(url: string){

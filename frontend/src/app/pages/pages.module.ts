@@ -52,6 +52,7 @@ import { EtablishmentAddComponent } from './etablishment/etablishment-add/etabli
 
 //Reducers
 import { countryReducer } from '../shared/store/country.reducer';
+import { EtablishmentShowComponent } from './etablishment/etablishment-show/etablishment-show.component';
 
 const antdModule = [
     NzCardModule,
@@ -108,7 +109,8 @@ const antdModule = [
         ManagerComponent,
         ManagerAddComponent,
         ManagerResetPwdComponent,
-        EtablishmentAddComponent
+        EtablishmentAddComponent,
+        EtablishmentShowComponent
     ],
     providers: [
     ]

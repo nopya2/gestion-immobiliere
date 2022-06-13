@@ -12,6 +12,7 @@ import { BlogPostComponent } from './blog/blog-post/blog-post.component';
 import { UserComponent } from './user/user.component';
 import { ManagerComponent } from './manager/manager.component';
 import { EtablishmentComponent } from './etablishment/etablishment.component';
+import { EtablishmentShowComponent } from './etablishment/etablishment-show/etablishment-show.component';
 
 const routes: Routes = [
     {
@@ -30,10 +31,25 @@ const routes: Routes = [
     },
     {
         path: 'etablishments',
-        component: EtablishmentComponent,
         data: {
-            title: 'Gestion des établissements'
-        }
+            title: "Gestion des établissements"
+        },
+        children: [
+            {
+                path: '',
+                component: EtablishmentComponent,
+                data: {
+                    title: 'Liste'
+                }
+            },
+            {
+                path: 'show/:id',
+                component: EtablishmentShowComponent,
+                data: {
+                    title: 'Détails'
+                }
+            }
+        ]
     },
     {
         path: 'profile',

@@ -48,7 +48,7 @@
       [nzPageSize]="params.itemsPerPage"
       [nzPageIndex]="params.page"
       (nzQueryParams)="onQueryParamsChange($event)"
-      [nzScroll]="{ x: '1200px'}"
+      [nzScroll]="{ x: '1450px'}"
     >
         <thead>
             <tr>
@@ -80,7 +80,18 @@
                 <td>{{ data.website }}</td>
                 <td>{{ data.phones }}</td>
                 <td nzRight class="text-md-right">
-                    <a class="m-r-5" 
+                    <a
+                        class="m-r-5"
+                        nz-button 
+                        nzType="default" 
+                        nzShape="circle" 
+                        nz-tooltip 
+                        nzTooltipTitle="Détails"
+                        (click)="showItem(data)">
+                        <i nz-icon nzType="eye" theme="outline"></i>
+                    </a>
+                    <a 
+                        class="m-r-5"
                         nz-button nzType="default" 
                         nzShape="circle" 
                         nz-tooltip 
