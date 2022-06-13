@@ -15,4 +15,5 @@ export interface Etablishment {
     updatedAt?: Date;
     phones: string[];
     etablishmentType: EtablishmentTypeEnum;
+    postalBox?: string;
 }

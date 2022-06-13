@@ -80,7 +80,8 @@ export class EtablishmentAddComponent implements OnInit {
         },
         phones: [],
         website: '',
-        etablishmentType: null
+        etablishmentType: null,
+        postalBox: null
       }
 
       this.validateForm = this.fb.group({
@@ -91,6 +92,7 @@ export class EtablishmentAddComponent implements OnInit {
         country: ['Gabon', [Validators.required]],
         url: [null, Validators.required],
         website: [null],
+        postalBox: [null],
         etablishmentType: [null, [Validators.required]],
         phones: this.fb.array([])
       });
@@ -106,6 +108,7 @@ export class EtablishmentAddComponent implements OnInit {
         country: [this.action == 'edit' ? this.etablishment.country : 'Gabon', [Validators.required]],
         url: [null],
         website: [this.action == 'edit' ? this.etablishment.website : null],
+        postalBox: [this.action == 'edit' ? this.etablishment.postalBox : null],
         etablishmentType: [this.action == 'edit' ? this.etablishment.etablishmentType : null, [Validators.required]],
         phones: this.fb.array([])
       });
@@ -129,6 +132,7 @@ export class EtablishmentAddComponent implements OnInit {
     this.etablishment.country = this.validateForm.value.country;
     this.etablishment.website = this.validateForm.value.website;
     this.etablishment.etablishmentType = this.validateForm.value.etablishmentType;
+    this.etablishment.postalBox = this.validateForm.value.postalBox;
     //Format phones
     this.etablishment.phones = [];
     this.validateForm.value.phones.forEach(element => {

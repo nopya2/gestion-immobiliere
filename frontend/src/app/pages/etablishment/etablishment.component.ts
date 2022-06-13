@@ -13,7 +13,7 @@ import { Helper } from '../../shared/helper';
 //components
 import { EtablishmentAddComponent } from './etablishment-add/etablishment-add.component';
 //enums
-import { RoleEnum } from '../../shared/enumarations/role.enum';
+import { EtablishmentTypeEnum } from '../../shared/enumarations/etablishment-type.enum';
 
 @Component({
   selector: 'app-etablishment',
@@ -36,7 +36,7 @@ export class EtablishmentComponent implements OnInit {
     { text: 'Activé', value: true },
     { text: 'Désactivé', value: false }
   ];
-  rolesEnum = RoleEnum;
+  etablishmentTypes = EtablishmentTypeEnum;
   action: string;
   confirmModal?: NzModalRef;
 

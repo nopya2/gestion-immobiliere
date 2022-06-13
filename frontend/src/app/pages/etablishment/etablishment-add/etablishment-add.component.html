@@ -64,8 +64,6 @@
                 </nz-form-control>
             </nz-form-item>
         </div>
-    </div>
-    <div nz-row [nzGutter]="16">
         <div nz-col class="gutter-row" nzSpan="12">
             <nz-form-item>
                 <nz-form-label nzRequired nzFor="email">E-mail</nz-form-label>
@@ -75,6 +73,21 @@
                         <ng-container *ngIf="control.hasError('email')">
                             E-mail invalide!
                         </ng-container>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Le champs est requis!
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+    <div nz-row [nzGutter]="16">
+        <div nz-col class="gutter-row" nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzFor="postalBox">BP</nz-form-label>
+                <nz-form-control nzHasFeedback [nzErrorTip]="errorPostalBox">
+                    <input nz-input formControlName="postalBox" id="postalBox" nzSize="small" autocomplete="off"/>
+                    <ng-template #errorPostalBox let-control>
                         <ng-container *ngIf="control.hasError('required')">
                             Le champs est requis!
                         </ng-container>

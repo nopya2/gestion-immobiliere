@@ -48,13 +48,15 @@
       [nzPageSize]="params.itemsPerPage"
       [nzPageIndex]="params.page"
       (nzQueryParams)="onQueryParamsChange($event)"
-      [nzScroll]="{ x: '1450px'}"
+      [nzScroll]="{ x: '1900px'}"
     >
         <thead>
             <tr>
                 <th nzColumnKey="logo"></th>
                 <th nzColumnKey="name" [nzSortFn]="true">Nom</th>
+                <th nzColumnKey="etablismentType" [nzSortFn]="true">Type</th>
                 <th nzColumnKey="address">Adresse</th>
+                <th nzColumnKey="address">BP</th>
                 <th nzColumnKey="email">E-mail</th>
                 <th nzColumnKey="country">Pays</th>
                 <th nzColumnKey="city">Ville</th>
@@ -73,7 +75,9 @@
                     </nz-image-group>
                 </td>
                 <td>{{ data.name }}</td>
+                <td>{{ etablishmentTypes[data.etablishmentType] }}</td>
                 <td>{{ data.address }}</td>
+                <td>{{ data.postalBox }}</td>
                 <td>{{ data.email }}</td>
                 <td>{{ data.country }}</td>
                 <td>{{ data.city }}</td>

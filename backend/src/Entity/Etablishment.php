@@ -88,6 +88,10 @@ class Etablishment
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(["read:etablishment", "write:etablishment"])]
     private $etablishmentType;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(["read:etablishment", "write:etablishment"])]
+    private $postalBox;
     
     public function __construct()
     {
@@ -226,6 +230,18 @@ class Etablishment
     public function setEtablishmentType(string $etablishmentType): self
     {
         $this->etablishmentType = $etablishmentType;
+
+        return $this;
+    }
+
+    public function getPostalBox(): ?string
+    {
+        return $this->postalBox;
+    }
+
+    public function setPostalBox(?string $postalBox): self
+    {
+        $this->postalBox = $postalBox;
 
         return $this;
     }
