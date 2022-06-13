@@ -13,7 +13,7 @@ import { Helper } from '../../shared/helper';
 import { ManagerAddComponent } from './manager-add/manager-add.component';
 import { ManagerResetPwdComponent } from './manager-reset-pwd/manager-reset-pwd.component';
 //enums
-import { RoleEnum } from '../../shared/enumarations/role.enum';
+import { RoleEnum } from '../../shared/enumerations/role.enum';
 
 @Component({
   selector: 'app-manager',

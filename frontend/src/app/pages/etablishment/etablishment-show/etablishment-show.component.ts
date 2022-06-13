@@ -9,6 +9,10 @@ import { ActivatedRoute } from '@angular/router';
 import { EtablishmentService } from '../../../shared/services/etablishment.service';
 //interfaces
 import { Etablishment } from '../../../shared/interfaces/etablishment.type';
+//enumeration
+import { EtablishmentTypeEnum } from '../../../shared/enumerations/etablishment-type.enum';
+//others
+import { Helper } from '../../../shared/helper';
 
 @Component({
   selector: 'app-etablishment-show',
@@ -26,6 +30,7 @@ export class EtablishmentShowComponent implements OnInit {
   isLoading: boolean = true;
   itemId: any = null;
   sub: any;
+  etablishmentTypes = EtablishmentTypeEnum;
 
   fileList = [
       {
@@ -140,6 +145,10 @@ export class EtablishmentShowComponent implements OnInit {
       }, error => {
         this.showSkeleton = false;
       })
+  }
+
+  formatUrl(url: string){
+    return Helper.formatUrl(url);
   }
 
 }

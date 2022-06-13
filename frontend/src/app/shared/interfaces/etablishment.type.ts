@@ -1,5 +1,6 @@
 import { Image } from "./image.type";
-import { EtablishmentTypeEnum } from '../enumarations/etablishment-type.enum';
+import { EtablishmentTypeEnum } from '../enumerations/etablishment-type.enum';
+import { Manager } from "./manager.type";
 
 export interface Etablishment {
     "@id"?: string;
@@ -16,4 +17,5 @@ export interface Etablishment {
     phones: string[];
     etablishmentType: EtablishmentTypeEnum;
     postalBox?: string;
+    manager?: Manager
 }

@@ -13,7 +13,7 @@ import { Helper } from '../../shared/helper';
 //components
 import { EtablishmentAddComponent } from './etablishment-add/etablishment-add.component';
 //enums
-import { EtablishmentTypeEnum } from '../../shared/enumarations/etablishment-type.enum';
+import { EtablishmentTypeEnum } from '../../shared/enumerations/etablishment-type.enum';
 
 @Component({
   selector: 'app-etablishment',

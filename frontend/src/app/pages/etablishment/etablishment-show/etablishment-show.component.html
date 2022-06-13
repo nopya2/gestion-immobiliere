@@ -3,10 +3,10 @@
     <div class="page-header has-tab m-t-15">
         <div class="d-md-flex m-b-15 align-items-center justify-content-between">
             <div class="media align-items-center m-b-15">
-                <nz-avatar nzShape="square" [nzSize]="70" nzSrc="assets/images/others/thumb-16.jpg"></nz-avatar>
+                <nz-avatar nzShape="square" [nzSize]="70" [nzSrc]="formatUrl(etablishment.logo.url)"></nz-avatar>
                 <div class="m-l-15">
-                    <h4 class="m-b-0">{{productEditForm.controls.productName.value}}</h4>
-                    <p class="text-muted m-b-0">Code: #5325</p>
+                    <h4 class="m-b-0">{{etablishment.name}}</h4>
+                    <p class="text-muted m-b-0">{{etablishmentTypes[etablishment.etablishmentType]}}</p>
                 </div>
             </div>
             <div class="m-b-15">
@@ -26,15 +26,26 @@
         </div>
     </div>
     <nz-tabset class="page-header-tab" *ngIf="!isEdit">
-        <nz-tab nzTitle="Overview">
+        <nz-tab nzTitle="Aperçu">
             <div class="row">
-                <div class="col-md-3">
+                <!-- <div class="col-md-3">
                     <nz-card>
                         <div class="media align-items-center">
                             <i class="font-size-40 text-success" nz-icon nzType="smile" theme="outline"></i>
                             <div class="m-l-15">
-                                <p class="m-b-0 text-muted">10 ratings</p>
+                                <p class="m-b-0 text-muted">10 Employés</p>
                                 <nz-rate [ngModel]="4.5" nzDisabled></nz-rate>
+                            </div>
+                        </div>
+                    </nz-card>
+                </div> -->
+                <div class="col-md-3">
+                    <nz-card>
+                        <div class="media align-items-center">
+                            <i class="font-size-40 text-primary" nz-icon nzType="shopping-cart" theme="outline"></i>
+                            <div class="m-l-15">
+                                <p class="m-b-0 text-muted">Employés</p>
+                                <h3 class="m-b-0 ls-1">1,521</h3>
                             </div>
                         </div>
                     </nz-card>
@@ -44,13 +55,13 @@
                         <div class="media align-items-center">
                             <i class="font-size-40 text-primary" nz-icon nzType="shopping-cart" theme="outline"></i>
                             <div class="m-l-15">
-                                <p class="m-b-0 text-muted">Sales</p>
+                                <p class="m-b-0 text-muted">Inscrits</p>
                                 <h3 class="m-b-0 ls-1">1,521</h3>
                             </div>
                         </div>
                     </nz-card>
                 </div>
-                <div class="col-md-3">
+                <!-- <div class="col-md-3">
                     <nz-card>
                         <div class="media align-items-center">
                             <i class="font-size-40 text-primary" nz-icon nzType="message" theme="outline"></i>
@@ -60,8 +71,8 @@
                             </div>
                         </div>
                     </nz-card>
-                </div>
-                <div class="col-md-3">
+                </div> -->
+                <!-- <div class="col-md-3">
                     <nz-card>
                         <div class="media align-items-center">
                             <i class="font-size-40 text-primary" nz-icon nzType="stock" theme="outline"></i>
@@ -71,78 +82,72 @@
                             </div>
                         </div>
                     </nz-card>
-                </div>
+                </div> -->
             </div>
             <nz-card>
-                <h5>Basic Info</h5>
+                <h5>Informations Générales</h5>
                 <table class="product-info-table m-t-20">
                     <tbody>
                         <tr>
-                            <td>Price:</td>
-                            <td class="text-dark font-weight-semibold">${{productEditForm.controls.price.value}}.00</td>
-                        </tr>
-                        <tr>
-                            <td>Category:</td>
-                            <td>{{productEditForm.controls.category.value}}</td>
-                        </tr>
-                        <tr>
-                            <td>Brand:</td>
-                            <td>{{productEditForm.controls.brand.value}}</td>
-                        </tr>
-                        <tr>
-                            <td>Tax Rate:</td>
-                            <td>10%</td>
-                        </tr>
-                        <tr>
-                            <td>Status:</td>
-                            <td>
-                                <nz-tag *ngIf="productEditForm.controls.status.value == 'In Stock'" [nzColor]="'cyan'">{{productEditForm.controls.status.value}}</nz-tag>
-                                <nz-tag *ngIf="productEditForm.controls.status.value == 'Out of Stock'" [nzColor]="'red'">{{productEditForm.controls.status.value}}</nz-tag>
-                                <nz-tag *ngIf="productEditForm.controls.status.value == 'Pending'" [nzColor]="'gold'">{{productEditForm.controls.status.value}}</nz-tag>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table> 
-            </nz-card>
-            <nz-card>
-                <h5>Option Info</h5>
-                <table class="product-info-table m-t-20">
-                    <tbody>
-                        <tr>
-                            <td>Sizes:</td>
-                            <td>{{productEditForm.controls.size.value}}</td>
-                        </tr>
-                        <tr>
-                            <td>Colors:</td>
-                            <td>
-                                <span class="m-r-20" *ngFor="let item of productEditForm.controls.colors.value">
-                                    <span class="product-color">
-                                        <nz-badge *ngIf="item == 'Dark Blue'" nzStatus="default" nzColor="#4c4e69"></nz-badge>
-                                        <nz-badge *ngIf="item == 'Gray'" nzStatus="default" nzColor="#868686"></nz-badge>
-                                        <nz-badge *ngIf="item == 'Gray Blue'" nzStatus="default" nzColor="#8498c7"></nz-badge>
+                            <td>Responsable:</td>
+                            <td class="text-dark font-weight-semibold">
+                                <div *ngIf="!etablishment.manager">
+                                    <span class="text-danger">Aucun</span>
+                                    <a nz-button nzType="link" nzTooltipTitle="Ajouter" >
+                                        <i nz-icon nzType="plus" nzTheme="outline"></i>
+                                    </a>
+                                </div>
+                                <div *ngIf="etablishment.manager">
+                                    <span class="text-danger">
+                                        {{etablishment.manager.name}} {{etablishment.manager.firstname}}
                                     </span>
-                                    <span>{{item}}</span>
-                                </span>
+                                    <a nz-button nzType="link">
+                                        <i nz-icon nzType="edit" nzTheme="outline"></i>
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                         <tr>
-                            <td>Fit:</td>
-                            <td>{{productEditForm.controls.fit.value}} Fit</td>
+                            <td>Adresse:</td>
+                            <td class="text-dark font-weight-semibold">{{etablishment.address}}</td>
                         </tr>
                         <tr>
-                            <td>Material:</td>
-                            <td>{{productEditForm.controls.material.value}}</td>
+                            <td>Boite Postale:</td>
+                            <td>{{etablishment.postalBox}}</td>
                         </tr>
                         <tr>
-                            <td>Ship From:</td>
-                            <td>{{productEditForm.controls.shipFrom.value}}</td>
+                            <td>E-mail:</td>
+                            <td>{{etablishment.email}}</td>
+                        </tr>
+                        <tr>
+                            <td>Téléphones</td>
+                            <td>
+                                <span nz-typography *ngFor="let phone of etablishment.phones">{{phone}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pays:</td>
+                            <td>{{etablishment.country}}</td>
+                        </tr>
+                        <tr>
+                            <td>Ville:</td>
+                            <td>{{etablishment.city}}</td>
+                        </tr>
+                        <tr>
+                            <td>Siteweb:</td>
+                            <td>{{etablishment.website}}</td>
+                        </tr>
+                        <tr>
+                            <td>Ajouté le:</td>
+                            <td>{{etablishment.createdAt}}</td>
+                        </tr>
+                        <tr>
+                            <td>Modifié le:</td>
+                            <td>{{etablishment.updatedAt}}</td>
                         </tr>
                     </tbody>
                 </table> 
-            </nz-card>
-            <nz-card nzTitle="Product Description">
-                <div [innerHTML]="productEditForm.controls.description.value"></div>
-            </nz-card>    
+            </nz-card> 
         </nz-tab>
         <nz-tab nzTitle="Product Images">
             <nz-card>

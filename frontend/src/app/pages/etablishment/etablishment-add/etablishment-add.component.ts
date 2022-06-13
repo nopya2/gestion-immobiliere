@@ -9,7 +9,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 
 //others
 import { Helper } from '../../../shared/helper';
-import { EtablishmentTypeEnum } from '../../../shared/enumarations/etablishment-type.enum';
+import { EtablishmentTypeEnum } from '../../../shared/enumerations/etablishment-type.enum';
 //store
 import { retrievedCountryList } from '../../../shared/store/country.action';
 //interfaces

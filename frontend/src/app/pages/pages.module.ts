@@ -32,6 +32,7 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 import { ProfileComponent } from './profile/profile.component';
 import { InvoiceComponent } from './invoice/invoice.component';
@@ -82,7 +83,8 @@ const antdModule = [
     NzIconModule,
     NzPopoverModule,
     StoreModule.forRoot({ countries: countryReducer }),
-    NzImageModule
+    NzImageModule,
+    NzTypographyModule
 ]
 
 @NgModule({

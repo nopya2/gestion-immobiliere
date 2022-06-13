@@ -13,7 +13,7 @@ import { Helper } from '../../shared/helper';
 import { UserAddComponent } from './user-add/user-add.component';
 import { UserResetPwdComponent } from './user-reset-pwd/user-reset-pwd.component';
 //enums
-import { RoleEnum } from '../../shared/enumarations/role.enum';
+import { RoleEnum } from '../../shared/enumerations/role.enum';
 
 @Component({
   selector: 'app-user',

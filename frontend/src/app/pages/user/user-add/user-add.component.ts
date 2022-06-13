@@ -5,7 +5,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 import { User } from '../../../shared/interfaces/user.type';
 import { UserService } from '../../../shared/services/user.service';
-import { RoleEnum } from '../../../shared/enumarations/role.enum';
+import { RoleEnum } from '../../../shared/enumerations/role.enum';
 //others
 import { Helper } from '../../../shared/helper';
 
