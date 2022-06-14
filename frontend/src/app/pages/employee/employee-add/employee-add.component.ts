@@ -3,11 +3,15 @@ import { FormBuilder, FormControl, FormGroup, Validators, ValidationErrors } fro
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
+//interfaces
 import { Employee } from '../../../shared/interfaces/employee.type';
+import { Etablishment } from '../../../shared/interfaces/etablishment.type';
+//services
 import { EmployeeService } from '../../../shared/services/employee.service';
-import { RoleEnum } from '../../../shared/enumerations/role.enum';
+import { AuthenticationService } from '../../../shared/services/authentication.service';
 //others
 import { Helper } from '../../../shared/helper';
+import { RoleEnum } from '../../../shared/enumerations/role.enum';
 
 @Component({
   selector: 'app-employee-add',
@@ -27,7 +31,8 @@ export class EmployeeAddComponent implements OnInit {
     private fb: FormBuilder,
     private modal: NzModalRef,
     private employeeService: EmployeeService,
-    private notification: NzNotificationService) {}
+    private notification: NzNotificationService,
+    private auth: AuthenticationService) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -35,6 +40,7 @@ export class EmployeeAddComponent implements OnInit {
 
   initForm(){
     if(this.action === 'create'){
+      var role = this.keys(this.rolesEnum);
       this.employee = {
         "@id": null,
         username: '',
@@ -44,9 +50,9 @@ export class EmployeeAddComponent implements OnInit {
         name: '',
         phoneNumber1: '',
         phoneNumber2: '',
-        roles: ["ROLE_RES_ETA"],
+        roles: [role[4]],
         password: '',
-        etablishment: null
+        etablishment: this.auth.currentUserValue.etablishment
       }
 
       this.validateForm = this.fb.group({

@@ -1,1 +1,46 @@
-<p>employee-reset-pwd works!</p>
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" nzLayout="vertical">
+    <div nz-row [nzGutter]="16">
+        <div nz-col class="gutter-row" nzSpan="24">
+            <nz-form-item>
+                <nz-form-label nzFor="password" nzRequired>Password</nz-form-label>
+                <nz-form-control nzHasFeedback [nzErrorTip]="errorTplPa">
+                    <input 
+                        nz-input 
+                        type="password" 
+                        id="password" 
+                        formControlName="password" 
+                        (ngModelChange)="updateConfirmValidator()" nzSize="small"/>
+                    <ng-template #errorTplPa let-control>
+                        <ng-container *ngIf="control.hasError('minlength')">
+                            Le champs doit contenir au moins 6 caractères!
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Le champs est requis!
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div nz-col class="gutter-row" nzSpan="24">
+            <nz-form-item>
+                <nz-form-label nzFor="checkPassword" nzRequired>Confirm Password</nz-form-label>
+                <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+                    <input nz-input type="password" formControlName="checkPassword" id="checkPassword" nzSize="small"/>
+                    <ng-template #errorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Veuillez confirmer votre mot de passe!
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('confirm')">
+                            Les mots de passe ne correspondent pas!
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+</form>
+
+<div *nzModalFooter>
+    <button nz-button nzType="default" (click)="closeModal()">Annuler</button>
+    <button nz-button nzType="primary" (click)="submitForm()" [nzLoading]="isLoading" [disabled]="!validateForm.valid">Enregistrer</button>
+</div>

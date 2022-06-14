@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { environment } from "../../../environments/environment";
 
 import { User } from '../interfaces/user.type';
+import { Employee } from '../interfaces/employee.type';
 
 const USER_AUTH_API_URL = '/api-url';
 
@@ -25,7 +26,7 @@ export class AuthenticationService {
         this.currentUser = this.currentUserSubject.asObservable();
     }
 
-    public get currentUserValue(): User {
+    public get currentUserValue(): any{
         return this.currentUserSubject.value;
     }
 

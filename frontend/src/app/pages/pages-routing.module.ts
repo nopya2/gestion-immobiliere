@@ -54,7 +54,7 @@ const routes: Routes = [
     },
     {
         path: 'employees',
-        component: ManagerComponent,
+        component: EmployeeComponent,
         data: {
             title: 'Gestion des employés'
         }
