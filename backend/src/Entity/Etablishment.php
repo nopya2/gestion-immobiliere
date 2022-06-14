@@ -92,6 +92,11 @@ class Etablishment
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Groups(["read:etablishment", "write:etablishment"])]
     private $postalBox;
+
+    #[ORM\OneToOne(inversedBy: 'etablishment', targetEntity: Manager::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true, onDelete: "set null")]
+    #[Groups(["read:etablishment", "write:etablishment"])]
+    private $manager;
     
     public function __construct()
     {
@@ -242,6 +247,18 @@ class Etablishment
     public function setPostalBox(?string $postalBox): self
     {
         $this->postalBox = $postalBox;
+
+        return $this;
+    }
+
+    public function getManager(): ?Manager
+    {
+        return $this->manager;
+    }
+
+    public function setManager(?Manager $manager): self
+    {
+        $this->manager = $manager;
 
         return $this;
     }

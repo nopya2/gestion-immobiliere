@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core';
+import { NzModalService, NzModalRef } from 'ng-zorro-antd/modal';
+import { FormBuilder, FormGroup, Validators, FormControl, ValidationErrors } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { ActivatedRoute } from '@angular/router';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { Store, select } from '@ngrx/store';
+import { Observable, Observer } from 'rxjs';
 
 //services
 import { EtablishmentService } from '../../../shared/services/etablishment.service';
@@ -13,6 +16,8 @@ import { Etablishment } from '../../../shared/interfaces/etablishment.type';
 import { EtablishmentTypeEnum } from '../../../shared/enumerations/etablishment-type.enum';
 //others
 import { Helper } from '../../../shared/helper';
+//component
+import { AddManagerEtablishmentComponent } from '../add-manager-etablishment/add-manager-etablishment.component';
 
 @Component({
   selector: 'app-etablishment-show',
@@ -149,6 +154,27 @@ export class EtablishmentShowComponent implements OnInit {
 
   formatUrl(url: string){
     return Helper.formatUrl(url);
+  }
+
+  addManager(item, action){
+    const a: any = this.modalService.create({
+      nzTitle: action === 'add' ? 'Sélectionnez un responsable' : 'Changer le manager',
+      nzContent: AddManagerEtablishmentComponent,
+      nzComponentParams: {
+        etablishment: {...item}
+      },
+      nzStyle: {
+        top: '30px'
+      },
+      nzMaskClosable: false,
+      nzOnOk: (event) => {
+      }
+    });
+    a.afterClose.subscribe((e) => {
+      if(e){
+        this.etablishment = {...e};
+      }
+    });
   }
 
 }

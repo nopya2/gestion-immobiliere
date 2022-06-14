@@ -22,7 +22,7 @@ class Image
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["read:etablishment"])]
+    #[Groups(["read:etablishment", "write:etablishment"])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]

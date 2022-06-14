@@ -42,7 +42,7 @@
                 <div class="col-md-3">
                     <nz-card>
                         <div class="media align-items-center">
-                            <i class="font-size-40 text-primary" nz-icon nzType="shopping-cart" theme="outline"></i>
+                            <i class="font-size-40 text-primary" nz-icon nzType="team" theme="outline"></i>
                             <div class="m-l-15">
                                 <p class="m-b-0 text-muted">Employés</p>
                                 <h3 class="m-b-0 ls-1">1,521</h3>
@@ -53,7 +53,7 @@
                 <div class="col-md-3">
                     <nz-card>
                         <div class="media align-items-center">
-                            <i class="font-size-40 text-primary" nz-icon nzType="shopping-cart" theme="outline"></i>
+                            <i class="font-size-40 text-primary" nz-icon nzType="team" theme="outline"></i>
                             <div class="m-l-15">
                                 <p class="m-b-0 text-muted">Inscrits</p>
                                 <h3 class="m-b-0 ls-1">1,521</h3>
@@ -93,7 +93,7 @@
                             <td class="text-dark font-weight-semibold">
                                 <div *ngIf="!etablishment.manager">
                                     <span class="text-danger">Aucun</span>
-                                    <a nz-button nzType="link" nzTooltipTitle="Ajouter" >
+                                    <a nz-button nzType="link" nzTooltipTitle="Ajouter" (click)="addManager(etablishment, 'add')">
                                         <i nz-icon nzType="plus" nzTheme="outline"></i>
                                     </a>
                                 </div>
@@ -101,7 +101,7 @@
                                     <span class="text-danger">
                                         {{etablishment.manager.name}} {{etablishment.manager.firstname}}
                                     </span>
-                                    <a nz-button nzType="link">
+                                    <a nz-button nzType="link" (click)="addManager(etablishment, 'edit')">
                                         <i nz-icon nzType="edit" nzTheme="outline"></i>
                                     </a>
                                 </div>
