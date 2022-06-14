@@ -27,7 +27,7 @@ export class Helper {
     }
 
     static formatUrl(url: string): string{
-        return `${environment.endpoint}/${url}`;
+        return `${environment.endpoint}/${url}?${new Date()}`;
     }
 
 }

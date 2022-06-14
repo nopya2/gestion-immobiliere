@@ -93,7 +93,7 @@ class Etablishment
     #[Groups(["read:etablishment", "write:etablishment"])]
     private $postalBox;
 
-    #[ORM\OneToOne(inversedBy: 'etablishment', targetEntity: Manager::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'etablishment', targetEntity: Manager::class, cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: true, onDelete: "set null")]
     #[Groups(["read:etablishment", "write:etablishment"])]
     private $manager;
