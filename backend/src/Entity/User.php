@@ -39,7 +39,7 @@ use Doctrine\ORM\Mapping\InheritanceType;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[InheritanceType("SINGLE_TABLE")]
 #[DiscriminatorColumn(name: 'discr', type: 'string')]
-#[DiscriminatorMap(["user" => "User", "manager" => "Manager"])]
+#[DiscriminatorMap(["user" => "User", "manager" => "Manager", "employee" => "Employee"])]
 // #[ORM\Table(name: 'symfony_demo_user')]
 #[ApiResource(
     normalizationContext: ["groups" => ["read:user"]],
@@ -64,54 +64,64 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["read:user", "read:manager", "read:etablishment", "write:etablishment"])]
+    #[Groups(["read:user", "read:manager", "read:etablishment", "write:etablishment",
+        "read:employee"])]
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', unique: true)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
-    #[Groups(["read:user", "write:user", "read:manager", "write:manager"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager",
+        "read:employee", "write:employee"])]
     private ?string $username = null;
 
     #[ORM\Column(type: 'string', unique: true)]
     #[Assert\Email]
-    #[Groups(["read:user", "write:user", "read:manager", "write:manager"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager",
+        "read:employee", "write:employee"])]
     private ?string $email = null;
 
     #[ORM\Column(type: 'string')]
-    #[Groups(["write:user", "write:manager"])]
+    #[Groups(["write:user", "write:manager",
+        "write:employee"])]
     private ?string $password = null;
 
     #[ORM\Column(type: 'json')]
-    #[Groups(["read:user", "write:user", "read:manager", "write:manager"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager",
+        "read:employee", "write:employee"])]
     private array $roles = [];
 
-    #[Groups(["read:user", "read:manager"])]
+    #[Groups(["read:user", "read:manager", "read:employee"])]
     private ?string $token = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["read:user", "write:user", "read:manager", "write:manager"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager",
+        "read:employee", "write:employee"])]
     #[Assert\NotBlank]
     private $phoneNumber1;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(["read:user", "write:user", "read:manager", "write:manager"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager",
+        "read:employee", "write:employee"])]
     private $phoneNumber2;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
-    #[Groups(["read:user", "write:user", "read:manager", "write:manager", "read:etablishment"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager", "read:etablishment",
+        "read:employee", "write:employee"])]
     private $name;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
-    #[Groups(["read:user", "write:user", "read:manager", "write:manager", "read:etablishment"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager", "read:etablishment",
+        "read:employee", "write:employee"])]
     private $firstname;
 
     #[ORM\Column(type: 'boolean', nullable: true)]
-    #[Groups(["read:user", "write:user", "read:manager", "write:manager"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager",
+        "read:employee", "write:employee"])]
     private $enabled = true;
 
     public function __construct()

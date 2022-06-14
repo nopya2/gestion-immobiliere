@@ -21,6 +21,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 
 use App\Repository\UserRepository;
+use App\Repository\ManagerRepository;
+use App\Config\RoleEnum;
 
 /**
  * Controller used to manage the application security.
@@ -38,6 +40,7 @@ class SecurityController extends AbstractController
         Request $request, 
         AuthenticationUtils $helper,
         UserRepository $userRepository,
+        ManagerRepository $managerRepository,
         UserPasswordHasherInterface $userPasswordEncoder,
         JWTTokenManagerInterface $JWTManager): Response
     {
@@ -54,6 +57,17 @@ class SecurityController extends AbstractController
         //On verifi si le comte est active
         if($user->getEnabled() === false)
             return $this->json(['error' => "Compte désactivé!"], 400);
+
+        //On verifie si l'utilisateur est un manager
+        //et on renvoie l'objet manage
+        if(in_array(RoleEnum::ROLE_RES_ETA->name, $user->getRoles()) === true){
+            $manager = $managerRepository->find($user->getId());
+
+            $token = $JWTManager->create($manager);
+            $manager->setToken($token);
+
+            return $this->json($manager, 200);
+        }
 
         $token = $JWTManager->create($user);
         $user->setToken($token);

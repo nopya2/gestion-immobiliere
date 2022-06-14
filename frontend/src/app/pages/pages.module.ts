@@ -55,6 +55,9 @@ import { EtablishmentAddComponent } from './etablishment/etablishment-add/etabli
 import { countryReducer } from '../shared/store/country.reducer';
 import { EtablishmentShowComponent } from './etablishment/etablishment-show/etablishment-show.component';
 import { AddManagerEtablishmentComponent } from './etablishment/add-manager-etablishment/add-manager-etablishment.component';
+import { EmployeeComponent } from './employee/employee.component';
+import { EmployeeAddComponent } from './employee/employee-add/employee-add.component';
+import { EmployeeResetPwdComponent } from './employee/employee-reset-pwd/employee-reset-pwd.component';
 
 const antdModule = [
     NzCardModule,
@@ -114,7 +117,10 @@ const antdModule = [
         ManagerResetPwdComponent,
         EtablishmentAddComponent,
         EtablishmentShowComponent,
-        AddManagerEtablishmentComponent
+        AddManagerEtablishmentComponent,
+        EmployeeComponent,
+        EmployeeAddComponent,
+        EmployeeResetPwdComponent
     ],
     providers: [
     ]

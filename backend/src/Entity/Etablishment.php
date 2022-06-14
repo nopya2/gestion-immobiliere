@@ -27,7 +27,7 @@ class Etablishment
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups("read:etablishment")]
+    #[Groups(["read:etablishment", "read:user", "read:manager", "read:employee", "write:employee"])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
@@ -38,7 +38,7 @@ class Etablishment
         max: 10000, 
         maxMessage: 'Le nom contenir au plus 1000 caractères'
     )]
-    #[Groups(["read:etablishment", "write:etablishment"])]
+    #[Groups(["read:etablishment", "write:etablishment", "read:user", "read:manager", "read:employee"])]
     private $name;
 
     #[ORM\Column(type: 'string', length: 255)]

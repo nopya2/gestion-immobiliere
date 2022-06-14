@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ManagerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ManagerRepository::class)]
 #[ApiResource(
@@ -14,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Manager extends User
 {
     #[ORM\OneToOne(mappedBy: 'manager', targetEntity: Etablishment::class, cascade: ['persist', 'remove'])]
+    #[Groups(["read:user", "read:manager"])]
     private $etablishment;
 
     public function getEtablishment(): ?Etablishment

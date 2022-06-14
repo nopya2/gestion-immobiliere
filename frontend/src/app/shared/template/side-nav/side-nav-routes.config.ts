@@ -50,8 +50,8 @@ export const ROUTES: SideNavInterface[] = [
         icon: 'setting',
         submenu: [
             {
-                path: '/pages/users',
-                title: 'Utilisateurs',
+                path: '/pages/etablishments',
+                title: 'Etablissements',
                 iconType: '',
                 icon: '',
                 iconTheme: '',
@@ -66,8 +66,16 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: []
             },
             {
-                path: '/pages/etablishments',
-                title: 'Etablissements',
+                path: '/pages/employees',
+                title: 'Employés',
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                submenu: []
+            },
+            {
+                path: '/pages/users',
+                title: 'Utilisateurs',
                 iconType: '',
                 icon: '',
                 iconTheme: '',

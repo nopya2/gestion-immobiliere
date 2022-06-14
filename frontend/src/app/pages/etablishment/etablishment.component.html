@@ -54,6 +54,7 @@
             <tr>
                 <th nzColumnKey="logo"></th>
                 <th nzColumnKey="name" [nzSortFn]="true">Nom</th>
+                <th nzColumnKey="manager.name" [nzSortFn]="true">Responsable</th>
                 <th nzColumnKey="etablismentType" [nzSortFn]="true">Type</th>
                 <th nzColumnKey="address">Adresse</th>
                 <th nzColumnKey="address">BP</th>
@@ -75,6 +76,7 @@
                     </nz-image-group>
                 </td>
                 <td>{{ data.name }}</td>
+                <td>{{ data.manager ?  data.manager.name + ' ' + data.manager.firstname : ''}}</td>
                 <td>{{ etablishmentTypes[data.etablishmentType] }}</td>
                 <td>{{ data.address }}</td>
                 <td>{{ data.postalBox }}</td>

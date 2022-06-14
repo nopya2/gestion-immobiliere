@@ -11,6 +11,7 @@ import { BlogListComponent } from './blog/blog-list/blog-list.component';
 import { BlogPostComponent } from './blog/blog-post/blog-post.component';
 import { UserComponent } from './user/user.component';
 import { ManagerComponent } from './manager/manager.component';
+import { EmployeeComponent } from './employee/employee.component';
 import { EtablishmentComponent } from './etablishment/etablishment.component';
 import { EtablishmentShowComponent } from './etablishment/etablishment-show/etablishment-show.component';
 
@@ -20,13 +21,6 @@ const routes: Routes = [
         component: UserComponent,
         data: {
             title: 'Gestion des utilisateurs'
-        }
-    },
-    {
-        path: 'managers',
-        component: ManagerComponent,
-        data: {
-            title: 'Gestion des responsables d\'établissement'
         }
     },
     {
@@ -50,6 +44,20 @@ const routes: Routes = [
                 }
             }
         ]
+    },
+    {
+        path: 'managers',
+        component: ManagerComponent,
+        data: {
+            title: 'Gestion des responsables d\'établissement'
+        }
+    },
+    {
+        path: 'employees',
+        component: ManagerComponent,
+        data: {
+            title: 'Gestion des employés'
+        }
     },
     {
         path: 'profile',
