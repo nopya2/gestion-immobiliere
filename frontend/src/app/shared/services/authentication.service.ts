@@ -44,7 +44,7 @@ export class AuthenticationService {
     logout() {
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
-        this.router.navigateByUrl('/authentication/login-1');
+        this.router.navigateByUrl('/authentication/login');
     }
 
     verify() {

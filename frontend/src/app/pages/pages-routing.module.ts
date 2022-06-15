@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { AuthGuard } from '@app/shared/guard/auth.guard';
+
+import { RoleEnum } from '@app/shared/enumerations/role.enum';
+
 import { ProfileComponent } from './profile/profile.component';
 import { InvoiceComponent } from './invoice/invoice.component';
 import { MembersComponent } from './members/members.component';
@@ -19,8 +23,10 @@ const routes: Routes = [
     {
         path: 'users',
         component: UserComponent,
+        canActivate: [AuthGuard],
         data: {
-            title: 'Gestion des utilisateurs'
+            title: 'Gestion des utilisateurs',
+            roles: [RoleEnum.ROLE_ADMIN, RoleEnum.ROLE_DG, RoleEnum.ROLE_DAF]
         }
     },
     {

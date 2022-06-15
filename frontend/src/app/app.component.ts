@@ -33,13 +33,13 @@ export class AppComponent {
                 let currentUser = this.authService.currentUserValue;
                 if (currentUser && currentUser.token) {
                     // On verifie si le token n'est pas encore expire
-                    if(this.currentRoute !== '/authentication/login-1')
+                    if(this.currentRoute !== '/authentication/login')
                         this.authService.verify();
                     else{
                         this.router.navigateByUrl('/dashboard/default');
                     }
                 }else{
-                    if(this.currentRoute !== '/authentication/login-1')
+                    if(this.currentRoute !== '/authentication/login')
                         this.authService.logout();
                 }         
                 console.log(event);
