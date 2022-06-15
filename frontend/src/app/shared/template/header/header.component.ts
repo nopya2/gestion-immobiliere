@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ThemeConstantService } from '../../services/theme-constant.service';
 
+import { AuthenticationService } from '../../services/authentication.service';
+
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html'
@@ -12,8 +14,14 @@ export class HeaderComponent{
     quickViewVisible : boolean = false;
     isFolded : boolean;
     isExpand : boolean;
+    authenticatedUser: any;
 
-    constructor( private themeService: ThemeConstantService) {}
+    constructor( 
+        private themeService: ThemeConstantService,
+        private auth: AuthenticationService) {
+
+        this.authenticatedUser = this.auth.currentUserValue;
+    }
 
     ngOnInit(): void {
         this.themeService.isMenuFoldedChanges.subscribe(isFolded => this.isFolded = isFolded);
@@ -66,4 +74,8 @@ export class HeaderComponent{
             color: 'ant-avatar-' + 'gold'
         }
     ];
+
+    logout(){
+        this.auth.logout();
+    }
 }

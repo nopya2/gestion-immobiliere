@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PagesRoutingModule } from './pages-routing.module';
+import { StoreModule } from '@ngrx/store';
 
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
@@ -25,6 +26,13 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 import { ProfileComponent } from './profile/profile.component';
 import { InvoiceComponent } from './invoice/invoice.component';
@@ -35,6 +43,21 @@ import { BlogGridComponent } from './blog/blog-grid/blog-grid.component';
 import { BlogListComponent } from './blog/blog-list/blog-list.component';
 import { BlogPostComponent } from './blog/blog-post/blog-post.component';
 import { UserComponent } from './user/user.component';
+import { UserAddComponent } from './user/user-add/user-add.component';
+import { UserResetPwdComponent } from './user/user-reset-pwd/user-reset-pwd.component';
+import { EtablishmentComponent } from './etablishment/etablishment.component';
+import { ManagerComponent } from './manager/manager.component';
+import { ManagerAddComponent } from './manager/manager-add/manager-add.component';
+import { ManagerResetPwdComponent } from './manager/manager-reset-pwd/manager-reset-pwd.component';
+import { EtablishmentAddComponent } from './etablishment/etablishment-add/etablishment-add.component';
+
+//Reducers
+import { countryReducer } from '../shared/store/country.reducer';
+import { EtablishmentShowComponent } from './etablishment/etablishment-show/etablishment-show.component';
+import { AddManagerEtablishmentComponent } from './etablishment/add-manager-etablishment/add-manager-etablishment.component';
+import { EmployeeComponent } from './employee/employee.component';
+import { EmployeeAddComponent } from './employee/employee-add/employee-add.component';
+import { EmployeeResetPwdComponent } from './employee/employee-reset-pwd/employee-reset-pwd.component';
 
 const antdModule = [
     NzCardModule,
@@ -57,7 +80,15 @@ const antdModule = [
     NzToolTipModule,
     NzModalModule,
     NzMessageModule,
-    NzInputModule
+    NzInputModule,
+    NzCheckboxModule,
+    NgxMaskModule.forRoot(),
+    NzBadgeModule,
+    NzIconModule,
+    NzPopoverModule,
+    StoreModule.forRoot({ countries: countryReducer }),
+    NzImageModule,
+    NzTypographyModule
 ]
 
 @NgModule({
@@ -77,7 +108,19 @@ const antdModule = [
         BlogGridComponent,
         BlogListComponent,
         BlogPostComponent,
-        UserComponent
+        UserComponent,
+        UserAddComponent,
+        UserResetPwdComponent,
+        EtablishmentComponent,
+        ManagerComponent,
+        ManagerAddComponent,
+        ManagerResetPwdComponent,
+        EtablishmentAddComponent,
+        EtablishmentShowComponent,
+        AddManagerEtablishmentComponent,
+        EmployeeComponent,
+        EmployeeAddComponent,
+        EmployeeResetPwdComponent
     ],
     providers: [
     ]
