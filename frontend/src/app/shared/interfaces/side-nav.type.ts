@@ -5,4 +5,5 @@ export interface SideNavInterface {
     iconTheme: "" | "fab" | "far" | "fas" | "fill" | "outline" | "twotone";
     icon: string,
     submenu : SideNavInterface[];
+    hasPermission?: true | false
 }
