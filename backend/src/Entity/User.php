@@ -22,6 +22,9 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use Doctrine\ORM\Mapping\DiscriminatorColumn;
+use Doctrine\ORM\Mapping\DiscriminatorMap;
+use Doctrine\ORM\Mapping\InheritanceType;
 
 /**
  * Defines the properties of the User entity to represent the application users.
@@ -34,6 +37,9 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  */
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[InheritanceType("SINGLE_TABLE")]
+#[DiscriminatorColumn(name: 'discr', type: 'string')]
+#[DiscriminatorMap(["user" => "User", "manager" => "Manager", "employee" => "Employee"])]
 // #[ORM\Table(name: 'symfony_demo_user')]
 #[ApiResource(
     normalizationContext: ["groups" => ["read:user"]],
@@ -42,6 +48,10 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
         "pagination_client_enabled" => true,
         "pagination_client_items_per_page" => true
     ]
+)]
+#[ApiFilter(
+    SearchFilter::class,
+    properties: ["name" => "ipartial"]
 )]
 #[ApiFilter(
     OrderFilter::class,
@@ -54,56 +64,64 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups("read:user")]
+    #[Groups(["read:user", "read:manager", "read:etablishment", "write:etablishment",
+        "read:employee"])]
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', unique: true)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
-    #[Groups(["read:user", "write:user"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager",
+        "read:employee", "write:employee"])]
     private ?string $username = null;
 
     #[ORM\Column(type: 'string', unique: true)]
     #[Assert\Email]
-    #[Groups(["read:user", "write:user"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager",
+        "read:employee", "write:employee"])]
     private ?string $email = null;
 
     #[ORM\Column(type: 'string')]
-    #[Groups(["write:user"])]
+    #[Groups(["write:user", "write:manager",
+        "write:employee"])]
     private ?string $password = null;
 
     #[ORM\Column(type: 'json')]
-    #[Groups(["read:user", "write:user"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager",
+        "read:employee", "write:employee"])]
     private array $roles = [];
 
-    #[Groups("read:user")]
+    #[Groups(["read:user", "read:manager", "read:employee"])]
     private ?string $token = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["read:user", "write:user"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager",
+        "read:employee", "write:employee"])]
     #[Assert\NotBlank]
     private $phoneNumber1;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(["read:user", "write:user"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager",
+        "read:employee", "write:employee"])]
     private $phoneNumber2;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
-    #[Groups(["read:user", "write:user"])]
-    #[ApiFilter(SearchFilter::class, strategy: 'partial')]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager", "read:etablishment",
+        "read:employee", "write:employee"])]
     private $name;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
-    #[Groups(["read:user", "write:user"])]
-    #[ApiFilter(SearchFilter::class, strategy: 'partial')]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager", "read:etablishment",
+        "read:employee", "write:employee"])]
     private $firstname;
 
     #[ORM\Column(type: 'boolean', nullable: true)]
-    #[Groups(["read:user", "write:user"])]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager",
+        "read:employee", "write:employee"])]
     private $enabled = true;
 
     public function __construct()

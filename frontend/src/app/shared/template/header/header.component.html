@@ -80,7 +80,7 @@
                             <div class="d-flex m-r-50">
                                 <nz-avatar nzSize="large" nzSrc="assets/images/avatars/thumb-3.jpg"></nz-avatar>
                                 <div class="m-l-10">
-                                    <p class="m-b-0 text-dark font-weight-semibold">Marshall Nichols</p>
+                                    <p class="m-b-0 text-dark font-weight-semibold">{{authenticatedUser.name}} {{authenticatedUser.firstname}}</p>
                                     <p class="m-b-0 opacity-07">UI/UX Desinger</p>
                                 </div>
                             </div>
@@ -113,10 +113,10 @@
                             </a>
                         </li>
                         <li nz-menu-item>
-                            <a class="p-v-5 d-flex align-items-center justify-content-between">
+                            <a class="p-v-5 d-flex align-items-center justify-content-between" (click)="logout()">
                                 <div>
                                     <i class="opacity-04 font-size-16" nz-icon nzType="logout" theme="outline"></i>
-                                    <span class="m-l-10">Logout</span>
+                                    <span class="m-l-10">Déconnexion</span>
                                 </div>
                                 <i class="font-size-10" nz-icon nzType="right" theme="outline"></i>
                             </a>

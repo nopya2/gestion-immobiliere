@@ -36,7 +36,13 @@ services:
 
     App\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'
-        arguments: ['@.inner'] 
+        arguments: ['@.inner']
+
+    App\EventListener\ImageEvent:
+        tags:
+            # - { name: 'doctrine.event_listener', event: 'postPersist', priority: 500, connection: 'default'}
+            - { name: 'doctrine.orm.entity_listener', event: 'preRemove', entity: 'App\Entity\Image'}
+            - { name: 'doctrine.orm.entity_listener', event: 'preUdate', entity: 'App\Entity\Image'}
 
 when@test:
     services:

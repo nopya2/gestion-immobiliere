@@ -1,0 +1,108 @@
+<nz-card>
+    <div class="row m-b-30">
+        <div class="col-lg-8">
+            <div class="d-md-flex">
+                <div class="m-b-10 m-r-20">
+                    <nz-input-group [nzPrefix]="prefixTemplate">
+                        <input type="text" nz-input placeholder="Rechercher" [(ngModel)]="searchInput" (ngModelChange)="search()">
+                    </nz-input-group>      
+                    <ng-template #prefixTemplate>
+                        <i nz-icon nzType="search" class="opacity-05"></i>
+                    </ng-template>   
+                </div>
+                <!--
+                <div class="m-b-10 m-r-20 d-flex align-items-center">
+                    <nz-select style="min-width: 220px;" class="w-100" nzPlaceHolder="Category" [(ngModel)]="selectedCategory" (ngModelChange)="categoryChange($event)">
+                        <nz-option nzLabel="All" nzValue="All"></nz-option>
+                        <nz-option nzLabel="Home Decoration" nzValue="Home Decoration"></nz-option>
+                        <nz-option nzLabel="Eletronic" nzValue="Eletronic"></nz-option>
+                        <nz-option nzLabel="Jewellery" nzValue="Jewellery"></nz-option>
+                    </nz-select>
+                </div>
+                <div class="m-b-10 m-r-20 d-flex align-items-center">
+                    <nz-select style="min-width: 220px;" class="w-100" nzPlaceHolder="Status" [(ngModel)]="selectedStatus" (ngModelChange)="statusChange($event)">
+                        <nz-option nzLabel="All" nzValue="All"></nz-option>
+                        <nz-option nzLabel="In Stock" nzValue="in stock"></nz-option>
+                        <nz-option nzLabel="Out Of Stock" nzValue="out of stock"></nz-option>
+                    </nz-select>
+                </div> -->
+            </div>          
+        </div>
+        <div class="col-lg-4 text-right">
+            <a nz-button nzType="primary" (click)="openAdd()">
+                <i nz-icon nzType="plus-circle" theme="outline"></i>
+                <span>Ajouter un responsable</span>
+            </a>
+        </div>
+    </div>
+
+    <div>
+        <nz-badge [nzCount]="total" [nzStyle]="{ backgroundColor: '#5796F6' }"></nz-badge> Elément(s)
+    </div>
+    <nz-table
+      nzShowSizeChanger
+      [nzData]="managers"
+      [nzFrontPagination]="false"
+      [nzLoading]="loading"
+      [nzTotal]="total"
+      [nzPageSize]="params.itemsPerPage"
+      [nzPageIndex]="params.page"
+      (nzQueryParams)="onQueryParamsChange($event)"
+      [nzScroll]="{ x: '1200px' }"
+    >
+        <thead>
+            <tr>
+                <th nzColumnKey="name" [nzSortFn]="true">Nom(s)</th>
+                <th nzColumnKey="firstname" [nzSortFn]="true">Prénom(s)</th>
+                <th nzColumnKey="email">E-mail</th>
+                <th nzColumnKey="roles">Roles</th>
+                <th nzColumnKey="enabled" [nzFilters]="filterEnabled" [nzFilterFn]="true">Statut</th>
+                <th nzColumnKey="phones">Téléphones</th>
+                <!-- <th nzColumnKey="gender" [nzFilters]="filterGender" [nzFilterFn]="true">Gender</th> -->
+                <th nzRight>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of managers">
+                <td>{{ data.name }}</td>
+                <td>{{ data.firstname }}</td>
+                <td>{{ data.email }}</td>
+                <td>
+                    <div class="m-b-2" *ngFor="let item of data.roles">
+                        <p class="m-b-0 d-inline-block"><i nz-icon nzType="minus" nzTheme="outline"></i> {{rolesEnum[item]}}</p>
+                    </div>
+                </td>
+                <td>
+                    <nz-badge 
+                        [nzStatus]="data.enabled == true ? 'processing': 'default'" 
+                        [nzText]="data.enabled == true ? 'Activé': 'Désactivé'"></nz-badge>
+                </td>
+                <td>{{ data.phoneNumber1 }}{{ data.phoneNumber2 != null ? '/'+data.phoneNumber2 : ''}}</td>
+                <td nzRight>
+                    <nz-button-group>
+                        <button 
+                            nz-button 
+                            nzType="primary"
+                            nz-popover 
+                            nzPopoverContent="Modifier"
+                            (click)="openEdit(data)"><i nz-icon nzType="edit" nzTheme="outline"></i></button>
+                        <button 
+                            nz-button 
+                            nzType="primary" 
+                            nzDanger
+                            nz-popover 
+                            nzPopoverContent="Supprimer"
+                            (click)="deleteItem(data)"><i nz-icon nzType="delete" nzTheme="outline"></i></button>
+                        <button 
+                            nz-button 
+                            nzType="default"
+                            nz-popover 
+                            nzPopoverContent="Réinitialiser le mot de passe"
+                            (click)="resetPassword(data)"><i nz-icon nzType="redo" nzTheme="outline"></i></button>
+                    </nz-button-group>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+    
+</nz-card>

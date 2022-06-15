@@ -21,6 +21,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 
 use App\Repository\UserRepository;
+use App\Repository\ManagerRepository;
+use App\Config\RoleEnum;
 
 /**
  * Controller used to manage the application security.
@@ -38,18 +40,34 @@ class SecurityController extends AbstractController
         Request $request, 
         AuthenticationUtils $helper,
         UserRepository $userRepository,
+        ManagerRepository $managerRepository,
         UserPasswordHasherInterface $userPasswordEncoder,
         JWTTokenManagerInterface $JWTManager): Response
     {
         $data = json_decode($request->getContent(), true);
         //On verifie si l'utilisateur avec cette e-mail existe
         $user = $userRepository->findOneBy(['email' => $data['email']]);
+
         if(empty($user))
             return $this->json(['error' => "Cet utilisateur n'existe pas!"], 400);
         //Ensuite on verifie si les mots de passe correspondent
         $match = $userPasswordEncoder->isPasswordValid($user, $data['password']);
         if(!$match)
             return $this->json(['error' => "Mot de passe invalide!"], 400);
+        //On verifi si le comte est active
+        if($user->getEnabled() === false)
+            return $this->json(['error' => "Compte désactivé!"], 400);
+
+        //On verifie si l'utilisateur est un manager
+        //et on renvoie l'objet manage
+        if(in_array(RoleEnum::ROLE_RES_ETA->name, $user->getRoles()) === true){
+            $manager = $managerRepository->find($user->getId());
+
+            $token = $JWTManager->create($manager);
+            $manager->setToken($token);
+
+            return $this->json($manager, 200);
+        }
 
         $token = $JWTManager->create($user);
         $user->setToken($token);
@@ -67,5 +85,14 @@ class SecurityController extends AbstractController
     public function logout(): void
     {
         throw new \Exception('This should never be reached!');
+    }
+
+    /**
+     * Page de verification sz l'existence du Token
+     */
+    #[Route('/api/verify', name: 'security_verify')]
+    public function verify()
+    {
+        return $this->json(['message' => 'Authenticated']);
     }
 }

@@ -10,6 +10,10 @@ import { BlogGridComponent } from './blog/blog-grid/blog-grid.component';
 import { BlogListComponent } from './blog/blog-list/blog-list.component';
 import { BlogPostComponent } from './blog/blog-post/blog-post.component';
 import { UserComponent } from './user/user.component';
+import { ManagerComponent } from './manager/manager.component';
+import { EmployeeComponent } from './employee/employee.component';
+import { EtablishmentComponent } from './etablishment/etablishment.component';
+import { EtablishmentShowComponent } from './etablishment/etablishment-show/etablishment-show.component';
 
 const routes: Routes = [
     {
@@ -17,6 +21,42 @@ const routes: Routes = [
         component: UserComponent,
         data: {
             title: 'Gestion des utilisateurs'
+        }
+    },
+    {
+        path: 'etablishments',
+        data: {
+            title: "Gestion des établissements"
+        },
+        children: [
+            {
+                path: '',
+                component: EtablishmentComponent,
+                data: {
+                    title: 'Liste'
+                }
+            },
+            {
+                path: 'show/:id',
+                component: EtablishmentShowComponent,
+                data: {
+                    title: 'Détails'
+                }
+            }
+        ]
+    },
+    {
+        path: 'managers',
+        component: ManagerComponent,
+        data: {
+            title: 'Gestion des responsables d\'établissement'
+        }
+    },
+    {
+        path: 'employees',
+        component: EmployeeComponent,
+        data: {
+            title: 'Gestion des employés'
         }
     },
     {
