@@ -1,4 +1,5 @@
 import { SideNavInterface } from '../../interfaces/side-nav.type';
+import { RoleEnum } from '@app/shared/enumerations/role.enum';
 
 export const ROUTES: SideNavInterface[] = [
     {
@@ -7,7 +8,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         icon: 'dashboard',
-        hasPermission: false,
+        roles: Object.keys(RoleEnum),
         submenu: [
             {
                 path: '/dashboard/default',
@@ -15,6 +16,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             },
             {
@@ -23,6 +25,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             },
             {
@@ -31,6 +34,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             },
             {
@@ -39,6 +43,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             },
         ]
@@ -49,6 +54,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         icon: 'setting',
+        roles: Object.keys(RoleEnum),
         submenu: [
             {
                 path: '/pages/etablishments',
@@ -56,6 +62,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: ['ROLE_DECIMA'],
                 submenu: []
             },
             {
@@ -64,6 +71,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             },
             {
@@ -72,6 +80,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             },
             {
@@ -80,6 +89,34 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
+                submenu: []
+            },
+            {
+                path: '/pages/roles',
+                title: 'Rôles',
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                roles: [],
+                submenu: []
+            },
+            {
+                path: '/pages/modules',
+                title: 'Modules',
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                roles: [],
+                submenu: []
+            },
+            {
+                path: '/pages/permissions',
+                title: 'Permissions',
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                roles: [],
                 submenu: []
             },
             // {
@@ -114,6 +151,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         icon: 'appstore',
+        roles: [],
         submenu: [
             {
                 path: '/apps/chat',
@@ -121,6 +159,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             },
             {
@@ -129,6 +168,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             },
             {
@@ -137,6 +177,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             },
             {
@@ -145,6 +186,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: [
                     {
                         path: '/apps/projects/project-list',
@@ -152,6 +194,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -160,6 +203,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                 ]
@@ -170,6 +214,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: [
                     {
                         path: '/apps/e-commerce/orders-list',
@@ -177,6 +222,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -185,6 +231,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -193,6 +240,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     }
                 ]
@@ -205,6 +253,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         icon: 'layout',
+        roles: [],
         submenu: [
             {
                 path: '',
@@ -212,6 +261,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: [
                     {
                         path: '/demo/components/grid/en',
@@ -219,6 +269,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -227,6 +278,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -235,6 +287,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -243,6 +296,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     }
                 ]
@@ -253,6 +307,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: [
                     {
                         path: '/demo/components/affix/en',
@@ -260,6 +315,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -268,6 +324,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -276,6 +333,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -284,6 +342,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -292,6 +351,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -300,6 +360,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -308,6 +369,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     }
                 ]
@@ -318,6 +380,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: [
                     {
                         path: '/demo/components/auto-complete/en/',
@@ -325,6 +388,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -333,6 +397,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -341,6 +406,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -349,6 +415,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -357,6 +424,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -365,6 +433,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -373,6 +442,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -381,6 +451,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -389,6 +460,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -397,6 +469,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -405,6 +478,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -413,6 +487,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -421,6 +496,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -429,6 +505,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -437,6 +514,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -445,6 +523,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -453,6 +532,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                 ]
@@ -463,6 +543,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: [
                     {
                         path: '/demo/components/avatar/en',
@@ -470,6 +551,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -478,6 +560,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -486,6 +569,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -494,6 +578,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -502,6 +587,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -510,6 +596,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -518,6 +605,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -526,6 +614,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -534,6 +623,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -542,6 +632,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -550,6 +641,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -558,6 +650,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -566,6 +659,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -574,6 +668,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -582,6 +677,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -590,6 +686,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -598,6 +695,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -606,6 +704,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                 ]
@@ -616,6 +715,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: [
                     {
                         path: '/demo/components/alert/en',
@@ -623,6 +723,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -631,6 +732,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -639,6 +741,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -647,6 +750,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -655,6 +759,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -663,6 +768,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -671,6 +777,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -679,6 +786,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -687,6 +795,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                 ]
@@ -697,6 +806,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: [
                     {
                         path: '/demo/components/anchor/en',
@@ -704,6 +814,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -712,6 +823,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -720,6 +832,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     }
                 ]
@@ -732,6 +845,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         icon: 'pie-chart',
+        roles: [],
         submenu: [
         ]
     },
@@ -741,6 +855,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         icon: 'file',
+        roles: [],
         submenu: [
             {
                 path: '/pages/profile',
@@ -748,6 +863,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             },
             {
@@ -756,6 +872,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             },
             {
@@ -764,6 +881,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             },
             {
@@ -772,6 +890,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             },
             {
@@ -780,6 +899,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             },
             {
@@ -788,6 +908,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: [
                     {
                         path: '/pages/blog/blog-grid',
@@ -795,6 +916,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -803,6 +925,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     },
                     {
@@ -811,6 +934,7 @@ export const ROUTES: SideNavInterface[] = [
                         iconType: '',
                         icon: '',
                         iconTheme: '',
+                        roles: [],
                         submenu: []
                     }
                 ]
@@ -823,6 +947,7 @@ export const ROUTES: SideNavInterface[] = [
         iconType: 'nzIcon',
         iconTheme: 'outline',
         icon: 'lock',
+        roles: Object.keys(RoleEnum),
         submenu: [
             {
                 path: '/authentication/login-1',
@@ -830,6 +955,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             },
             {
@@ -838,6 +964,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             },
             {
@@ -846,6 +973,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             },
             {
@@ -854,6 +982,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             },
             {
@@ -862,6 +991,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             },
             {
@@ -870,6 +1000,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             },
             {
@@ -878,6 +1009,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             },
             {
@@ -886,6 +1018,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: '',
                 icon: '',
                 iconTheme: '',
+                roles: [],
                 submenu: []
             }
         ]

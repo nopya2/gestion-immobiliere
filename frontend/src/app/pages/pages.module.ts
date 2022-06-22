@@ -58,6 +58,12 @@ import { AddManagerEtablishmentComponent } from './etablishment/add-manager-etab
 import { EmployeeComponent } from './employee/employee.component';
 import { EmployeeAddComponent } from './employee/employee-add/employee-add.component';
 import { EmployeeResetPwdComponent } from './employee/employee-reset-pwd/employee-reset-pwd.component';
+import { PermissionComponent } from './permission/permission.component';
+import { PermissionModalComponent } from './permission/permission-modal/permission-modal.component';
+import { ModuleComponent } from './module/module.component';
+import { ModuleModalComponent } from './module/module-modal/module-modal.component';
+import { RoleComponent } from './role/role.component';
+import { RoleModalComponent } from './role/role-modal/role-modal.component';
 
 const antdModule = [
     NzCardModule,
@@ -120,7 +126,13 @@ const antdModule = [
         AddManagerEtablishmentComponent,
         EmployeeComponent,
         EmployeeAddComponent,
-        EmployeeResetPwdComponent
+        EmployeeResetPwdComponent,
+        PermissionComponent,
+        PermissionModalComponent,
+        ModuleComponent,
+        ModuleModalComponent,
+        RoleComponent,
+        RoleModalComponent
     ],
     providers: [
     ]

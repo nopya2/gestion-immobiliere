@@ -18,6 +18,9 @@ import { ManagerComponent } from './manager/manager.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { EtablishmentComponent } from './etablishment/etablishment.component';
 import { EtablishmentShowComponent } from './etablishment/etablishment-show/etablishment-show.component';
+import { PermissionComponent } from './permission/permission.component';
+import { ModuleComponent } from './module/module.component';
+import { RoleComponent } from './role/role.component';
 
 const routes: Routes = [
     {
@@ -26,7 +29,30 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
             title: 'Gestion des utilisateurs',
-            roles: [RoleEnum.ROLE_ADMIN, RoleEnum.ROLE_DG, RoleEnum.ROLE_DAF]
+        }
+    },
+    {
+        path: 'roles',
+        component: RoleComponent,
+        canActivate: [AuthGuard],
+        data: {
+            title: 'Gestion des rôles'
+        }
+    },
+    {
+        path: 'modules',
+        component: ModuleComponent,
+        canActivate: [AuthGuard],
+        data: {
+            title: 'Gestion des modules'
+        }
+    },
+    {
+        path: 'permissions',
+        component: PermissionComponent,
+        canActivate: [AuthGuard],
+        data: {
+            title: 'Gestion des permissions'
         }
     },
     {

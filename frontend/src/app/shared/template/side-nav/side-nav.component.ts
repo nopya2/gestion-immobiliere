@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ROUTES } from './side-nav-routes.config';
 import { ThemeConstantService } from '../../services/theme-constant.service';
+import { AuthenticationService } from '@app/shared/services/authentication.service';
 
 @Component({
     selector: 'app-sidenav',
@@ -14,7 +15,7 @@ export class SideNavComponent{
     isSideNavDark : boolean;
     isExpand : boolean;
 
-    constructor( private themeService: ThemeConstantService) {}
+    constructor( private themeService: ThemeConstantService, private auth: AuthenticationService) {}
 
     ngOnInit(): void {
         this.menuItems = ROUTES.filter(menuItem => menuItem);
