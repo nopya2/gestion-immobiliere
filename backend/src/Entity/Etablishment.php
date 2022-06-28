@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\EtablishmentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -97,11 +99,18 @@ class Etablishment
     #[ORM\JoinColumn(nullable: true, onDelete: "set null")]
     #[Groups(["read:etablishment", "write:etablishment"])]
     private $manager;
+
+    #[ORM\OneToMany(mappedBy: 'etablishment', targetEntity: AcademicYear::class, orphanRemoval: true)]
+    private $academicYears;
+
+    #[ORM\OneToOne(mappedBy: 'etablishment', targetEntity: Information::class, cascade: ['persist', 'remove'])]
+    private $information;
     
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
+        $this->academicYears = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -259,6 +268,58 @@ class Etablishment
     public function setManager(?Manager $manager): self
     {
         $this->manager = $manager;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AcademicYear>
+     */
+    public function getAcademicYears(): Collection
+    {
+        return $this->academicYears;
+    }
+
+    public function addAcademicYear(AcademicYear $academicYear): self
+    {
+        if (!$this->academicYears->contains($academicYear)) {
+            $this->academicYears[] = $academicYear;
+            $academicYear->setEtablishment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAcademicYear(AcademicYear $academicYear): self
+    {
+        if ($this->academicYears->removeElement($academicYear)) {
+            // set the owning side to null (unless already changed)
+            if ($academicYear->getEtablishment() === $this) {
+                $academicYear->setEtablishment(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getInformation(): ?Information
+    {
+        return $this->information;
+    }
+
+    public function setInformation(?Information $information): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($information === null && $this->information !== null) {
+            $this->information->setEtablishment(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($information !== null && $information->getEtablishment() !== $this) {
+            $information->setEtablishment($this);
+        }
+
+        $this->information = $information;
 
         return $this;
     }
