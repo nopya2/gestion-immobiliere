@@ -26,19 +26,19 @@ class Information
     private $id;
 
     #[ORM\OneToOne(inversedBy: 'information', targetEntity: Etablishment::class, cascade: ['persist', 'remove'])]
-    #[Groups(["read:information", "write:information"])]
+    #[Groups(["read:information", "write:information", "write:etablishment"])]
     private $etablishment;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(["read:information", "write:information"])]
+    #[Groups(["read:information", "write:information", "read:etablishment", "write:etablishment"])]
     private $academicYear;
 
     #[ORM\Column(type: 'date', nullable: true)]
-    #[Groups(["read:information", "write:information"])]
+    #[Groups(["read:information", "write:information", "read:etablishment", "write:etablishment"])]
     private $startYear;
 
     #[ORM\Column(type: 'date', nullable: true)]
-    #[Groups(["read:information", "write:information"])]
+    #[Groups(["read:information", "write:information", "read:etablishment", "write:etablishment"])]
     private $endYear;
 
     public function getId(): ?int

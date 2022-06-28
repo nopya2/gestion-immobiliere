@@ -104,6 +104,7 @@ class Etablishment
     private $academicYears;
 
     #[ORM\OneToOne(mappedBy: 'etablishment', targetEntity: Information::class, cascade: ['persist', 'remove'])]
+    #[Groups(["read:etablishment", "write:etablishment"])]
     private $information;
     
     public function __construct()
