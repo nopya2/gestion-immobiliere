@@ -127,6 +127,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->enabled = true;
+        $this->roles = ['ROLE_USER'];
     }
 
     public function getId(): ?int
