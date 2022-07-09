@@ -31,7 +31,7 @@
         <div class="col-lg-4 text-right">
             <a nz-button nzType="primary" (click)="openAdd()">
                 <i nz-icon nzType="plus-circle" theme="outline"></i>
-                <span>Ajouter un responsable</span>
+                <span>Ajouter un module</span>
             </a>
         </div>
     </div>
@@ -41,68 +41,53 @@
     </div>
     <nz-table
       nzShowSizeChanger
-      [nzData]="managers"
+      [nzData]="modules"
       [nzFrontPagination]="false"
       [nzLoading]="loading"
       [nzTotal]="total"
       [nzPageSize]="params.itemsPerPage"
       [nzPageIndex]="params.page"
       (nzQueryParams)="onQueryParamsChange($event)"
-      [nzScroll]="{ x: '1200px' }"
     >
         <thead>
             <tr>
-                <th nzColumnKey="name" [nzSortFn]="true">Nom(s)</th>
-                <th nzColumnKey="firstname" [nzSortFn]="true">Prénom(s)</th>
-                <th nzColumnKey="email">E-mail</th>
-                <th nzColumnKey="roles">Roles</th>
-                <th nzColumnKey="enabled" [nzFilters]="filterEnabled" [nzFilterFn]="true">Statut</th>
-                <th nzColumnKey="phones">Téléphones</th>
-                <!-- <th nzColumnKey="gender" [nzFilters]="filterGender" [nzFilterFn]="true">Gender</th> -->
+                <th nzColumnKey="name" [nzSortFn]="true">Nom</th>
+                <th nzColumnKey="slug" [nzSortFn]="false">Slug</th>
+                <th nzColumnKey="slug">Permissions</th>
+                <th nzColumnKey="slug">Description</th>
                 <th nzRight>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let data of managers">
+            <tr *ngFor="let data of modules">
                 <td>{{ data.name }}</td>
-                <td>{{ data.firstname }}</td>
-                <td>{{ data.email }}</td>
+                <td>{{ data.slug }}</td>
                 <td>
-                    <div class="m-b-2" *ngFor="let item of data.roles">
-                        <p class="m-b-0 d-inline-block"><i nz-icon nzType="minus" nzTheme="outline"></i> {{rolesEnum[item]}}</p>
-                    </div>
+                    <nz-tag class="m-r-1 m-b-1" [nzColor]="'gold'" *ngFor="let item of data.permissions">
+                        <span class="font-weight-semibold m-l-5">{{item.name}}</span>
+                    </nz-tag>
                 </td>
-                <td>
-                    <nz-badge 
-                        [nzStatus]="data.enabled == true ? 'processing': 'default'" 
-                        [nzText]="data.enabled == true ? 'Activé': 'Désactivé'"></nz-badge>
-                </td>
-                <td>{{ data.phoneNumber1 }}{{ data.phoneNumber2 != null ? '/'+data.phoneNumber2 : ''}}</td>
-                <td nzRight>
-                    <button 
+                <td>{{ data.description }}</td>
+                <td nzRight class="text-md-right">
+                    <a 
                         class="m-r-5"
-                        nz-button 
+                        nz-button nzType="default" 
+                        nzShape="circle" 
+                        nz-tooltip 
+                        nzTooltipTitle="Modifier" 
+                        (click)="openEdit(data)"
+                        nSize="small">
+                        <i nz-icon nzType="edit" theme="outline"></i>
+                    </a>
+                    <button nz-button 
                         nzType="default" 
                         nzShape="circle" 
                         nz-tooltip 
-                        nzTooltipTitle="Modifier"
-                        (click)="openEdit(data)"><i nz-icon nzType="edit" nzTheme="outline"></i></button>
-                    <button 
-                        class="m-r-5"
-                        nz-button 
-                        nzType="default" 
-                        nzShape="circle" 
-                        nz-tooltip  
                         nzTooltipTitle="Supprimer"
-                        (click)="deleteItem(data)"><i nz-icon nzType="delete" nzTheme="outline"></i></button>
-                    <button 
-                        class="m-r-5"
-                        nz-button 
-                        nzType="default" 
-                        nzShape="circle" 
-                        nz-tooltip  
-                        nzTooltipTitle="Réinitialiser le mot de passe"
-                        (click)="resetPassword(data)"><i nz-icon nzType="redo" nzTheme="outline"></i></button>
+                        (click)="deleteItem(data)"
+                        nSize="small">
+                        <i nz-icon nzType="delete" theme="outline"></i>
+                    </button>
                 </td>
             </tr>
         </tbody>

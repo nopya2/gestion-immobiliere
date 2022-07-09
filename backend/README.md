@@ -17,6 +17,7 @@ $ git clone https://github.com/nopya2/groupe-education.git
 $ cd groupe-education/
 $ cd backend/
 $ composer install
+$ php bin/console doctrine:migrations:migrate
 ```
 
 [Download Symfony][4] to install the `symfony` binary on your computer

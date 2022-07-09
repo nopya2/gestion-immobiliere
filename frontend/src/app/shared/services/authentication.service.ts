@@ -55,4 +55,14 @@ export class AuthenticationService {
                 this.logout();
             });
     }
+
+    public hasPermission(roles: string[]): boolean{
+        return true;
+        for(let i=0; i < roles.length; i++){
+            let found = this.currentUserValue.roles.find(el => el === roles[i]);
+            if(found !== undefined)
+                return true;
+        }
+        return false;
+    }
 }

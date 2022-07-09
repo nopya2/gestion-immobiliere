@@ -2,6 +2,14 @@ import { Image } from "./image.type";
 import { EtablishmentTypeEnum } from '../enumerations/etablishment-type.enum';
 import { Manager } from "./manager.type";
 
+export interface Information {
+    "@id"?: string;
+    id?: number;
+    academicYear: string;
+    startYear: Date;
+    endYear: Date;
+}
+
 export interface Etablishment {
     "@id"?: string;
     id?: string;
@@ -17,5 +25,6 @@ export interface Etablishment {
     phones: string[];
     etablishmentType: EtablishmentTypeEnum;
     postalBox?: string;
-    manager?: Manager
+    manager?: Manager;
+    information?: Information
 }

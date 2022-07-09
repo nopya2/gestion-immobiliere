@@ -1,0 +1,71 @@
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" nzLayout="vertical">
+    <div nz-row [nzGutter]="16">
+        <div nz-col class="gutter-row" nzSpan="24">
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="name">Nom</nz-form-label>
+                <nz-form-control nzHasFeedback [nzErrorTip]="errorName">
+                    <input nz-input formControlName="name" id="name" nzSize="small" autocomplete="off"/>
+                    <ng-template #errorName let-control>
+                        <ng-container *ngIf="control.hasError('minlength')">
+                            Le champs doit contenir au moins 3 caractères!
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                            Le champs doit contenir au plus 50 caractères!
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Le champs est requis!
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div nz-col class="gutter-row" nzSpan="24">
+            <nz-form-item>
+                <nz-form-label nzFor="description">Description</nz-form-label>
+                <nz-form-control nzHasFeedback>
+                    <textarea nz-input formControlName="description" id="description" nzSize="small" autocomplete="off"></textarea>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+</form>
+<nz-divider nzText="Modules" nzOrientation="left"></nz-divider>
+<nz-table
+      nzShowSizeChanger
+      [nzData]="modules"
+      [nzFrontPagination]="false"
+      [nzLoading]="modulesLoading"
+      [nzTotal]="modules.length"
+      [nzShowPagination]="false"
+    >
+        <!-- <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Description</th>
+                <th nzRight>Actions</th>
+            </tr>
+        </thead> -->
+        <tbody>
+            <tr *ngFor="let data of modules">
+                <th>{{data.name}}</th>
+                <td>
+                    <nz-checkbox-wrapper style="width: 100%;" (nzOnChange)="checkPermission($event, data)">
+                        <div nz-row>
+                            <div nz-col nzSpan="8" *ngFor="let item of data.permissions">
+                                <label nz-checkbox [nzValue]="item" [ngModel]="isChecked(item, data)">{{item.name}}</label>
+                            </div>
+                        </div>
+                    </nz-checkbox-wrapper>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+
+<div *nzModalFooter>
+    <button nz-button nzType="default" (click)="closeModal()">Annuler</button>
+    <button 
+        nz-button nzType="primary" 
+        (click)="submitForm()" 
+        [nzLoading]="isLoading" 
+        [disabled]="!validateForm.valid || role.privileges.length <=0 ">Enregistrer</button>
+</div>

@@ -81,7 +81,12 @@ export class EtablishmentAddComponent implements OnInit {
         phones: [],
         website: '',
         etablishmentType: null,
-        postalBox: null
+        postalBox: null,
+        information: {
+          academicYear: null,
+          startYear: null,
+          endYear: null
+        }
       }
 
       this.validateForm = this.fb.group({
