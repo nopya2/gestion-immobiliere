@@ -39,3 +39,13 @@ Then access the application in your browser at the given URL (<https://localhost
 If you don't have the Symfony binary installed, run `php -S localhost:8000 -t public/`
 to use the built-in PHP web server or [configure a web server][3] like Nginx or
 Apache to run the application.
+
+# Génération des clés privé et public
+
+créer le répertoire `config/jwt`
+ensuite exécutez les commandes suivantes:
+
+```bash
+$ openssl genrsa -out config/jwt/private.pem -aes256 4096
+$ openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem
+```

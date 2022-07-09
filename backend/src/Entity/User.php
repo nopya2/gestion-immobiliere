@@ -37,7 +37,7 @@ use Doctrine\ORM\Mapping\InheritanceType;
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  */
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[InheritanceType("SINGLE_TABLE")]
+#[InheritanceType("JOINED")]
 #[DiscriminatorColumn(name: 'discr', type: 'string')]
 #[DiscriminatorMap(["user" => "User", "manager" => "Manager", "employee" => "Employee"])]
 // #[ORM\Table(name: 'symfony_demo_user')]
