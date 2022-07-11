@@ -3,12 +3,12 @@
 namespace App\DataPersister;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
-use App\Entity\User;
+use App\Entity\Employee;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-final class UserDataPersister implements ContextAwareDataPersisterInterface
+final class EmployeeDataPersister implements ContextAwareDataPersisterInterface
 {
     private $em;
     private $userPasswordEncoder;
@@ -26,11 +26,11 @@ final class UserDataPersister implements ContextAwareDataPersisterInterface
 
     public function supports($data, array $context = []): bool
     {
-        return $data instanceof User;
+        return $data instanceof Employee;
     }
 
     /**
-     * @param User $data
+     * @param Employee $data
      */
     public function persist($data, array $context = [])
     {

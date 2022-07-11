@@ -86,7 +86,7 @@ export class EmployeeComponent implements OnInit {
   openAdd(){
     this.action = 'create';
     const a: any = this.modalService.create({
-      nzTitle: 'Ajouter un responsable',
+      nzTitle: 'Ajouter un employé',
       nzContent: EmployeeAddComponent,
       nzComponentParams: {
         action: this.action

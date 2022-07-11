@@ -51,7 +51,7 @@ use Doctrine\ORM\Mapping\InheritanceType;
 )]
 #[ApiFilter(
     SearchFilter::class,
-    properties: ["name" => "ipartial"]
+    properties: ["name" => "ipartial", "role" => "exact"]
 )]
 #[ApiFilter(
     OrderFilter::class,
@@ -64,7 +64,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["read:user", "read:manager", "read:etablishment", "write:etablishment",
+    #[Groups([
+        "read:user", 
+        "read:manager", 
+        "read:etablishment", "write:etablishment",
         "read:employee"])]
     private ?int $id = null;
 
@@ -72,13 +75,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
     #[Groups(["read:user", "write:user", "read:manager", "write:manager",
-        "read:employee", "write:employee"])]
+        "read:employee", "write:employee",
+        "read:etablishment"])]
     private ?string $username = null;
 
     #[ORM\Column(type: 'string', unique: true)]
     #[Assert\Email]
     #[Groups(["read:user", "write:user", "read:manager", "write:manager",
-        "read:employee", "write:employee"])]
+        "read:employee", "write:employee",
+        "read:etablishment"])]
     private ?string $email = null;
 
     #[ORM\Column(type: 'string')]
@@ -127,7 +132,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(targetEntity: Role::class, cascade: ['persist'])]
     #[Assert\NotBlank]
     #[ORM\JoinColumn(nullable: true, onDelete: "set null")]
-    #[Groups(["read:user", "write:user", "read:manager", "write:manager",
+    #[Groups([
+        "read:user", "write:user", 
+        "read:manager", "write:manager",
         "read:employee", "write:employee"])]
     private $role;
 

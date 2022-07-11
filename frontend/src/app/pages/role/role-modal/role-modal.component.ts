@@ -129,17 +129,17 @@ export class RoleModalComponent implements OnInit {
 
   checkPermission(event: any[], module: Module){
     //On verifie d'abord si ce module existe deja dans ses privileges
-    let priviliges = this.role.privileges
+    let privileges = this.role.privileges
       .filter(p => p.module.id !== module.id);
 
     event.forEach(el => {
-      priviliges.push({
+      privileges.push({
         module: module,
         permission: el
       })
     });
 
-    this.role.privileges = [...priviliges]
+    this.role.privileges = [...privileges]
     console.log(this.role.privileges);
   }
 

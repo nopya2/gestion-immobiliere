@@ -34,7 +34,7 @@ export class AddManagerEtablishmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
-      manager: [this.etablishment.manager ?  this.etablishment.manager.id : null, [Validators.required]]
+      manager: [this.etablishment.manager ?  this.etablishment.manager.employee['@id'] : null, [Validators.required]]
     });
 
     this.getManagers();
@@ -60,23 +60,19 @@ export class AddManagerEtablishmentComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
 
-    //On recupere le manager parmi la liste
-    let index = this.managers.findIndex(x => x.id === this.validateForm.value.manager);
-    if(index !== -1){
-      this.etablishment.manager = this.managers[index];
+    this.etablishment.manager = this.validateForm.value.manager;
 
-      this.isLoading = true;
-      this.etablishmentService.update(this.etablishment)
-        .subscribe((res) => {
-          this.isLoading = false;
-          this.notification.success("Succès", "Responsable ajouté!");
-          this.modal.close(res);
-        }, error => {
-          this.isLoading = false;
-          console.log(error);
-          this.notification.error("Echec", "Impossible d'ajouter ce responsable!");
-        });
-    }
+    this.isLoading = true;
+    this.etablishmentService.patch(this.etablishment)
+      .subscribe((res) => {
+        this.isLoading = false;
+        this.notification.success("Succès", "Responsable ajouté!");
+        this.modal.close(res);
+      }, error => {
+        this.isLoading = false;
+        console.log(error);
+        this.notification.error("Echec", "Impossible d'ajouter ce responsable!");
+      });
   }
 
 }

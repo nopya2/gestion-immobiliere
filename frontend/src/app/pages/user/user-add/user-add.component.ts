@@ -6,7 +6,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { User } from '../../../shared/interfaces/user.type';
 import { UserService } from '../../../shared/services/user.service';
 import { RoleEnum } from '../../../shared/enumerations/role.enum';
-import { RoleService } from '@app/shared/services/role.service'
+import { RoleService } from '@app/shared/services/role.service';
 //others
 import { Helper } from '../../../shared/helper';
 import { Role } from '@app/shared/interfaces/global.type';
@@ -59,7 +59,7 @@ export class UserAddComponent implements OnInit {
         phoneNumber1: '',
         phoneNumber2: '',
         role: null,
-        password: ''
+        password: null
       }
 
       this.validateForm = this.fb.group({

@@ -14,8 +14,8 @@
                         nzPlaceHolder="Veuillez sélectionner"
                         nzShowSearch nzAllowClear >
                         <nz-option *ngFor="let item of managers"
-                            [nzLabel]="item.name+' '+item.firstname" 
-                            [nzValue]="item.id">
+                            [nzLabel]="item.employee.name+' '+item.employee.firstname" 
+                            [nzValue]="item['@id']">
                         </nz-option>
                     </nz-select>
                     <ng-template #errorTpl let-control>

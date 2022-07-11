@@ -12,30 +12,39 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ["groups" => ["read:manager"]],
     denormalizationContext: ["groups" => ["write:manager"]]
 )]
-class Manager extends User
+class Manager
 {
-    #[ORM\OneToOne(mappedBy: 'manager', targetEntity: Etablishment::class, cascade: ['persist', 'remove'])]
-    #[Groups(["read:user", "read:manager"])]
-    private $etablishment;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    #[Groups([
+        "read:user", 
+        "read:manager", 
+        "read:etablishment", "write:etablishment",
+        "read:employee"])]
+    private ?int $id = null;
 
-    public function getEtablishment(): ?Etablishment
+    #[ORM\OneToOne(targetEntity: Employee::class, cascade: ['persist'])]
+    #[Groups([
+        "read:user", 
+        "read:manager", "write:manager",
+        "read:etablishment"
+    ])]
+    private $employee;
+
+    public function getId(): ?int
     {
-        return $this->etablishment;
+        return $this->id;
     }
 
-    public function setEtablishment(?Etablishment $etablishment): self
+    public function getEmployee(): ?Employee
     {
-        // unset the owning side of the relation if necessary
-        if ($etablishment === null && $this->etablishment !== null) {
-            $this->etablishment->setManager(null);
-        }
+        return $this->employee;
+    }
 
-        // set the owning side of the relation if necessary
-        if ($etablishment !== null && $etablishment->getManager() !== $this) {
-            $etablishment->setManager($this);
-        }
-
-        $this->etablishment = $etablishment;
+    public function setEmployee(?Employee $employee): self
+    {
+        $this->employee = $employee;
 
         return $this;
     }

@@ -95,17 +95,16 @@ class Etablishment
     #[Groups(["read:etablishment", "write:etablishment"])]
     private $postalBox;
 
-    #[ORM\OneToOne(inversedBy: 'etablishment', targetEntity: Manager::class, cascade: ['persist'])]
-    #[ORM\JoinColumn(nullable: true, onDelete: "set null")]
-    #[Groups(["read:etablishment", "write:etablishment"])]
-    private $manager;
-
     #[ORM\OneToMany(mappedBy: 'etablishment', targetEntity: AcademicYear::class, orphanRemoval: true)]
     private $academicYears;
 
     #[ORM\OneToOne(mappedBy: 'etablishment', targetEntity: Information::class, cascade: ['persist', 'remove'])]
     #[Groups(["read:etablishment", "write:etablishment"])]
     private $information;
+
+    #[ORM\OneToOne(targetEntity: Manager::class, cascade: ['persist', 'remove'])]
+    #[Groups(["read:etablishment", "write:etablishment"])]
+    private $manager;
     
     public function __construct()
     {
@@ -261,18 +260,6 @@ class Etablishment
         return $this;
     }
 
-    public function getManager(): ?Manager
-    {
-        return $this->manager;
-    }
-
-    public function setManager(?Manager $manager): self
-    {
-        $this->manager = $manager;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, AcademicYear>
      */
@@ -321,6 +308,18 @@ class Etablishment
         }
 
         $this->information = $information;
+
+        return $this;
+    }
+
+    public function getManager(): ?Manager
+    {
+        return $this->manager;
+    }
+
+    public function setManager(?Manager $manager): self
+    {
+        $this->manager = $manager;
 
         return $this;
     }

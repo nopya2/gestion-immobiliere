@@ -11,7 +11,6 @@ import { ManagerService } from "../../shared/services/manager.service";
 import { Helper } from '../../shared/helper';
 //components
 import { ManagerAddComponent } from './manager-add/manager-add.component';
-import { ManagerResetPwdComponent } from './manager-reset-pwd/manager-reset-pwd.component';
 //enums
 import { RoleEnum } from '../../shared/enumerations/role.enum';
 
@@ -156,23 +155,6 @@ export class ManagerComponent implements OnInit {
               reject();
             })
         }).catch(() => console.log('Oops errors!'))
-    });
-  }
-
-  resetPassword(manager){
-    const a: any = this.modalService.create({
-      nzTitle: 'Réinitialisation du mot de passe',
-      nzContent: ManagerResetPwdComponent,
-      nzComponentParams: {
-        manager: manager
-      },
-      nzStyle: {
-        top: '30px'
-      },
-      nzMaskClosable: false,
-      // nzWidth: 650,
-      nzOnOk: (event) => {
-      }
     });
   }
 

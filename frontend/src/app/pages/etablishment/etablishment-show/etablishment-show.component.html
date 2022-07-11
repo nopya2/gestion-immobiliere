@@ -99,7 +99,7 @@
                                 </div>
                                 <div *ngIf="etablishment.manager">
                                     <span class="text-danger">
-                                        {{etablishment.manager.name}} {{etablishment.manager.firstname}}
+                                        {{etablishment.manager.employee.name}} {{etablishment.manager.employee.firstname}}
                                     </span>
                                     <a nz-button nzType="link" (click)="addManager(etablishment, 'edit')">
                                         <i nz-icon nzType="edit" nzTheme="outline"></i>

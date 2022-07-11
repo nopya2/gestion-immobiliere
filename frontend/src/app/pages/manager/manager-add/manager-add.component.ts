@@ -4,8 +4,10 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 import { Manager } from '../../../shared/interfaces/manager.type';
-import { ManagerService } from '../../../shared/services/manager.service';
+import { Employee } from '@app/shared/interfaces/employee.type';
 import { RoleEnum } from '../../../shared/enumerations/role.enum';
+import { ManagerService } from '../../../shared/services/manager.service';
+import { EmployeeService } from '@app/shared/services/employee.service';
 //others
 import { Helper } from '../../../shared/helper';
 
@@ -17,60 +19,59 @@ import { Helper } from '../../../shared/helper';
 export class ManagerAddComponent implements OnInit {
 
   keys = Object.keys;
-  validateForm: FormGroup;
   isLoading: Boolean = false;
   rolesEnum = RoleEnum;
-  @Input() manager: Manager;
+  @Input() manager: Manager = {
+    employee: null
+  };
   @Input() action: string;
+  employees: Employee[] = [];
+  selectableEmployees: any[] = [];
+  validateForm: FormGroup;
+  managers: Manager[] = [];
 
   constructor(
     private fb: FormBuilder,
     private modal: NzModalRef,
     private managerService: ManagerService,
-    private notification: NzNotificationService) {}
+    private notification: NzNotificationService,
+    private employeeService: EmployeeService) {}
 
   ngOnInit(): void {
-    this.initForm();
+    this.validateForm = this.fb.group({
+      employee: [null, [Validators.required]]
+    });
+    this.getManagers();
   }
 
-  initForm(){
-    if(this.action === 'create'){
-      this.manager = {
-        "@id": null,
-        username: '',
-        email: '',
-        enabled: true,
-        firstname: '',
-        name: '',
-        phoneNumber1: '',
-        phoneNumber2: '',
-        roles: ["ROLE_RES_ETA"],
-        password: ''
-      }
+  getManagers(){
+    this.managerService.getAll({pagination: false})
+      .subscribe((res: Manager) => {
+        this.managers = res['hydra:member'];
 
-      this.validateForm = this.fb.group({
-        username: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-        name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-        firstname: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-        email: [null, [Validators.email, Validators.required]],
-        password: [null, [Validators.required, Validators.minLength(6)]],
-        checkPassword: [null, [Validators.required, this.confirmationValidator]],
-        phoneNumber1: [null, [Validators.required]],
-        phoneNumber2: [null],
-        enabled: [true]
-      });
-    }else{
-      this.validateForm = this.fb.group({
-        username: [this.action == 'edit' ? this.manager.username : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-        name: [this.action == 'edit' ? this.manager.name : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-        firstname: [this.action == 'edit' ? this.manager.firstname : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-        email: [this.action == 'edit' ? this.manager.email : null, [Validators.email, Validators.required]],
-        phoneNumber1: [this.action == 'edit' ? this.manager.phoneNumber1 : null, [Validators.required]],
-        phoneNumber2: [this.action == 'edit' ? this.manager.phoneNumber2 : null],
-        enabled: [this.action == 'edit' ? this.manager.enabled : true]
-      });
-    }
+        this.getEmployees();
+      }, error => {
+        this.notification.error("Echec", "Erreur lors du chargement des managers!");
+      })
   }
+
+  getEmployees(){
+    this.employeeService.getAll({pagination: false, role: 5})
+      .subscribe((res: Employee) => {
+        this.employees = res['hydra:member']
+          .filter((e: Employee) => {
+            let index = this.managers.findIndex(x => x.employee.id === e.id);
+            if(index !== -1){
+              return false;
+            }
+
+            return true;
+          });
+      }, error => {
+        this.notification.error("Echec", "Erreur lors du chargement des employés!");
+      })
+  }
+  
 
   submitForm(): void {
     for (const i in this.validateForm.controls) {
@@ -78,19 +79,10 @@ export class ManagerAddComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
 
-    //Format manager
-    this.manager.username = this.validateForm.value.username; 
-    this.manager.name = this.validateForm.value.name;
-    this.manager.firstname = this.validateForm.value.firstname;
-    this.manager.email = this.validateForm.value.email;
-    if(this.action === 'create'){
-      this.manager.password = this.validateForm.value.password;
-    }
-    this.manager.phoneNumber1 = Helper.formatPhoneNumber(this.validateForm.value.phoneNumber1);
-    this.manager.phoneNumber2 = Helper.formatPhoneNumber(this.validateForm.value.phoneNumber2);
-    this.manager.enabled = this.validateForm.value.enabled;
-
     this.isLoading = true;
+    
+    this.manager.employee = this.validateForm.value.employee;
+
     if(this.action === 'create'){
       this.managerService.create(this.manager)
         .subscribe((res) => {
@@ -116,19 +108,6 @@ export class ManagerAddComponent implements OnInit {
     }
   }
 
-  updateConfirmValidator(): void {
-    /** wait for refresh value */
-    Promise.resolve().then(() => this.validateForm.controls.checkPassword.updateValueAndValidity());
-  }
-
-  confirmationValidator = (control: FormControl): { [s: string]: boolean } => {
-    if (!control.value) {
-      return { required: true };
-    } else if (control.value !== this.validateForm.controls.password.value) {
-      return { confirm: true, error: true };
-    }
-    return {};
-  };
 
   closeModal(){
     this.modal.destroy();

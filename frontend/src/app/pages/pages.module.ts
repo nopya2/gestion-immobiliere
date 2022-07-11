@@ -48,7 +48,6 @@ import { UserResetPwdComponent } from './user/user-reset-pwd/user-reset-pwd.comp
 import { EtablishmentComponent } from './etablishment/etablishment.component';
 import { ManagerComponent } from './manager/manager.component';
 import { ManagerAddComponent } from './manager/manager-add/manager-add.component';
-import { ManagerResetPwdComponent } from './manager/manager-reset-pwd/manager-reset-pwd.component';
 import { EtablishmentAddComponent } from './etablishment/etablishment-add/etablishment-add.component';
 
 //Reducers
@@ -120,7 +119,6 @@ const antdModule = [
         EtablishmentComponent,
         ManagerComponent,
         ManagerAddComponent,
-        ManagerResetPwdComponent,
         EtablishmentAddComponent,
         EtablishmentShowComponent,
         AddManagerEtablishmentComponent,

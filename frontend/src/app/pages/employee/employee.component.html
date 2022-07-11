@@ -55,7 +55,8 @@
                 <th nzColumnKey="name" [nzSortFn]="true">Nom(s)</th>
                 <th nzColumnKey="firstname" [nzSortFn]="true">Prénom(s)</th>
                 <th nzColumnKey="email">E-mail</th>
-                <th nzColumnKey="roles">Roles</th>
+                <th nzColumnKey="etablishment">Etablissement</th>
+                <th nzColumnKey="role">Role</th>
                 <th nzColumnKey="enabled" [nzFilters]="filterEnabled" [nzFilterFn]="true">Statut</th>
                 <th nzColumnKey="phones">Téléphones</th>
                 <!-- <th nzColumnKey="gender" [nzFilters]="filterGender" [nzFilterFn]="true">Gender</th> -->
@@ -67,11 +68,8 @@
                 <td>{{ data.name }}</td>
                 <td>{{ data.firstname }}</td>
                 <td>{{ data.email }}</td>
-                <td>
-                    <div class="m-b-2" *ngFor="let item of data.roles">
-                        <p class="m-b-0 d-inline-block"><i nz-icon nzType="minus" nzTheme="outline"></i> {{rolesEnum[item]}}</p>
-                    </div>
-                </td>
+                <td>{{ data.etablishment ? data.etablishment.name : 'N/A' }}</td>
+                <td>{{ data.role.name }}</td>
                 <td>
                     <nz-badge 
                         [nzStatus]="data.enabled == true ? 'processing': 'default'" 
@@ -79,27 +77,30 @@
                 </td>
                 <td>{{ data.phoneNumber1 }}{{ data.phoneNumber2 != null ? '/'+data.phoneNumber2 : ''}}</td>
                 <td nzRight>
-                    <nz-button-group>
-                        <button 
-                            nz-button 
-                            nzType="primary"
-                            nz-popover 
-                            nzPopoverContent="Modifier"
-                            (click)="openEdit(data)"><i nz-icon nzType="edit" nzTheme="outline"></i></button>
-                        <button 
-                            nz-button 
-                            nzType="primary" 
-                            nzDanger
-                            nz-popover 
-                            nzPopoverContent="Supprimer"
-                            (click)="deleteItem(data)"><i nz-icon nzType="delete" nzTheme="outline"></i></button>
-                        <button 
-                            nz-button 
-                            nzType="default"
-                            nz-popover 
-                            nzPopoverContent="Réinitialiser le mot de passe"
-                            (click)="resetPassword(data)"><i nz-icon nzType="redo" nzTheme="outline"></i></button>
-                    </nz-button-group>
+                    <button 
+                        class="m-r-5"
+                        nz-button 
+                        nzType="default" 
+                        nzShape="circle" 
+                        nz-tooltip 
+                        nzTooltipTitle="Modifier"
+                        (click)="openEdit(data)"><i nz-icon nzType="edit" nzTheme="outline"></i></button>
+                    <button 
+                        class="m-r-5"
+                        nz-button 
+                        nzType="default" 
+                        nzShape="circle" 
+                        nz-tooltip 
+                        nzTooltipTitle="Supprimer"
+                        (click)="deleteItem(data)"><i nz-icon nzType="delete" nzTheme="outline"></i></button>
+                    <button 
+                        class="m-r-5"
+                        nz-button 
+                        nzType="default" 
+                        nzShape="circle" 
+                        nz-tooltip  
+                        nzTooltipTitle="Réinitialiser le mot de passe"
+                        (click)="resetPassword(data)"><i nz-icon nzType="redo" nzTheme="outline"></i></button>
                 </td>
             </tr>
         </tbody>

@@ -16,7 +16,10 @@ class Employee extends User
 {
     #[ORM\ManyToOne(targetEntity: Etablishment::class, cascade: ["persist"])]
     #[ORM\JoinColumn(nullable: true)]
-    #[Groups(["read:employee", "write:employee"])]
+    #[Groups([
+        "read:employee", "write:employee",
+        "read:manager", "write:manager"
+    ])]
     private $etablishment;
 
     public function getEtablishment(): ?Etablishment
