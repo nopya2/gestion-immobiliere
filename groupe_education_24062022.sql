@@ -14,15 +14,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
---
--- Dumping data for table `doctrine_migration_versions`
---
-
-LOCK TABLES `doctrine_migration_versions` WRITE;
-/*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
-INSERT INTO `doctrine_migration_versions` VALUES ('DoctrineMigrations\\Version20220526152803','2022-05-26 17:28:33',7414),('DoctrineMigrations\\Version20220530224827','2022-05-31 00:49:28',4901),('DoctrineMigrations\\Version20220531003017','2022-05-31 02:31:14',1908),('DoctrineMigrations\\Version20220531003312','2022-05-31 02:33:23',367),('DoctrineMigrations\\Version20220531003651','2022-05-31 02:37:02',507),('DoctrineMigrations\\Version20220531004109','2022-05-31 02:41:31',407),('DoctrineMigrations\\Version20220609205826','2022-06-09 23:00:47',4623),('DoctrineMigrations\\Version20220609210823','2022-06-09 23:08:41',855),('DoctrineMigrations\\Version20220609212423','2022-06-09 23:25:04',773),('DoctrineMigrations\\Version20220609225204','2022-06-10 00:52:40',1263),('DoctrineMigrations\\Version20220611232506','2022-06-12 01:26:01',2022),('DoctrineMigrations\\Version20220611235951','2022-06-12 02:00:06',2997),('DoctrineMigrations\\Version20220612000443','2022-06-12 02:05:00',1335),('DoctrineMigrations\\Version20220613201535','2022-06-13 22:16:04',2219),('DoctrineMigrations\\Version20220613210552','2022-06-13 23:09:52',1027),('DoctrineMigrations\\Version20220613224211','2022-06-14 00:42:27',3941),('DoctrineMigrations\\Version20220613224441','2022-06-14 00:44:51',2392),('DoctrineMigrations\\Version20220614032517','2022-06-14 05:26:32',11854),('DoctrineMigrations\\Version20220619201933','2022-06-19 22:19:52',3468),('DoctrineMigrations\\Version20220619203851','2022-06-19 22:39:21',878),('DoctrineMigrations\\Version20220619205743','2022-06-19 22:58:01',1665),('DoctrineMigrations\\Version20220619210650','2022-06-19 23:07:08',3331),('DoctrineMigrations\\Version20220619212837','2022-06-19 23:28:50',2756),('DoctrineMigrations\\Version20220619214102','2022-06-19 23:41:35',2702),('DoctrineMigrations\\Version20220620085953','2022-06-20 11:03:41',1439);
-/*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Dumping data for table `etablishment`

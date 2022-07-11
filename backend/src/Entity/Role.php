@@ -36,11 +36,14 @@ class Role
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["read:role"])]
+    #[Groups(["read:role", "read:user"])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["read:role", "write:role"])]
+    #[Groups([
+        "read:role", "write:role",
+        "read:user", "write:user"
+    ])]
     private $name;
 
     #[ORM\Column(type: 'text', nullable: true)]

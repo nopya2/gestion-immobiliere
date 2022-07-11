@@ -1,3 +1,5 @@
+import { Role } from "./global.type";
+
 export interface User {
     "@id": string;
     id?: number;
@@ -5,10 +7,11 @@ export interface User {
     firstname: string;
     username: string;
     email: string;
-    roles: string[];
+    roles?: string[];
     token?: string;
     password?: string;
     phoneNumber1: string;
     phoneNumber2?: string;
     enabled: boolean;
+    role?: Role;
 }

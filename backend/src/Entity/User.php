@@ -124,6 +124,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         "read:employee", "write:employee"])]
     private $enabled = true;
 
+    #[ORM\ManyToOne(targetEntity: Role::class, cascade: ['persist'])]
+    #[Assert\NotBlank]
+    #[ORM\JoinColumn(nullable: true, onDelete: "set null")]
+    #[Groups(["read:user", "write:user", "read:manager", "write:manager",
+        "read:employee", "write:employee"])]
+    private $role;
+
     public function __construct()
     {
         $this->enabled = true;
@@ -295,6 +302,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEnabled(?bool $enabled): self
     {
         $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    public function getRole(): ?Role
+    {
+        return $this->role;
+    }
+
+    public function setRole(?Role $role): self
+    {
+        $this->role = $role;
 
         return $this;
     }

@@ -6,8 +6,10 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { User } from '../../../shared/interfaces/user.type';
 import { UserService } from '../../../shared/services/user.service';
 import { RoleEnum } from '../../../shared/enumerations/role.enum';
+import { RoleService } from '@app/shared/services/role.service'
 //others
 import { Helper } from '../../../shared/helper';
+import { Role } from '@app/shared/interfaces/global.type';
 
 @Component({
   selector: 'app-user-add',
@@ -22,15 +24,27 @@ export class UserAddComponent implements OnInit {
   rolesEnum = RoleEnum;
   @Input() user: User;
   @Input() action: string;
+  roles: Role[] = [];
 
   constructor(
     private fb: FormBuilder,
     private modal: NzModalRef,
     private userService: UserService,
-    private notification: NzNotificationService) {}
+    private notification: NzNotificationService,
+    private roleService: RoleService) {}
 
   ngOnInit(): void {
     this.initForm();
+    this.getRoles();
+  }
+
+  getRoles(){
+    this.roleService.getAll({pagination: false})
+      .subscribe((res: Role) => {
+        this.roles = res['hydra:member'];
+      }, error => {
+        this.notification.error("Echec", "Erreur lors du chargement des rôles!");
+      })
   }
 
   initForm(){
@@ -44,7 +58,7 @@ export class UserAddComponent implements OnInit {
         name: '',
         phoneNumber1: '',
         phoneNumber2: '',
-        roles: [],
+        role: null,
         password: ''
       }
 
@@ -53,7 +67,7 @@ export class UserAddComponent implements OnInit {
         name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
         firstname: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
         email: [null, [Validators.email, Validators.required]],
-        roles: [null, [Validators.required]],
+        role: [null, [Validators.required]],
         password: [null, [Validators.required, Validators.minLength(6)]],
         checkPassword: [null, [Validators.required, this.confirmationValidator]],
         phoneNumber1: [null, [Validators.required]],
@@ -66,7 +80,7 @@ export class UserAddComponent implements OnInit {
         name: [this.action == 'edit' ? this.user.name : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
         firstname: [this.action == 'edit' ? this.user.firstname : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
         email: [this.action == 'edit' ? this.user.email : null, [Validators.email, Validators.required]],
-        roles: [this.action == 'edit' ? this.user.roles : null, [Validators.required]],
+        role: [this.action == 'edit' ? (this.user.role ? this.user.role['@id'] : null) : null, [Validators.required]],
         phoneNumber1: [this.action == 'edit' ? this.user.phoneNumber1 : null, [Validators.required]],
         phoneNumber2: [this.action == 'edit' ? this.user.phoneNumber2 : null],
         enabled: [this.action == 'edit' ? this.user.enabled : true]
@@ -85,7 +99,7 @@ export class UserAddComponent implements OnInit {
     this.user.name = this.validateForm.value.name;
     this.user.firstname = this.validateForm.value.firstname;
     this.user.email = this.validateForm.value.email;
-    this.user.roles = this.validateForm.value.roles;
+    this.user.role = this.validateForm.value.role;
     if(this.action === 'create'){
       this.user.password = this.validateForm.value.password;
     }

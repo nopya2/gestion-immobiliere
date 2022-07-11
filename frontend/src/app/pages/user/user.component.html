@@ -67,11 +67,7 @@
                 <td>{{ data.name }}</td>
                 <td>{{ data.firstname }}</td>
                 <td>{{ data.email }}</td>
-                <td>
-                    <div class="m-b-2" *ngFor="let item of data.roles">
-                        <p class="m-b-0 d-inline-block"><i nz-icon nzType="minus" nzTheme="outline"></i> {{rolesEnum[item]}}</p>
-                    </div>
-                </td>
+                <td>{{ data.role ? data.role.name : 'N/A' }}</td>
                 <td>
                     <nz-badge 
                         [nzStatus]="data.enabled == true ? 'processing': 'default'" 
