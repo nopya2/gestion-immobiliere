@@ -38,11 +38,22 @@ class Permission
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["read:permission", "write:permission", "read:module", "write:module", "read:role", "write:role"])]
+    #[Groups([
+        "read:permission", "write:permission", 
+        "read:module", "write:module", 
+        "read:role", "write:role",
+        "read:user",
+        "read:privilege"
+    ])]
     private $name;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["read:permission", "write:permission", "read:module", "write:module", "read:role", "write:role"])]
+    #[Groups([
+        "read:permission", "write:permission", 
+        "read:module", "write:module", 
+        "read:role", "write:role",
+        "read:user"
+    ])]
     private $slug;
 
     public function getId(): ?int

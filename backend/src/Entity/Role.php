@@ -56,7 +56,11 @@ class Role
 
     #[ORM\OneToMany(mappedBy: 'role', targetEntity: Privilege::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(onDelete: 'cascade')]
-    #[Groups(["read:role", "write:role"])]
+    #[Groups([
+        "read:role", "write:role",
+        "read:employee",
+        "read:user"
+    ])]
     private $privileges;
 
     public function __construct()

@@ -19,9 +19,11 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 use App\Repository\UserRepository;
 use App\Repository\ManagerRepository;
+use App\Repository\EmployeeRepository;
 use App\Config\RoleEnum;
 
 /**
@@ -34,7 +36,9 @@ use App\Config\RoleEnum;
 class SecurityController extends AbstractController
 {
     use TargetPathTrait;
-
+    /**
+     * Authentification des administrateurs de la plateforme
+     */
     #[Route('/api/login', name: 'security_login')]
     public function login(
         Request $request, 
@@ -68,6 +72,50 @@ class SecurityController extends AbstractController
 
             return $this->json($manager, 200);
         }
+
+        $token = $JWTManager->create($user);
+        $user->setToken($token);
+
+        return $this->json($user, 200);
+    }
+
+    /**
+     * Authentification des employés
+     */
+    #[Route('/api/employee/login', name: 'security_employee_login')]
+    public function employeeLogin(
+        Request $request, 
+        AuthenticationUtils $helper,
+        EmployeeRepository $userRepository,
+        ManagerRepository $managerRepository,
+        UserPasswordHasherInterface $userPasswordEncoder,
+        JWTTokenManagerInterface $JWTManager,
+        NormalizerInterface $normalizer): Response
+    {
+        $data = json_decode($request->getContent(), true);
+        //On verifie si l'utilisateur avec cette e-mail existe
+        $user = $userRepository->findOneBy(['email' => $data['email']]);
+
+        if(empty($user))
+            return $this->json(['error' => "Cet utilisateur n'existe pas!"], 400);
+        //Ensuite on verifie si les mots de passe correspondent
+        $match = $userPasswordEncoder->isPasswordValid($user, $data['password']);
+        if(!$match)
+            return $this->json(['error' => "Mot de passe invalide!"], 400);
+        //On verifie si le comte est active
+        if($user->getEnabled() === false)
+            return $this->json(['error' => "Compte désactivé!"], 400);
+
+        //On verifie si l'utilisateur est un manager
+        //et on renvoie l'objet manager
+        // if(in_array(RoleEnum::ROLE_RES_ETA->name, $user->getRoles()) === true){
+        //     $manager = $managerRepository->find($user->getId());
+
+        //     $token = $JWTManager->create($manager);
+        //     $manager->setToken($token);
+
+        //     return $this->json($manager, 200);
+        // }
 
         $token = $JWTManager->create($user);
         $user->setToken($token);

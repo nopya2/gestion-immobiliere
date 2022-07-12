@@ -29,7 +29,13 @@ class Etablishment
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["read:etablishment", "read:user", "read:manager", "read:employee", "write:employee"])]
+    #[Groups([
+        "read:etablishment", 
+        "read:user", 
+        "read:manager", 
+        "read:employee", "write:employee",
+        "read:diploma", "write:diploma"
+    ])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]

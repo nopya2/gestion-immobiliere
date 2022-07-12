@@ -36,11 +36,22 @@ class Module
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["read:module", "read:role", "write:role"])]
+    #[Groups([
+        "read:module", 
+        "read:role", "write:role",
+        "read:user",
+        "read:employee"
+    ])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["read:module", "write:module", "read:role", "write:role"])]
+    #[Groups([
+        "read:module", "write:module", 
+        "read:role", "write:role",
+        "read:employee",
+        "read:user",
+        "read:privilege"
+    ])]
     #[Assert\NotBlank(message: 'Le champs est requis.')]
     #[Assert\Length(
         min: 2, 
@@ -51,7 +62,12 @@ class Module
     private $name;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["read:module", "write:module", "read:role", "write:role"])]
+    #[Groups([
+        "read:module", "write:module", 
+        "read:role", "write:role",
+        "read:employee",
+        "read:user"
+    ])]
     #[Assert\NotBlank(message: 'Le champs est requis.')]
     #[Assert\Length(
         min: 2, 

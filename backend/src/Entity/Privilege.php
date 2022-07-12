@@ -26,12 +26,22 @@ class Privilege
 
     #[ORM\ManyToOne(targetEntity: Module::class)]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(["read:privilege", "write:privilege", "read:role", "write:role"])]
+    #[Groups([
+        "read:privilege", "write:privilege", 
+        "read:role", "write:role",
+        "read:employee",
+        "read:user"
+    ])]
     private $module;
 
     #[ORM\ManyToOne(targetEntity: Permission::class)]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(["read:privilege", "write:privilege", "read:role", "write:role"])]
+    #[Groups([
+        "read:privilege", "write:privilege", 
+        "read:role", "write:role",
+        "read:employee",
+        "read:user"
+    ])]
     private $permission;
 
     #[ORM\ManyToOne(targetEntity: Role::class, inversedBy: 'privileges')]

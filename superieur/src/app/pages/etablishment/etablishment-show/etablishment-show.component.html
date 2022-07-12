@@ -1,0 +1,177 @@
+<nz-skeleton [nzActive]="true" *ngIf="showSkeleton"></nz-skeleton>
+<div *ngIf="!showSkeleton && etablishment">
+    <div class="page-header has-tab m-t-15">
+        <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+            <div class="media align-items-center m-b-15">
+                <nz-avatar nzShape="square" [nzSize]="70" [nzSrc]="formatUrl(etablishment.logo.url)"></nz-avatar>
+                <div class="m-l-15">
+                    <h4 class="m-b-0">{{etablishment.name}}</h4>
+                    <p class="text-muted m-b-0">{{etablishmentTypes[etablishment.etablishmentType]}}</p>
+                </div>
+            </div>
+            <div class="m-b-15">
+                <button nz-button nzType="primary" (click)="openEdit(etablishment)" class="m-r-5">
+                    <i nz-icon nzType="edit" theme="outline"></i>
+                    <span>Modifier</span>
+                </button>
+                <button nz-button nzType="primary" nzDanger (click)="deleteItem(etablishment)">
+                    <i nz-icon nzType="delete" theme="outline"></i>
+                    <span>Supprimer</span>
+                </button>
+                <!-- <button nz-button nzType="default" *ngIf="isEdit" (click)="save()">
+                    <i nz-icon nzType="save" theme="outline"></i>
+                    <span>Save</span>
+                </button> -->
+            </div>
+        </div>
+    </div>
+    <nz-tabset class="page-header-tab" *ngIf="!isEdit">
+        <nz-tab nzTitle="Aperçu">
+            <div class="row">
+                <!-- <div class="col-md-3">
+                    <nz-card>
+                        <div class="media align-items-center">
+                            <i class="font-size-40 text-success" nz-icon nzType="smile" theme="outline"></i>
+                            <div class="m-l-15">
+                                <p class="m-b-0 text-muted">10 Employés</p>
+                                <nz-rate [ngModel]="4.5" nzDisabled></nz-rate>
+                            </div>
+                        </div>
+                    </nz-card>
+                </div> -->
+                <div class="col-md-3">
+                    <nz-card>
+                        <div class="media align-items-center">
+                            <i class="font-size-40 text-primary" nz-icon nzType="team" theme="outline"></i>
+                            <div class="m-l-15">
+                                <p class="m-b-0 text-muted">Employés</p>
+                                <h3 class="m-b-0 ls-1">1,521</h3>
+                            </div>
+                        </div>
+                    </nz-card>
+                </div>
+                <div class="col-md-3">
+                    <nz-card>
+                        <div class="media align-items-center">
+                            <i class="font-size-40 text-primary" nz-icon nzType="team" theme="outline"></i>
+                            <div class="m-l-15">
+                                <p class="m-b-0 text-muted">Inscrits</p>
+                                <h3 class="m-b-0 ls-1">1,521</h3>
+                            </div>
+                        </div>
+                    </nz-card>
+                </div>
+                <!-- <div class="col-md-3">
+                    <nz-card>
+                        <div class="media align-items-center">
+                            <i class="font-size-40 text-primary" nz-icon nzType="message" theme="outline"></i>
+                            <div class="m-l-15">
+                                <p class="m-b-0 text-muted">Reviews</p>
+                                <h3 class="m-b-0 ls-1">27</h3>
+                            </div>
+                        </div>
+                    </nz-card>
+                </div> -->
+                <!-- <div class="col-md-3">
+                    <nz-card>
+                        <div class="media align-items-center">
+                            <i class="font-size-40 text-primary" nz-icon nzType="stock" theme="outline"></i>
+                            <div class="m-l-15">
+                                <p class="m-b-0 text-muted">Available Stock</p>
+                                <h3 class="m-b-0 ls-1">152</h3>
+                            </div>
+                        </div>
+                    </nz-card>
+                </div> -->
+            </div>
+            <nz-card>
+                <h5>Informations Générales</h5>
+                <table class="product-info-table m-t-20">
+                    <tbody>
+                        <tr>
+                            <td>Responsable:</td>
+                            <td class="text-dark font-weight-semibold">
+                                <div *ngIf="!etablishment.manager">
+                                    <span class="text-danger">Aucun</span>
+                                    <a nz-button nzType="link" nzTooltipTitle="Ajouter" (click)="addManager(etablishment, 'add')">
+                                        <i nz-icon nzType="plus" nzTheme="outline"></i>
+                                    </a>
+                                </div>
+                                <div *ngIf="etablishment.manager">
+                                    <span class="text-danger">
+                                        {{etablishment.manager.employee.name}} {{etablishment.manager.employee.firstname}}
+                                    </span>
+                                    <a nz-button nzType="link" (click)="addManager(etablishment, 'edit')">
+                                        <i nz-icon nzType="edit" nzTheme="outline"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Adresse:</td>
+                            <td class="text-dark font-weight-semibold">{{etablishment.address}}</td>
+                        </tr>
+                        <tr>
+                            <td>Boite Postale:</td>
+                            <td>{{etablishment.postalBox}}</td>
+                        </tr>
+                        <tr>
+                            <td>E-mail:</td>
+                            <td>{{etablishment.email}}</td>
+                        </tr>
+                        <tr>
+                            <td>Téléphones</td>
+                            <td>
+                                <span nz-typography *ngFor="let phone of etablishment.phones">{{phone}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pays:</td>
+                            <td>{{etablishment.country}}</td>
+                        </tr>
+                        <tr>
+                            <td>Ville:</td>
+                            <td>{{etablishment.city}}</td>
+                        </tr>
+                        <tr>
+                            <td>Siteweb:</td>
+                            <td>{{etablishment.website}}</td>
+                        </tr>
+                        <tr>
+                            <td>Ajouté le:</td>
+                            <td>{{etablishment.createdAt}}</td>
+                        </tr>
+                        <tr>
+                            <td>Modifié le:</td>
+                            <td>{{etablishment.updatedAt}}</td>
+                        </tr>
+                    </tbody>
+                </table> 
+            </nz-card> 
+        </nz-tab>
+        <nz-tab nzTitle="Employés">
+            <nz-card>
+                <div class="row">
+                    <div class="col-md-3">
+                        Liste des Employés
+                    </div>
+                </div>
+            </nz-card>
+        </nz-tab>
+        <nz-tab nzTitle="Apprenants">
+            <nz-card>
+                <div class="row">
+                    <div class="col-md-3">
+                        Liste des apprenants
+                    </div>
+                </div>
+            </nz-card>
+        </nz-tab>
+    </nz-tabset> 
+</div>
+
+<nz-card class="text-center m-t-40" *ngIf="!showSkeleton && !etablishment">
+    <svg width="64" height="41" viewBox="0 0 64 41" xmlns="http://www.w3.org/2000/svg" class="ant-empty-img-simple"><g transform="translate(0 1)" fill="none" fill-rule="evenodd"><ellipse cx="32" cy="33" rx="32" ry="7" class="ant-empty-img-simple-ellipse"></ellipse><g fill-rule="nonzero" class="ant-empty-img-simple-g"><path d="M55 12.76L44.854 1.258C44.367.474 43.656 0 42.907 0H21.093c-.749 0-1.46.474-1.947 1.257L9 12.761V22h46v-9.24z"></path><path d="M41.613 15.931c0-1.605.994-2.93 2.227-2.931H55v18.137C55 33.26 53.68 35 52.05 35h-40.1C10.32 35 9 33.259 9 31.137V13h11.16c1.233 0 2.227 1.323 2.227 2.928v.022c0 1.605 1.005 2.901 2.237 2.901h14.752c1.232 0 2.237-1.308 2.237-2.913v-.007z" class="ant-empty-img-simple-path"></path></g></g></svg>
+    <p class="ant-empty-description ng-star-inserted"> Cet établissement n'existe pas!</p>
+</nz-card>
+
