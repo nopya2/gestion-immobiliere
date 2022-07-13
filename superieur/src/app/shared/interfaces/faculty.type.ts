@@ -1,3 +1,4 @@
+import { Diploma } from "./diploma.type";
 import { Etablishment } from "./etablishment.type";
 
 export interface Faculty {
@@ -7,4 +8,5 @@ export interface Faculty {
     description: string;
     code: string;
     etablishment?: Etablishment;
+    diplomas?: Diploma[]
 }

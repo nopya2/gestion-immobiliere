@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\FacultyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -66,6 +68,17 @@ class Faculty
     ])]
     private $etablishment;
 
+    #[ORM\ManyToMany(targetEntity: Diploma::class, cascade: ['persist'])]
+    #[Groups([
+        "read:faculty", "write:faculty"
+    ])]
+    private $diplomas;
+
+    public function __construct()
+    {
+        $this->diplomas = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -115,6 +128,30 @@ class Faculty
     public function setEtablishment(?Etablishment $etablishment): self
     {
         $this->etablishment = $etablishment;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Diploma>
+     */
+    public function getDiplomas(): Collection
+    {
+        return $this->diplomas;
+    }
+
+    public function addDiploma(Diploma $diploma): self
+    {
+        if (!$this->diplomas->contains($diploma)) {
+            $this->diplomas[] = $diploma;
+        }
+
+        return $this;
+    }
+
+    public function removeDiploma(Diploma $diploma): self
+    {
+        $this->diplomas->removeElement($diploma);
 
         return $this;
     }

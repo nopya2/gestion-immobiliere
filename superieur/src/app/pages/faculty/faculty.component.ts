@@ -11,6 +11,7 @@ import { FacultyService } from "@app/shared/services/faculty.service";
 import { Helper } from '@app/shared/helper';
 //components
 import { FacultyModalComponent } from './faculty-modal/faculty-modal.component';
+import { FacultyAddDiplomaModalComponent } from './faculty-add-diploma-modal/faculty-add-diploma-modal.component';
 
 @Component({
   selector: 'app-faculty',
@@ -100,7 +101,7 @@ export class FacultyComponent implements OnInit {
   openEdit(faculty){
     this.action = 'edit';
     const a: any = this.modalService.create({
-      nzTitle: 'Modifier la faculty',
+      nzTitle: 'Modifier la filière',
       nzContent: FacultyModalComponent,
       nzComponentParams: {
         faculty: {...faculty},
@@ -146,6 +147,33 @@ export class FacultyComponent implements OnInit {
             })
         }).catch(() => console.log('Oops errors!'))
     });
+  }
+
+  addDiploma(item){
+    const a: any = this.modalService.create({
+      nzTitle: 'Ajouter les diplômes',
+      nzContent: FacultyAddDiplomaModalComponent,
+      nzComponentParams: {
+        faculty: {...item}
+      },
+      nzStyle: {
+        top: '30px'
+      },
+      nzMaskClosable: false,
+      nzOnOk: (event) => {
+      }
+    });
+    a.afterClose.subscribe((e) => {
+      if(e){
+        let index = this.faculties.findIndex(x => x.id === e.id);
+          if(index !== -1)
+          this.faculties[index] = {...e};
+      }
+    });
+  }
+
+  deleteDiploma(item){
+    
   }
 
 }

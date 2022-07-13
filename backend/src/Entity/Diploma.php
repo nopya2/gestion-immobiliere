@@ -28,19 +28,22 @@ class Diploma
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     #[Groups([
-        "read:diploma"
+        "read:diploma",
+        "read:faculty", "write:faculty"
     ])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups([
-        "read:diploma", "write:diploma"
+        "read:diploma", "write:diploma",
+        "read:faculty"
     ])]
     private $name;
 
     #[ORM\Column(type: 'text')]
     #[Groups([
-        "read:diploma", "write:diploma"
+        "read:diploma", "write:diploma",
+        "read:faculty"
     ])]
     private $description;
 
