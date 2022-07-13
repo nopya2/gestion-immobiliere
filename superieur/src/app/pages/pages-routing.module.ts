@@ -22,6 +22,7 @@ import { PermissionComponent } from './permission/permission.component';
 import { ModuleComponent } from './module/module.component';
 import { RoleComponent } from './role/role.component';
 import { DiplomaComponent } from './diploma/diploma.component';
+import { FacultyComponent } from './faculty/faculty.component';
 
 const routes: Routes = [
     {
@@ -97,6 +98,13 @@ const routes: Routes = [
         component: DiplomaComponent,
         data: {
             title: 'Gestion des diplômes'
+        }
+    },
+    {
+        path: 'faculties',
+        component: FacultyComponent,
+        data: {
+            title: 'Gestion des filières'
         }
     },
     {
