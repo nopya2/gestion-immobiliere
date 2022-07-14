@@ -16,6 +16,9 @@
         </ng-container>
         <!-- <nz-skeleton *ngIf="item.loading" [nzAvatar]="true" [nzActive]="true" [nzTitle]="false" [nzLoading]="true"> </nz-skeleton> -->
     </nz-list-item>
+    <nz-list-item *ngIf="diplomas.length <= 0" nzJustify="center" class="d-flex justify-content-center">
+        <nz-alert nzType="warning" nzMessage="Tous les diplômes ont été ajoutés à cette filière" [nzShowIcon]="true"></nz-alert>
+    </nz-list-item>
 </nz-list>
 
 <div *nzModalFooter>

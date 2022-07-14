@@ -12,6 +12,7 @@ import { Helper } from '@app/shared/helper';
 //components
 import { FacultyModalComponent } from './faculty-modal/faculty-modal.component';
 import { FacultyAddDiplomaModalComponent } from './faculty-add-diploma-modal/faculty-add-diploma-modal.component';
+import { Diploma } from '@app/shared/interfaces/diploma.type';
 
 @Component({
   selector: 'app-faculty',
@@ -63,7 +64,6 @@ export class FacultyComponent implements OnInit {
     
     this.params.page = pageIndex;
     this.params.itemsPerPage = pageSize;
-    console.log(sortOrder);
     this.params['order['+sortField+']'] = Helper.transformOrder(sortOrder);
     // this.loadDataFromServer(pageIndex, pageSize, sortField, sortOrder, filter);
     this.getFaculties();
@@ -145,7 +145,7 @@ export class FacultyComponent implements OnInit {
             }, err => {
               reject();
             })
-        }).catch(() => console.log('Oops errors!'))
+        }).catch(() => this.notification.error("Erreur", "Erreur lors de la suppression de l'élément!"))
     });
   }
 
@@ -154,7 +154,7 @@ export class FacultyComponent implements OnInit {
       nzTitle: 'Ajouter les diplômes',
       nzContent: FacultyAddDiplomaModalComponent,
       nzComponentParams: {
-        faculty: {...item}
+        faculty: JSON.parse(JSON.stringify(item))
       },
       nzStyle: {
         top: '30px'
@@ -172,8 +172,17 @@ export class FacultyComponent implements OnInit {
     });
   }
 
-  deleteDiploma(item){
-    
+  deleteDiploma(faculty: Faculty, diploma: Diploma){
+    let index = faculty.diplomas.findIndex(x => x.id === diploma.id);
+    if(index !== -1){
+      faculty.diplomas.splice(index, 1);
+      this.facultyService.update(faculty)
+        .subscribe((res) => {
+
+        }, error => {
+          this.notification.error("Erreur", "Erreur lors de la suppression du diplôme!")
+        })
+    }
   }
 
 }

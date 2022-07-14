@@ -63,7 +63,7 @@
                 <td>{{ data.code }}</td>
                 <td>{{ data.description }}</td>
                 <td>
-                    <nz-tag *ngFor="let tag of data.diplomas; let i = index" [nzMode]="'closeable'" (nzAfterClose)="deleteDiploma(tag)" [nzColor]="'#108ee9'">
+                    <nz-tag *ngFor="let tag of data.diplomas; let i = index" [nzMode]="'closeable'" (nzOnClose)="deleteDiploma(data, tag)" [nzColor]="'#108ee9'">
                         {{ tag.name }}
                     </nz-tag>
                     <nz-tag class="editable-tag" nzNoAnimation (click)="addDiploma(data)"> <i nz-icon nzType="plus"></i> Ajouter </nz-tag>

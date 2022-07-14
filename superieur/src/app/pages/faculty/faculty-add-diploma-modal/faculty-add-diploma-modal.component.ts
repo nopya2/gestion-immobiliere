@@ -42,9 +42,14 @@ export class FacultyAddDiplomaModalComponent implements OnInit {
   getDiplomas(): void {
     this.initLoading = true;
     this.diplomaService.getAll({pagination: false})
-      .subscribe((res: Diploma) => {
+      .subscribe((res) => {
+        let temp: Diploma[] = res['hydra:member'];
         this.initLoading = false;
-        this.diplomas = res['hydra:member'];
+        this.diplomas = temp.filter(d => {
+          let index = this.faculty.diplomas.findIndex(x => d.id === x.id);
+          if(index !== -1) return false;
+          return true;
+        });
       }, error => {
         this.initLoading = false;
         this.notification.error("Erreur", "Erreur lors du chargement des diplômes!")
@@ -53,7 +58,6 @@ export class FacultyAddDiplomaModalComponent implements OnInit {
 
   submitForm(): void {
     this.isLoading = true;
-    console.log(this.selectedDiplomas);
     this.faculty.diplomas.push.apply(this.faculty.diplomas, this.selectedDiplomas);
 
     this.facultyService.update(this.faculty)
@@ -63,7 +67,6 @@ export class FacultyAddDiplomaModalComponent implements OnInit {
           this.modal.close(res);
         }, error => {
           this.isLoading = false;
-          console.log(error);
           this.notification.error("Echec", "Erreur lors de l'enregistrement des informations!");
         });
   }

@@ -73,18 +73,16 @@ export class FacultyModalComponent implements OnInit {
           this.modal.close(res);
         }, error => {
           this.isLoading = false;
-          console.log(error);
           // this.notification.error("Echec création", "Login ou mot de passse invalide!");
         });
     }else{
-      this.facultyService.patch(this.faculty)
+      this.facultyService.update(this.faculty)
         .subscribe((res) => {
           this.isLoading = false;
           this.notification.success("Succés", "Informations enregistrées!");
           this.modal.close(res);
         }, error => {
           this.isLoading = false;
-          console.log(error);
           this.notification.error("Echec", "Erreur lors de l'enregistrement des informations!");
         });
     }
