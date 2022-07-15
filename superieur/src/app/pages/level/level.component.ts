@@ -4,21 +4,21 @@ import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
 //interfaces
-import { LevelType } from '@app/shared/interfaces/level.type';
+import { Level } from '@app/shared/interfaces/level.type';
 //others
 import { Helper } from '@app/shared/helper';
 //components
-import { LevelTypeModalComponent } from './level-type-modal/level-type-modal.component';
-import { LevelTypeService } from '@app/shared/services/level-type.service';
+import { LevelModalComponent } from './level-modal/level-modal.component';
+import { LevelService } from '@app/shared/services/level.service';
 
 @Component({
-  selector: 'app-level-type',
-  templateUrl: './level-type.component.html',
-  styleUrls: ['./level-type.component.css']
+  selector: 'app-level',
+  templateUrl: './level.component.html',
+  styleUrls: ['./level.component.css']
 })
-export class LevelTypeComponent implements OnInit {
+export class LevelComponent implements OnInit {
 
-  levelTypes: LevelType[] = [];
+  levels: Level[] = [];
   total = 0;
   loading = true;
   searchInput: string = "";
@@ -32,7 +32,7 @@ export class LevelTypeComponent implements OnInit {
   confirmModal?: NzModalRef;
 
   constructor(
-    private levelTypeService: LevelTypeService,
+    private levelService: LevelService,
     private notification: NzNotificationService,
     private modalService: NzModalService
   ) { }
@@ -40,12 +40,12 @@ export class LevelTypeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getLevelTypes(): void {
+  getLevels(): void {
     this.loading = true;
-    this.levelTypeService.getAll(this.params)
+    this.levelService.getAll(this.params)
       .subscribe((res) => {
         this.loading = false;
-        this.levelTypes = res['hydra:member'];
+        this.levels = res['hydra:member'];
         this.total = res['hydra:totalItems'];
       }, error => {
         this.loading = false;
@@ -64,26 +64,27 @@ export class LevelTypeComponent implements OnInit {
     console.log(sortOrder);
     this.params['order['+sortField+']'] = Helper.transformOrder(sortOrder);
     // this.loadDataFromServer(pageIndex, pageSize, sortField, sortOrder, filter);
-    this.getLevelTypes();
+    this.getLevels();
   }
 
   search(){
     this.params.page = 1;
     this.params.simplesearch = this.searchInput;
-    this.getLevelTypes();
+    this.getLevels();
   }
 
   openAdd(){
     this.action = 'create';
     const a: any = this.modalService.create({
-      nzTitle: 'Ajouter un type',
-      nzContent: LevelTypeModalComponent,
+      nzTitle: 'Ajouter un niveau',
+      nzContent: LevelModalComponent,
       nzComponentParams: {
         action: this.action
       },
       nzStyle: {
         top: '30px'
       },
+      nzWidth: '1000px',
       nzMaskClosable: false,
       nzOnOk: (event) => {
       }
@@ -96,13 +97,13 @@ export class LevelTypeComponent implements OnInit {
     });
   }
 
-  openEdit(levelType){
+  openEdit(level){
     this.action = 'edit';
     const a: any = this.modalService.create({
-      nzTitle: 'Modifier le type',
-      nzContent: LevelTypeModalComponent,
+      nzTitle: 'Modifier niveau',
+      nzContent: LevelModalComponent,
       nzComponentParams: {
-        levelType: {...levelType},
+        level: {...level},
         action: this.action
       },
       nzStyle: {
@@ -119,15 +120,15 @@ export class LevelTypeComponent implements OnInit {
           this.search();
         }
         if(this.action === 'edit'){
-          let index = this.levelTypes.findIndex(x => x.id === e.id);
+          let index = this.levels.findIndex(x => x.id === e.id);
           if(index !== -1)
-            this.levelTypes[index] = {...e};
+            this.levels[index] = {...e};
         }
       }
     });
   }
 
-  deleteItem(levelType){
+  deleteItem(level){
     this.confirmModal = this.modalService.confirm({
       nzTitle: 'Etes-vous sûr de vouloir supprimer cet élément?',
       nzContent: 'Une fois supprimée, vous ne pourrez plus récupérer cet élement',
@@ -135,7 +136,7 @@ export class LevelTypeComponent implements OnInit {
       nzOkText: 'Confirmer',
       nzOnOk: () =>
         new Promise((resolve, reject) => {
-          this.levelTypeService.delete(levelType.id)
+          this.levelService.delete(level.id)
             .subscribe(() => {
               this.notification.success("Succés", "Elément supprimé avec succès!");
               this.search();

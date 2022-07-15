@@ -5,55 +5,112 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\LevelRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Filter\SimpleSearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 
 #[ORM\Entity(repositoryClass: LevelRepository::class)]
 #[ApiResource(
     normalizationContext: ["groups" => ["read:level"]],
-    denormalizationContext: ["groups" => ["write:etablishment"]],
+    denormalizationContext: ["groups" => ["write:level"]],
     attributes: [
         "pagination_client_enabled" => true,
         "pagination_client_items_per_page" => true
     ]
+)]
+#[ApiFilter(
+    SearchFilter::class,
+    properties: ["etablishment" => "exact"]
+)]
+#[ApiFilter(
+    SimpleSearchFilter::class,
+    properties: ["name"]
+)]
+#[ApiFilter(
+    OrderFilter::class,
+    properties: ["name"],
+    arguments: ["orderParameterName" => "order"]
 )]
 class Level
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups([
+        "read:level"
+    ])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups([
+        "read:level", "write:level"
+    ])]
     private $name;
 
     #[ORM\Column(type: 'text')]
+    #[Groups([
+        "read:level", "write:level"
+    ])]
     private $description;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups([
+        "read:level", "write:level"
+    ])]
     private $code;
 
     #[ORM\ManyToOne(targetEntity: Faculty::class)]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        "read:level", "write:level"
+    ])]
     private $faculty;
 
     #[ORM\ManyToOne(targetEntity: Etablishment::class)]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        "read:level", "write:level"
+    ])]
     private $etablishment;
 
     #[ORM\ManyToOne(targetEntity: Diploma::class)]
+    #[Groups([
+        "read:level", "write:level"
+    ])]
     private $obtainedDiploma;
 
     #[ORM\ManyToOne(targetEntity: Diploma::class)]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([
+        "read:level", "write:level"
+    ])]
     private $preparedDiploma;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups([
+        "read:level"
+    ])]
     private $createdAt;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups([
+        "read:level"
+    ])]
     private $updatedAt;
 
     #[ORM\Column(type: 'integer')]
+    #[Groups([
+        "read:level", "write:level"
+    ])]
     private $duration;
+
+    #[ORM\ManyToOne(targetEntity: LevelType::class)]
+    #[Groups([
+        "read:level", "write:level"
+    ])]
+    private $levelType;
 
     public function getId(): ?int
     {
@@ -176,6 +233,18 @@ class Level
     public function setDuration(int $duration): self
     {
         $this->duration = $duration;
+
+        return $this;
+    }
+
+    public function getLevelType(): ?LevelType
+    {
+        return $this->levelType;
+    }
+
+    public function setLevelType(?LevelType $levelType): self
+    {
+        $this->levelType = $levelType;
 
         return $this;
     }
