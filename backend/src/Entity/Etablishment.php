@@ -35,7 +35,8 @@ class Etablishment
         "read:manager", 
         "read:employee", "write:employee",
         "read:diploma", "write:diploma",
-        "read:faculty", "write:faculty"
+        "read:faculty", "write:faculty",
+        "read:level_type", "write:level_type"
     ])]
     private $id;
 

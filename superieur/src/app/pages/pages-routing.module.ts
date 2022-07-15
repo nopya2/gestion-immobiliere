@@ -23,6 +23,7 @@ import { ModuleComponent } from './module/module.component';
 import { RoleComponent } from './role/role.component';
 import { DiplomaComponent } from './diploma/diploma.component';
 import { FacultyComponent } from './faculty/faculty.component';
+import { LevelTypeComponent } from './level-type/level-type.component';
 
 const routes: Routes = [
     {
@@ -105,6 +106,13 @@ const routes: Routes = [
         component: FacultyComponent,
         data: {
             title: 'Gestion des filières'
+        }
+    },
+    {
+        path: 'level-types',
+        component: LevelTypeComponent,
+        data: {
+            title: 'Gestion des types de niveau'
         }
     },
     {

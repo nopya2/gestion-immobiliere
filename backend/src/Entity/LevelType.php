@@ -5,23 +5,60 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\LevelTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Filter\SimpleSearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 
 #[ORM\Entity(repositoryClass: LevelTypeRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ["groups" => ["read:level_type"]],
+    denormalizationContext: ["groups" => ["write:level_type"]],
+    attributes: [
+        "pagination_client_enabled" => true,
+        "pagination_client_items_per_page" => true
+    ]
+)]
+#[ApiFilter(
+    SearchFilter::class,
+    properties: ["etablishment" => "exact"]
+)]
+#[ApiFilter(
+    SimpleSearchFilter::class,
+    properties: ["name", "code"]
+)]
+#[ApiFilter(
+    OrderFilter::class,
+    properties: ["name"],
+    arguments: ["orderParameterName" => "order"]
+)]
 class LevelType
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups([
+        "read:level_type"
+    ])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[Groups([
+        "read:level_type", "write:level_type"
+    ])]
     private $name;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[Groups([
+        "read:level_type", "write:level_type"
+    ])]
     private $code;
 
     #[ORM\ManyToOne(targetEntity: Etablishment::class)]
+    #[Groups([
+        "read:level_type", "write:level_type"
+    ])]
     private $etablishment;
 
     public function getId(): ?int

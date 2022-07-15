@@ -75,6 +75,15 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: []
             },
             {
+                path: '/pages/level-types',
+                title: 'Types de niveau',
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                roles: [],
+                submenu: []
+            },
+            {
                 path: '/pages/etablishments',
                 title: 'Etablissements',
                 iconType: '',

@@ -69,6 +69,8 @@ import { DiplomaModalComponent } from './diploma/diploma-modal/diploma-modal.com
 import { FacultyComponent } from './faculty/faculty.component';
 import { FacultyModalComponent } from './faculty/faculty-modal/faculty-modal.component';
 import { FacultyAddDiplomaModalComponent } from './faculty/faculty-add-diploma-modal/faculty-add-diploma-modal.component';
+import { LevelTypeComponent } from './level-type/level-type.component';
+import { LevelTypeModalComponent } from './level-type/level-type-modal/level-type-modal.component';
 
 const antdModule = [
     NzCardModule,
@@ -142,7 +144,9 @@ const antdModule = [
         DiplomaModalComponent,
         FacultyComponent,
         FacultyModalComponent,
-        FacultyAddDiplomaModalComponent
+        FacultyAddDiplomaModalComponent,
+        LevelTypeComponent,
+        LevelTypeModalComponent
     ],
     providers: [
     ]
