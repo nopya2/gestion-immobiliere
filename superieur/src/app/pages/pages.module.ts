@@ -34,6 +34,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { QuillModule } from 'ngx-quill'
 
 import { ProfileComponent } from './profile/profile.component';
 import { InvoiceComponent } from './invoice/invoice.component';
@@ -113,6 +114,7 @@ const antdModule = [
         SharedModule,
         ReactiveFormsModule,
         PagesRoutingModule,
+        QuillModule.forRoot(),
         ...antdModule
     ],
     declarations: [

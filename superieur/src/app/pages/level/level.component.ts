@@ -31,6 +31,7 @@ export class LevelComponent implements OnInit {
   action: string;
   confirmModal?: NzModalRef;
 
+
   constructor(
     private levelService: LevelService,
     private notification: NzNotificationService,
@@ -109,6 +110,7 @@ export class LevelComponent implements OnInit {
       nzStyle: {
         top: '30px'
       },
+      nzWidth: '1000px',
       nzMaskClosable: false,
       nzOnOk: (event) => {
       }

@@ -23,7 +23,7 @@
             <nz-form-item>
                 <nz-form-label nzRequired nzFor="code">Code</nz-form-label>
                 <nz-form-control nzHasFeedback [nzErrorTip]="errorCode">
-                    <input nz-input formControlName="code" id="code" nzSize="small" autocomplete="off"/>
+                    <input nz-input formControlName="code" id="code" nzSize="small" autocomplete="off" oninput="this.value = this.value.toUpperCase()"/>
                     <ng-template #errorCode let-control>
                         <ng-container *ngIf="control.hasError('required')">
                             Le champs est requis!
@@ -37,7 +37,8 @@
             <nz-form-item>
                 <nz-form-label nzRequired nzFor="description">Description</nz-form-label>
                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-                    <input nz-input formControlName="description" id="description" nzSize="small" autocomplete="off"/>
+                    <!-- <input nz-input formControlName="description" id="description" nzSize="small" autocomplete="off"/> -->
+                    <quill-editor formControlName="description" [style]="{height: '250px'}" [modules]="editorConfig" placeholder=""></quill-editor>
                     <ng-template #errorTpl let-control>
                         <ng-container *ngIf="control.hasError('required')">
                             Le champs est requis!
@@ -51,7 +52,19 @@
             <nz-form-item>
                 <nz-form-label nzRequired nzFor="faculty">Filière</nz-form-label>
                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-                    <input nz-input formControlName="faculty" id="faculty" nzSize="small" autocomplete="off"/>
+                    <nz-select 
+                        formControlName="faculty" 
+                        id="faculty" 
+                        nzSize="small" 
+                        autocomplete="off"
+                        nzPlaceHolder="Veuillez sélectionner"
+                        nzShowSearch nzAllowClear 
+                        (ngModelChange)="onSelectFaculty($event)">
+                        <nz-option *ngFor="let item of faculties"
+                            [nzLabel]="item.name" 
+                            [nzValue]="item['@id']">
+                        </nz-option>
+                    </nz-select>
                     <ng-template #errorTpl let-control>
                         <ng-container *ngIf="control.hasError('required')">
                             Le champs est requis!
@@ -65,7 +78,18 @@
             <nz-form-item>
                 <nz-form-label nzRequired nzFor="levelType">Type de niveau</nz-form-label>
                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-                    <input nz-input formControlName="levelType" id="levelType" nzSize="small" autocomplete="off"/>
+                    <nz-select 
+                        formControlName="levelType" 
+                        id="levelType" 
+                        nzSize="small" 
+                        autocomplete="off"
+                        nzPlaceHolder="Veuillez sélectionner"
+                        nzShowSearch nzAllowClear >
+                        <nz-option *ngFor="let item of levelTypes"
+                            [nzLabel]="item.name" 
+                            [nzValue]="item['@id']">
+                        </nz-option>
+                    </nz-select>
                     <ng-template #errorTpl let-control>
                         <ng-container *ngIf="control.hasError('required')">
                             Le champs est requis!
@@ -79,7 +103,18 @@
             <nz-form-item>
                 <nz-form-label nzRequired nzFor="preparedDiploma">Diplôme préparé</nz-form-label>
                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-                    <input nz-input formControlName="preparedDiploma" id="preparedDiploma" nzSize="small" autocomplete="off"/>
+                    <nz-select 
+                        formControlName="preparedDiploma" 
+                        id="preparedDiploma" 
+                        nzSize="small" 
+                        autocomplete="off"
+                        nzPlaceHolder="Veuillez sélectionner"
+                        nzShowSearch nzAllowClear >
+                        <nz-option *ngFor="let item of diplomas"
+                            [nzLabel]="item.name" 
+                            [nzValue]="item['@id']">
+                        </nz-option>
+                    </nz-select>
                     <ng-template #errorTpl let-control>
                         <ng-container *ngIf="control.hasError('required')">
                             Le champs est requis!
@@ -91,9 +126,20 @@
 
         <div nz-col class="gutter-row" nzSpan="12">
             <nz-form-item>
-                <nz-form-label nzRequired nzFor="obtainedDiploma">Diplôme obtenu</nz-form-label>
+                <nz-form-label nzFor="obtainedDiploma">Diplôme obtenu</nz-form-label>
                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-                    <input nz-input formControlName="obtainedDiploma" id="obtainedDiploma" nzSize="small" autocomplete="off"/>
+                    <nz-select 
+                        formControlName="obtainedDiploma" 
+                        id="obtainedDiploma" 
+                        nzSize="small" 
+                        autocomplete="off"
+                        nzPlaceHolder="Veuillez sélectionner"
+                        nzShowSearch nzAllowClear >
+                        <nz-option *ngFor="let item of diplomas"
+                            [nzLabel]="item.name" 
+                            [nzValue]="item['@id']">
+                        </nz-option>
+                    </nz-select>
                     <ng-template #errorTpl let-control>
                         <ng-container *ngIf="control.hasError('required')">
                             Le champs est requis!
