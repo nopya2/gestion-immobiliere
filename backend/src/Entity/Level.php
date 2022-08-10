@@ -64,7 +64,8 @@ class Level
     #[ORM\ManyToOne(targetEntity: Faculty::class)]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups([
-        "read:level", "write:level"
+        "read:level", "write:level",
+        "faculty:level", "faculty:level"
     ])]
     private $faculty;
 
@@ -111,6 +112,11 @@ class Level
         "read:level", "write:level"
     ])]
     private $levelType;
+
+    public function __construct(){
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {

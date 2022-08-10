@@ -36,7 +36,8 @@ class Diploma
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups([
         "read:diploma", "write:diploma",
-        "read:faculty"
+        "read:faculty",
+        "read:level"
     ])]
     private $name;
 

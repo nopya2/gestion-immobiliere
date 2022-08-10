@@ -45,7 +45,8 @@ class LevelType
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     #[Groups([
-        "read:level_type", "write:level_type"
+        "read:level_type", "write:level_type",
+        "read:level"
     ])]
     private $name;
 

@@ -36,14 +36,16 @@ class Faculty
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     #[Groups([
-        "read:faculty"
+        "read:faculty",
+        "read:level", "write:level"
     ])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     #[Assert\NotBlank(message: 'Le champs est requis')]
     #[Groups([
-        "read:faculty", "write:faculty"
+        "read:faculty", "write:faculty",
+        "read:level", "write:level"
     ])]
     private $name;
 
