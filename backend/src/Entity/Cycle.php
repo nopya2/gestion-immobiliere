@@ -61,6 +61,12 @@ class Cycle
     #[ORM\Column(type: 'datetime_immutable')]
     private $updatedAt;
 
+    #[ORM\ManyToOne(targetEntity: Etablishment::class, inversedBy: 'cycles')]
+    #[Groups([
+        "read:cycle", "write:cycle"
+    ])]
+    private $etablishment;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -110,6 +116,18 @@ class Cycle
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getEtablishment(): ?Etablishment
+    {
+        return $this->etablishment;
+    }
+
+    public function setEtablishment(?Etablishment $etablishment): self
+    {
+        $this->etablishment = $etablishment;
 
         return $this;
     }

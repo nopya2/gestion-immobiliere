@@ -37,7 +37,8 @@ class Etablishment
         "read:diploma", "write:diploma",
         "read:faculty", "write:faculty",
         "read:level_type", "write:level_type",
-        "write:level"
+        "write:level",
+        "write:cycle"
     ])]
     private $id;
 
@@ -114,12 +115,16 @@ class Etablishment
     #[ORM\OneToOne(targetEntity: Manager::class, cascade: ['persist', 'remove'])]
     #[Groups(["read:etablishment", "write:etablishment"])]
     private $manager;
+
+    #[ORM\OneToMany(mappedBy: 'etablishment', targetEntity: Cycle::class)]
+    private $cycles;
     
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
         $this->academicYears = new ArrayCollection();
+        $this->cycles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -329,6 +334,36 @@ class Etablishment
     public function setManager(?Manager $manager): self
     {
         $this->manager = $manager;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cycle>
+     */
+    public function getCycles(): Collection
+    {
+        return $this->cycles;
+    }
+
+    public function addCycle(Cycle $cycle): self
+    {
+        if (!$this->cycles->contains($cycle)) {
+            $this->cycles[] = $cycle;
+            $cycle->setEtablishment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCycle(Cycle $cycle): self
+    {
+        if ($this->cycles->removeElement($cycle)) {
+            // set the owning side to null (unless already changed)
+            if ($cycle->getEtablishment() === $this) {
+                $cycle->setEtablishment(null);
+            }
+        }
 
         return $this;
     }
