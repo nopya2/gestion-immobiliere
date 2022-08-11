@@ -36,16 +36,19 @@ export class LevelTypeModalComponent implements OnInit {
       this.levelType = {
         name: '',
         code: '',
+        level: ''
       }
 
       this.validateForm = this.fb.group({
         name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
         code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(10)]],
+        level: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(10)]],
       });
     }else{
       this.validateForm = this.fb.group({
         name: [this.action == 'edit' ? this.levelType.name : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
         code: [this.action == 'edit' ? this.levelType.code : null, [Validators.required, Validators.minLength(1), Validators.maxLength(10)]],
+        level: [this.action == 'edit' ? this.levelType.level : null, [Validators.required, Validators.minLength(1), Validators.maxLength(10)]],
       });
     }
   }
@@ -59,6 +62,7 @@ export class LevelTypeModalComponent implements OnInit {
     //Format le type
     this.levelType.name = this.validateForm.value.name; 
     this.levelType.code = this.validateForm.value.code;
+    this.levelType.level = this.validateForm.value.level;
 
     this.isLoading = true;
     if(this.action === 'create'){
@@ -104,7 +108,7 @@ export class LevelTypeModalComponent implements OnInit {
     this.modal.destroy();
   }
 
-  public capitalizeString(event){
+  public capitalizeString(event, field){
     const arr = event.target.value.split(" ");
     
     for(let i = 0; i < arr.length; i++){
@@ -114,9 +118,17 @@ export class LevelTypeModalComponent implements OnInit {
 
     const str2 = arr.join(" ");
 
-    this.validateForm.patchValue({
-        name: str2
-    });
+    switch(field){
+      case 'name':
+        this.validateForm.patchValue({
+            name: str2
+        });
+      case 'level':
+        this.validateForm.patchValue({
+          level: str2
+        });
+    }
+    
   }
 
 }

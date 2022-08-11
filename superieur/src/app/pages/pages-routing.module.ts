@@ -113,7 +113,7 @@ const routes: Routes = [
         path: 'levels',
         component: LevelComponent,
         data: {
-            title: 'Gestion des niveaux'
+            title: 'Gestion des formations'
         }
     },
     {

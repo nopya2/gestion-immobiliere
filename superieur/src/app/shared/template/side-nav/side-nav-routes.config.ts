@@ -76,7 +76,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: '/pages/levels',
-                title: 'Niveaux',
+                title: 'Formations',
                 iconType: '',
                 icon: '',
                 iconTheme: '',

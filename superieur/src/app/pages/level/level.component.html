@@ -31,7 +31,7 @@
         <div class="col-lg-4 text-right">
             <a nz-button nzType="primary" (click)="openAdd()">
                 <i nz-icon nzType="plus-circle" theme="outline"></i>
-                <span>Ajouter un niveau</span>
+                <span>Ajouter une formation</span>
             </a>
         </div>
     </div>
@@ -67,7 +67,7 @@
                 <td>{{ data.code }}</td>
                 <td [innerHTML]="data.description"></td>
                 <td>{{ data.faculty ? data.faculty.name : 'N/A' }}</td>
-                <td>{{ data.levelType ? data.levelType.name : 'N/A' }}</td>
+                <td>{{ data.levelType ? data.levelType.name : 'N/A' }} ({{ data.levelType ? data.levelType.level : 'N/A' }})</td>
                 <td>
                     Préparé: {{ data.preparedDiploma ? data.preparedDiploma.name : 'N/A' }} <br>
                     Obtenu: {{ data.obtainedDiploma ? data.obtainedDiploma.name : 'N/A' }}

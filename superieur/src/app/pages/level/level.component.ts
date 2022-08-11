@@ -77,7 +77,7 @@ export class LevelComponent implements OnInit {
   openAdd(){
     this.action = 'create';
     const a: any = this.modalService.create({
-      nzTitle: 'Ajouter un niveau',
+      nzTitle: 'Ajouter une formation',
       nzContent: LevelModalComponent,
       nzComponentParams: {
         action: this.action
@@ -101,7 +101,7 @@ export class LevelComponent implements OnInit {
   openEdit(level){
     this.action = 'edit';
     const a: any = this.modalService.create({
-      nzTitle: 'Modifier niveau',
+      nzTitle: 'Modifier une formation',
       nzContent: LevelModalComponent,
       nzComponentParams: {
         level: {...level},

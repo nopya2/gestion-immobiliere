@@ -86,7 +86,7 @@
                         nzPlaceHolder="Veuillez sélectionner"
                         nzShowSearch nzAllowClear >
                         <nz-option *ngFor="let item of levelTypes"
-                            [nzLabel]="item.name" 
+                            [nzLabel]="item.name + ' (' + item.level + ')'" 
                             [nzValue]="item['@id']">
                         </nz-option>
                     </nz-select>
