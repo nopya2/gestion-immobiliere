@@ -69,6 +69,14 @@ class LevelType
     ])]
     private $level;
 
+    #[ORM\ManyToOne(targetEntity: Cycle::class, inversedBy: 'levelTypes')]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups([
+        "read:level_type", "write:level_type",
+        "read:level"
+    ])]
+    private $cycle;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -118,6 +126,18 @@ class LevelType
     public function setLevel(?string $level): self
     {
         $this->level = $level;
+
+        return $this;
+    }
+
+    public function getCycle(): ?Cycle
+    {
+        return $this->cycle;
+    }
+
+    public function setCycle(?Cycle $cycle): self
+    {
+        $this->cycle = $cycle;
 
         return $this;
     }

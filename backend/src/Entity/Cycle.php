@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CycleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Annotation\ApiFilter;
@@ -67,10 +69,14 @@ class Cycle
     ])]
     private $etablishment;
 
+    #[ORM\OneToMany(mappedBy: 'cycle', targetEntity: LevelType::class, orphanRemoval: true)]
+    private $levelTypes;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
+        $this->levelTypes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -134,6 +140,36 @@ class Cycle
     public function setEtablishment(?Etablishment $etablishment): self
     {
         $this->etablishment = $etablishment;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LevelType>
+     */
+    public function getLevelTypes(): Collection
+    {
+        return $this->levelTypes;
+    }
+
+    public function addLevelType(LevelType $levelType): self
+    {
+        if (!$this->levelTypes->contains($levelType)) {
+            $this->levelTypes[] = $levelType;
+            $levelType->setCycle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLevelType(LevelType $levelType): self
+    {
+        if ($this->levelTypes->removeElement($levelType)) {
+            // set the owning side to null (unless already changed)
+            if ($levelType->getCycle() === $this) {
+                $levelType->setCycle(null);
+            }
+        }
 
         return $this;
     }
