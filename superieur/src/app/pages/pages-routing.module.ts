@@ -25,6 +25,7 @@ import { DiplomaComponent } from './diploma/diploma.component';
 import { FacultyComponent } from './faculty/faculty.component';
 import { LevelTypeComponent } from './level-type/level-type.component';
 import { LevelComponent } from './level/level.component';
+import { CycleComponent } from './cycle/cycle.component';
 
 const routes: Routes = [
     {
@@ -121,6 +122,13 @@ const routes: Routes = [
         component: LevelTypeComponent,
         data: {
             title: 'Gestion des types de niveau'
+        }
+    },
+    {
+        path: 'cycles',
+        component: CycleComponent,
+        data: {
+            title: 'Gestion des cycles'
         }
     },
     {

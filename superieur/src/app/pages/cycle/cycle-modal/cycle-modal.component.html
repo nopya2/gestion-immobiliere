@@ -1,0 +1,41 @@
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" nzLayout="vertical">
+    <div nz-row [nzGutter]="16">
+        <div nz-col class="gutter-row" nzSpan="24">
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="name">Nom</nz-form-label>
+                <nz-form-control nzHasFeedback [nzErrorTip]="errorName">
+                    <input nz-input formControlName="name" id="name" nzSize="small" autocomplete="off" (input)="capitalizeString($event)"/>
+                    <ng-template #errorName let-control>
+                        <ng-container *ngIf="control.hasError('minlength')">
+                            Le champs doit contenir au moins 3 caractères!
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                            Le champs doit contenir au plus 50 caractères!
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Le champs est requis!
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div nz-col class="gutter-row" nzSpan="24">
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="description">Description</nz-form-label>
+                <nz-form-control nzHasFeedback [nzErrorTip]="errorDescription">
+                    <textarea nz-input formControlName="description" id="description" nzSize="small" autocomplete="off" ></textarea>
+                    <ng-template #errorDescription let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Le champs est requis!
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+</form>
+
+<div *nzModalFooter>
+    <button nz-button nzType="default" (click)="closeModal()">Annuler</button>
+    <button nz-button nzType="primary" (click)="submitForm()" [nzLoading]="isLoading" [disabled]="!validateForm.valid">Enregistrer</button>
+</div>

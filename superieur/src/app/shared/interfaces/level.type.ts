@@ -26,3 +26,11 @@ export interface Level {
     levelType: LevelType;
     etablishment?: Etablishment;
 }
+
+export interface Cycle {
+    id?: number;
+    '@id'?: string;
+    name: string;
+    description: string;
+    etablishment?: Etablishment;
+}

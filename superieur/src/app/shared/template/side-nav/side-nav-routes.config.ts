@@ -93,6 +93,15 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: []
             },
             {
+                path: '/pages/cycles',
+                title: 'Cycles',
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                roles: [],
+                submenu: []
+            },
+            {
                 path: '/pages/etablishments',
                 title: 'Etablissements',
                 iconType: '',
