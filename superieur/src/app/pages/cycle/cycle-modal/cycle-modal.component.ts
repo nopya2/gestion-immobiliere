@@ -35,7 +35,7 @@ export class CycleModalComponent implements OnInit {
     this.validateForm = this.fb.group({
       id: [this.cycle ? this.cycle.id : null],
       name: [this.cycle ? this.cycle.name : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      description: [this.cycle ? this.cycle.description : null, [Validators.required, Validators.minLength(1), Validators.maxLength(10)]]
+      description: [this.cycle ? this.cycle.description : null, [Validators.required, Validators.minLength(1), Validators.maxLength(1000)]]
     });
   }
 

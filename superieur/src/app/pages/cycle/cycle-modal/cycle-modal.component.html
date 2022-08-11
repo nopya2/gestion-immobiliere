@@ -28,6 +28,12 @@
                         <ng-container *ngIf="control.hasError('required')">
                             Le champs est requis!
                         </ng-container>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                            Le champs doit contenir au plus 1000 caractères!
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('minlength')">
+                            Le champs doit contenir au moins 1 caractère!
+                        </ng-container>
                     </ng-template>
                 </nz-form-control>
             </nz-form-item>
