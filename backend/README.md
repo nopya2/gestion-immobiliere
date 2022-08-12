@@ -5,7 +5,7 @@ Requirements
 ------------
 
   * Symfony 5.4
-  * PHP 8.0.2 or higher;
+  * PHP 8.1 or higher;
   * and the [usual Symfony application requirements][2].
   * Composer 2
 

@@ -121,7 +121,7 @@ const routes: Routes = [
         path: 'level-types',
         component: LevelTypeComponent,
         data: {
-            title: 'Gestion des types de niveau'
+            title: 'Gestion des parcours'
         }
     },
     {

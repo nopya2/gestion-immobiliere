@@ -76,7 +76,7 @@ export class LevelTypeComponent implements OnInit {
   openAdd(){
     this.action = 'create';
     const a: any = this.modalService.create({
-      nzTitle: 'Ajouter un type',
+      nzTitle: 'Ajouter un parcours',
       nzContent: LevelTypeModalComponent,
       nzComponentParams: {
         action: this.action
@@ -99,7 +99,7 @@ export class LevelTypeComponent implements OnInit {
   openEdit(levelType){
     this.action = 'edit';
     const a: any = this.modalService.create({
-      nzTitle: 'Modifier le type',
+      nzTitle: 'Modifier parcours',
       nzContent: LevelTypeModalComponent,
       nzComponentParams: {
         levelType: {...levelType},
@@ -143,7 +143,7 @@ export class LevelTypeComponent implements OnInit {
             }, err => {
               reject();
             })
-        }).catch(() => console.log('Oops errors!'))
+        }).catch(() => this.notification.error("Erreur", "Erreur lors de la suppression de l'element"))
     });
   }
 

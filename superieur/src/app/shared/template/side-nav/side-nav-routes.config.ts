@@ -84,8 +84,8 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: []
             },
             {
-                path: '/pages/level-types',
-                title: 'Types de niveau',
+                path: '/pages/cycles',
+                title: 'Cycles',
                 iconType: '',
                 icon: '',
                 iconTheme: '',
@@ -93,8 +93,8 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: []
             },
             {
-                path: '/pages/cycles',
-                title: 'Cycles',
+                path: '/pages/level-types',
+                title: 'Parcours',
                 iconType: '',
                 icon: '',
                 iconTheme: '',

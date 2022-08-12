@@ -4,9 +4,10 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 //interfaces
-import { LevelType } from '@app/shared/interfaces/level.type';
+import { Cycle, LevelType } from '@app/shared/interfaces/level.type';
 //services
 import { LevelTypeService } from '@app/shared/services/level-type.service';
+import { CycleService } from '@app/shared/services/cycle.service';
 
 @Component({
   selector: 'app-level-type-modal',
@@ -20,37 +21,39 @@ export class LevelTypeModalComponent implements OnInit {
   isLoading: Boolean = false;
   @Input() levelType: LevelType;
   @Input() action: string;
+  cycles: Cycle[] = [];
 
   constructor(
     private fb: FormBuilder,
     private modal: NzModalRef,
     private levelTypeService: LevelTypeService,
-    private notification: NzNotificationService) {}
+    private notification: NzNotificationService,
+    private cycleService: CycleService) {}
 
   ngOnInit(): void {
     this.initForm();
+
+    this.getParams();
   }
 
   initForm(){
-    if(this.action === 'create'){
-      this.levelType = {
-        name: '',
-        code: '',
-        level: ''
-      }
+    this.validateForm = this.fb.group({
+      id: [this.levelType ? this.levelType.id : null],
+      name: [this.levelType ? this.levelType.name : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      code: [this.levelType ? this.levelType.code : null, [Validators.required, Validators.minLength(1), Validators.maxLength(10)]],
+      level: [this.levelType ? this.levelType.level : null, [Validators.required, Validators.minLength(1), Validators.maxLength(10)]],
+      cycle: [this.levelType && this.levelType.cycle ? this.levelType.cycle['@id'] : null, [Validators.required]],
+    });
+  }
 
-      this.validateForm = this.fb.group({
-        name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-        code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(10)]],
-        level: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(10)]],
+  getParams(): void {
+    //Chargement des cycles
+    this.cycleService.getAll({pagination: false})
+      .subscribe((res) => {
+        this.cycles = res['hydra:member'];
+      }, error => {
+        this.notification.error("Erreur", "Erreur lors du chargement des cycles!")
       });
-    }else{
-      this.validateForm = this.fb.group({
-        name: [this.action == 'edit' ? this.levelType.name : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-        code: [this.action == 'edit' ? this.levelType.code : null, [Validators.required, Validators.minLength(1), Validators.maxLength(10)]],
-        level: [this.action == 'edit' ? this.levelType.level : null, [Validators.required, Validators.minLength(1), Validators.maxLength(10)]],
-      });
-    }
   }
 
   submitForm(): void {
@@ -59,14 +62,9 @@ export class LevelTypeModalComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
 
-    //Format le type
-    this.levelType.name = this.validateForm.value.name; 
-    this.levelType.code = this.validateForm.value.code;
-    this.levelType.level = this.validateForm.value.level;
-
     this.isLoading = true;
     if(this.action === 'create'){
-      this.levelTypeService.create(this.levelType)
+      this.levelTypeService.create(this.validateForm.value)
         .subscribe((res) => {
           this.isLoading = false;
           this.notification.success("Succés", "Elément ajouté avec succè!");
@@ -77,7 +75,7 @@ export class LevelTypeModalComponent implements OnInit {
           // this.notification.error("Echec création", "Login ou mot de passse invalide!");
         });
     }else{
-      this.levelTypeService.patch(this.levelType)
+      this.levelTypeService.patch(this.validateForm.value)
         .subscribe((res) => {
           this.isLoading = false;
           this.notification.success("Succés", "Informations enregistrées!");
@@ -121,12 +119,14 @@ export class LevelTypeModalComponent implements OnInit {
     switch(field){
       case 'name':
         this.validateForm.patchValue({
-            name: str2
+          name: str2
         });
+        break;
       case 'level':
         this.validateForm.patchValue({
           level: str2
         });
+        break;
     }
     
   }

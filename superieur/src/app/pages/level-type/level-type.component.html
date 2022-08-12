@@ -31,7 +31,7 @@
         <div class="col-lg-4 text-right">
             <a nz-button nzType="primary" (click)="openAdd()">
                 <i nz-icon nzType="plus-circle" theme="outline"></i>
-                <span>Ajouter un type</span>
+                <span>Ajouter un parcours</span>
             </a>
         </div>
     </div>
@@ -52,6 +52,7 @@
         <thead>
             <tr>
                 <th nzColumnKey="name" [nzSortFn]="true">Nom</th>
+                <th nzColumnKey="name" [nzSortFn]="true">Cycle</th>
                 <th nzColumnKey="name" [nzSortFn]="true">Niveau</th>
                 <th nzColumnKey="slug">Code</th>
                 <th nzRight>Actions</th>
@@ -60,6 +61,7 @@
         <tbody>
             <tr *ngFor="let data of levelTypes">
                 <td>{{ data.name }}</td>
+                <td>{{ data.cycle ? data.cycle.name : 'N/A' }}</td>
                 <td>{{ data.level }}</td>
                 <td>{{ data.code }}</td>
                 <td nzRight class="text-md-right">

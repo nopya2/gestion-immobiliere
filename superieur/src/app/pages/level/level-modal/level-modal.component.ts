@@ -79,7 +79,7 @@ export class LevelModalComponent implements OnInit {
       .subscribe((res) => {
         this.levelTypes = res['hydra:member'];
       }, error => {
-        this.notification.error("Erreur", "Erreur lors du chargement les types de niveau!")
+        this.notification.error("Erreur", "Erreur lors du chargement des parcours!")
       })
   }
 
@@ -88,16 +88,6 @@ export class LevelModalComponent implements OnInit {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
     }
-
-    //Format le type
-    // this.level.name = this.validateForm.value.name; 
-    // this.level.code = this.validateForm.value.code;
-    // this.level.description = this.validateForm.value.description;
-    // this.level.faculty = this.validateForm.value.faculty;
-    // this.level.obtainedDiploma = this.validateForm.value.obtainedDiploma;
-    // this.level.preparedDiploma = this.validateForm.value.preparedDiploma;
-    // this.level.duration = this.validateForm.value.duration;
-    // this.level.levelType = this.validateForm.value.levelType;
 
     this.isLoading = true;
     if(this.action === 'create'){

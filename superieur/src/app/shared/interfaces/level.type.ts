@@ -8,7 +8,8 @@ export interface LevelType {
     name: string;
     code: string;
     etablishment?: Etablishment;
-    level: string
+    level: string;
+    cycle: Cycle;
 }
 
 export interface Level {

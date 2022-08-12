@@ -47,7 +47,8 @@ class Cycle
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups([
-        "read:cycle", "write:cycle"
+        "read:cycle", "write:cycle",
+        "read:level_type"
     ])]
     private $name;
 
