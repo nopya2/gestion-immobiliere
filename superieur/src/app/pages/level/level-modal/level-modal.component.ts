@@ -4,14 +4,14 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 //interfaces
-import { Level, LevelType } from '@app/shared/interfaces/level.type';
+import { Level, LevelType, Cycle } from '@app/shared/interfaces/level.type';
+import { Faculty } from '@app/shared/interfaces/faculty.type';
+import { Diploma } from '@app/shared/interfaces/diploma.type';
 //services
 import { LevelService } from '@app/shared/services/level.service';
 import { FacultyService } from '@app/shared/services/faculty.service';
-import { LevelTypeService } from '@app/shared/services/level-type.service';
 import { DiplomaService } from '@app/shared/services/diploma.service';
-import { Faculty } from '@app/shared/interfaces/faculty.type';
-import { Diploma } from '@app/shared/interfaces/diploma.type';
+import { CycleService } from '@app/shared/services/cycle.service';
 
 @Component({
   selector: 'app-level-modal',
@@ -28,6 +28,7 @@ export class LevelModalComponent implements OnInit {
   faculties: Faculty[] = [];
   levelTypes: LevelType[] = [];
   diplomas: Diploma[] = [];
+  cycles: Cycle[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -35,15 +36,37 @@ export class LevelModalComponent implements OnInit {
     private levelService: LevelService,
     private notification: NzNotificationService,
     private facultyService: FacultyService,
-    private levelTypeService: LevelTypeService,
-    private diplomaService: DiplomaService) {}
+    private diplomaService: DiplomaService,
+    private cycleService: CycleService) {}
 
   ngOnInit(): void {
     this.initForm();
 
-    this.getFaculties();
+    this.getParams();
+  }
 
-    this.getLevelTypes();
+  getParams(){
+    //chargement des filières
+    this.facultyService.getAll({pagination: false})
+      .subscribe((res) => {
+        this.faculties = res['hydra:member'];
+
+        if(this.level){
+          console.log(0);
+          this.onSelectFaculty(this.level.faculty['@id']);
+        }
+      }, error => {
+        this.notification.error("Erreur", "Erreur lors du chargement des filières!")
+      });
+
+      //Chargement des cycles
+      this.cycleService.getAll({pagination: false})
+      .subscribe((res) => {
+        this.cycles = res['hydra:member'];
+      }, error => {
+        this.notification.error("Erreur", "Erreur lors du chargement des cycles!")
+      })
+
   }
 
   initForm(){
@@ -57,30 +80,8 @@ export class LevelModalComponent implements OnInit {
       preparedDiploma: [(this.level && this.level.preparedDiploma) ? this.level.preparedDiploma['@id'] : null, [Validators.required]],
       duration: [this.level ? this.level.duration : null, [Validators.required]],
       levelType: [(this.level && this.level.levelType) ? this.level.levelType['@id'] : null, [Validators.required]],
+      cycle: [(this.level && this.level.levelType && this.level.levelType.cycle) ? this.level.levelType.cycle['@id'] : null, [Validators.required]],
     });
-  }
-
-  getFaculties(): void {
-    this.facultyService.getAll({pagination: false})
-      .subscribe((res) => {
-        this.faculties = res['hydra:member'];
-
-        if(this.level){
-          console.log(0);
-          this.onSelectFaculty(this.level.faculty['@id']);
-        }
-      }, error => {
-        this.notification.error("Erreur", "Erreur lors du chargement des filières!")
-      })
-  }
-
-  getLevelTypes(): void {
-    this.levelTypeService.getAll({pagination: false})
-      .subscribe((res) => {
-        this.levelTypes = res['hydra:member'];
-      }, error => {
-        this.notification.error("Erreur", "Erreur lors du chargement des parcours!")
-      })
   }
 
   submitForm(): void {
@@ -132,13 +133,24 @@ export class LevelModalComponent implements OnInit {
   }
 
   /**
-   * On récupère les diplomes en focntion de la filière
+   * On récupère les diplomes en fonction de la filière
    * @param event 
    */
   onSelectFaculty(event){
     let index = this.faculties.findIndex(x => x['@id'] === event);
     if(index !== -1){
       this.diplomas = [...this.faculties[index].diplomas];
+    }
+  }
+
+  /**
+   * On récupère les parcours en fonction du cyle
+   * @param event 
+   */
+   onSelectCycle(event){
+    let index = this.cycles.findIndex(x => x['@id'] === event);
+    if(index !== -1){
+      this.levelTypes = [...this.cycles[index].levelTypes];
     }
   }
 

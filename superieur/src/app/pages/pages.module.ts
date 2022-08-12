@@ -76,6 +76,9 @@ import { LevelComponent } from './level/level.component';
 import { LevelModalComponent } from './level/level-modal/level-modal.component';
 import { CycleComponent } from './cycle/cycle.component';
 import { CycleModalComponent } from './cycle/cycle-modal/cycle-modal.component';
+import { DepartmentComponent } from './department/department.component';
+import { DepartmentModalComponent } from './department/department-modal/department-modal.component';
+import { LevelShowComponent } from './level/level-show/level-show.component';
 
 const antdModule = [
     NzCardModule,
@@ -156,7 +159,10 @@ const antdModule = [
         LevelComponent,
         LevelModalComponent,
         CycleComponent,
-        CycleModalComponent
+        CycleModalComponent,
+        DepartmentComponent,
+        DepartmentModalComponent,
+        LevelShowComponent
     ],
     providers: [
     ]

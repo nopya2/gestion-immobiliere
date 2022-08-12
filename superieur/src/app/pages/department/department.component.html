@@ -31,7 +31,7 @@
         <div class="col-lg-4 text-right">
             <a nz-button nzType="primary" (click)="openAdd()">
                 <i nz-icon nzType="plus-circle" theme="outline"></i>
-                <span>Ajouter une formation</span>
+                <span>Ajouter un département</span>
             </a>
         </div>
     </div>
@@ -41,7 +41,7 @@
     </div>
     <nz-table
       nzShowSizeChanger
-      [nzData]="levels"
+      [nzData]="departments"
       [nzFrontPagination]="false"
       [nzLoading]="loading"
       [nzTotal]="total"
@@ -52,38 +52,17 @@
         <thead>
             <tr>
                 <th nzColumnKey="name" [nzSortFn]="true">Nom</th>
-                <th nzColumnKey="slug">Code</th>
-                <th nzColumnKey="slug">Filière</th>
-                <th nzColumnKey="slug">Cycle</th>
-                <th nzColumnKey="slug">Parcours</th>
-                <th nzColumnKey="slug">Diplôme(s)</th>
-                <th nzColumnKey="slug">Durée (mois)</th>
+                <th nzColumnKey="name" [nzSortFn]="true">code</th>
+                <th nzColumnKey="name" [nzSortFn]="true">Ajouté le</th>
                 <th nzRight>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let data of levels">
+            <tr *ngFor="let data of departments">
                 <td>{{ data.name }}</td>
                 <td>{{ data.code }}</td>
-                <td>{{ data.faculty ? data.faculty.name : 'N/A' }}</td>
-                <td>{{ data.levelType ? data.levelType.cycle.name : 'N/A' }}</td>
-                <td>{{ data.levelType ? data.levelType.name : 'N/A' }} ({{ data.levelType ? data.levelType.level : 'N/A' }})</td>
-                <td>
-                    Préparé: {{ data.preparedDiploma ? data.preparedDiploma.name : 'N/A' }} <br>
-                    Obtenu: {{ data.obtainedDiploma ? data.obtainedDiploma.name : 'N/A' }}
-                </td>
-                <td>{{ data.duration }}</td>
-                <td nzRight class="text-md-left">
-                    <a
-                        class="m-r-5"
-                        nz-button 
-                        nzType="default" 
-                        nzShape="circle" 
-                        nz-tooltip 
-                        nzTooltipTitle="Détails"
-                        (click)="showItem(data)">
-                        <i nz-icon nzType="eye" theme="outline"></i>
-                    </a>
+                <td>{{ data.createdAt | date:'dd-MM-yyyy'}}</td>
+                <td nzRight class="text-md-right">
                     <a 
                         class="m-r-5"
                         nz-button nzType="default" 

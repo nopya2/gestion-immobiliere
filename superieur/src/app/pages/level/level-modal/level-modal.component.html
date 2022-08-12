@@ -76,7 +76,33 @@
 
         <div nz-col class="gutter-row" nzSpan="12">
             <nz-form-item>
-                <nz-form-label nzRequired nzFor="levelType">Type de niveau</nz-form-label>
+                <nz-form-label nzRequired nzFor="faculty">Cycle</nz-form-label>
+                <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+                    <nz-select 
+                        formControlName="cycle" 
+                        id="cycle" 
+                        nzSize="small" 
+                        autocomplete="off"
+                        nzPlaceHolder="Veuillez sélectionner"
+                        nzShowSearch nzAllowClear 
+                        (ngModelChange)="onSelectCycle($event)">
+                        <nz-option *ngFor="let item of cycles"
+                            [nzLabel]="item.name" 
+                            [nzValue]="item['@id']">
+                        </nz-option>
+                    </nz-select>
+                    <ng-template #errorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Le champs est requis!
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+
+        <div nz-col class="gutter-row" nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="levelType">Parcours</nz-form-label>
                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
                     <nz-select 
                         formControlName="levelType" 

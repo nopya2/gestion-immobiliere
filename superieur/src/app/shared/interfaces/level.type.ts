@@ -34,4 +34,5 @@ export interface Cycle {
     name: string;
     description: string;
     etablishment?: Etablishment;
+    levelTypes?: LevelType[]
 }

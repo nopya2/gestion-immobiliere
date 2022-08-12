@@ -26,6 +26,8 @@ import { FacultyComponent } from './faculty/faculty.component';
 import { LevelTypeComponent } from './level-type/level-type.component';
 import { LevelComponent } from './level/level.component';
 import { CycleComponent } from './cycle/cycle.component';
+import { DepartmentComponent } from './department/department.component';
+import { LevelShowComponent } from './level/level-show/level-show.component';
 
 const routes: Routes = [
     {
@@ -104,6 +106,13 @@ const routes: Routes = [
         }
     },
     {
+        path: 'departments',
+        component: DepartmentComponent,
+        data: {
+            title: 'Gestion des départements'
+        }
+    },
+    {
         path: 'faculties',
         component: FacultyComponent,
         data: {
@@ -112,10 +121,25 @@ const routes: Routes = [
     },
     {
         path: 'levels',
-        component: LevelComponent,
         data: {
             title: 'Gestion des formations'
-        }
+        },
+        children: [
+            {
+                path: '',
+                component: LevelComponent,
+                data: {
+                    title: ''
+                }
+            },
+            {
+                path: 'show/:id',
+                component: LevelShowComponent,
+                data: {
+                    title: 'Détails'
+                }
+            }
+        ]
     },
     {
         path: 'level-types',
