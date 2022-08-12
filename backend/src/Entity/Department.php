@@ -3,9 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\CycleRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Repository\DepartmentRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Annotation\ApiFilter;
@@ -13,10 +11,10 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Filter\SimpleSearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 
-#[ORM\Entity(repositoryClass: CycleRepository::class)]
+#[ORM\Entity(repositoryClass: DepartmentRepository::class)]
 #[ApiResource(
-    normalizationContext: ["groups" => ["read:cycle"]],
-    denormalizationContext: ["groups" => ["write:cycle"]],
+    normalizationContext: ["groups" => ["read:department"]],
+    denormalizationContext: ["groups" => ["write:department"]],
     attributes: [
         "pagination_client_enabled" => true,
         "pagination_client_items_per_page" => true
@@ -24,64 +22,59 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 )]
 #[ApiFilter(
     SearchFilter::class,
-    properties: ["etablishment" => "exact"]
-)]
-#[ApiFilter(
-    SimpleSearchFilter::class,
-    properties: ["name"]
+    properties: ["name" => "partial"]
 )]
 #[ApiFilter(
     OrderFilter::class,
     properties: ["name"],
     arguments: ["orderParameterName" => "order"]
 )]
-class Cycle
+class Department
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     #[Groups([
-        "read:cycle"
+        "read:department",
+        "read:faculty", "write:faculty"
     ])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups([
-        "read:cycle", "write:cycle",
-        "read:level_type",
-        "read:level"
+        "read:department", "write:department",
+        "read:faculty"
     ])]
     private $name;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Groups([
+        "read:department", "write:department",
+        "read:faculty"
+    ])]
+    private $code;
+
     #[ORM\Column(type: 'text', nullable: true)]
     #[Groups([
-        "read:cycle", "write:cycle"
+        "read:department", "write:department"
     ])]
     private $description;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups([
+        "read:department"
+    ])]
     private $createdAt;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups([
+        "read:department"
+    ])]
     private $updatedAt;
-
-    #[ORM\ManyToOne(targetEntity: Etablishment::class, inversedBy: 'cycles')]
-    #[Groups([
-        "read:cycle", "write:cycle"
-    ])]
-    private $etablishment;
     
-    #[ORM\OneToMany(mappedBy: 'cycle', targetEntity: LevelType::class, orphanRemoval: true)]
-    #[Groups([
-        "read:cycle", "write:cycle"
-    ])]
-    private $levelTypes;
-
-    public function __construct()
-    {
+    public function __construct(){
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
-        $this->levelTypes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -97,6 +90,18 @@ class Cycle
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }
@@ -133,48 +138,6 @@ class Cycle
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getEtablishment(): ?Etablishment
-    {
-        return $this->etablishment;
-    }
-
-    public function setEtablishment(?Etablishment $etablishment): self
-    {
-        $this->etablishment = $etablishment;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, LevelType>
-     */
-    public function getLevelTypes(): Collection
-    {
-        return $this->levelTypes;
-    }
-
-    public function addLevelType(LevelType $levelType): self
-    {
-        if (!$this->levelTypes->contains($levelType)) {
-            $this->levelTypes[] = $levelType;
-            $levelType->setCycle($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLevelType(LevelType $levelType): self
-    {
-        if ($this->levelTypes->removeElement($levelType)) {
-            // set the owning side to null (unless already changed)
-            if ($levelType->getCycle() === $this) {
-                $levelType->setCycle(null);
-            }
-        }
 
         return $this;
     }

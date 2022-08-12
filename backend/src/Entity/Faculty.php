@@ -76,6 +76,12 @@ class Faculty
     ])]
     private $diplomas;
 
+    #[ORM\ManyToOne(targetEntity: Department::class)]
+    #[Groups([
+        "read:faculty", "write:faculty"
+    ])]
+    private $department;
+
     public function __construct()
     {
         $this->diplomas = new ArrayCollection();
@@ -154,6 +160,18 @@ class Faculty
     public function removeDiploma(Diploma $diploma): self
     {
         $this->diplomas->removeElement($diploma);
+
+        return $this;
+    }
+
+    public function getDepartment(): ?Department
+    {
+        return $this->department;
+    }
+
+    public function setDepartment(?Department $department): self
+    {
+        $this->department = $department;
 
         return $this;
     }

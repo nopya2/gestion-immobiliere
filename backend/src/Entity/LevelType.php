@@ -46,13 +46,15 @@ class LevelType
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     #[Groups([
         "read:level_type", "write:level_type",
-        "read:level"
+        "read:level",
+        "read:cycle"
     ])]
     private $name;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     #[Groups([
-        "read:level_type", "write:level_type"
+        "read:level_type", "write:level_type",
+        "read:cycle"
     ])]
     private $code;
 
@@ -65,7 +67,8 @@ class LevelType
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Groups([
         "read:level_type", "write:level_type",
-        "read:level"
+        "read:level",
+        "read:cycle"
     ])]
     private $level;
 
