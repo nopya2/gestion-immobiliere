@@ -102,6 +102,15 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: []
             },
             {
+                path: '/pages/operation-types',
+                title: 'Types d\'opération',
+                iconType: '',
+                icon: '',
+                iconTheme: '',
+                roles: [],
+                submenu: []
+            },
+            {
                 path: '/pages/users',
                 title: 'Utilisateurs',
                 iconType: '',
