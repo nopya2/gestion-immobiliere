@@ -63,6 +63,8 @@ import { ModuleComponent } from './module/module.component';
 import { ModuleModalComponent } from './module/module-modal/module-modal.component';
 import { RoleComponent } from './role/role.component';
 import { RoleModalComponent } from './role/role-modal/role-modal.component';
+import { TypeConstructionListComponent } from './type-construction/components/list/list.component';
+import { TypeConstructionFormModalComponent } from './type-construction/components/modal/form/form.component';
 
 const antdModule = [
     NzCardModule,
@@ -130,7 +132,9 @@ const antdModule = [
         ModuleComponent,
         ModuleModalComponent,
         RoleComponent,
-        RoleModalComponent
+        RoleModalComponent,
+        TypeConstructionListComponent,
+        TypeConstructionFormModalComponent
     ],
     providers: [
     ]

@@ -1,0 +1,72 @@
+<nz-card>
+  <div class="row m-b-30">
+      <div class="col-lg-8">
+          <div class="d-md-flex">
+              <div class="m-b-10 m-r-20">
+                  <nz-input-group [nzPrefix]="prefixTemplate">
+                      <input type="text" nz-input placeholder="Rechercher" [(ngModel)]="searchInput" (ngModelChange)="search()">
+                  </nz-input-group>      
+                  <ng-template #prefixTemplate>
+                      <i nz-icon nzType="search" class="opacity-05"></i>
+                  </ng-template>   
+              </div>
+          </div>          
+      </div>
+      <div class="col-lg-4 text-right">
+          <a nz-button nzType="primary" (click)="openAdd()">
+              <i nz-icon nzType="plus-circle" theme="outline"></i>
+              <span>Ajouter un type de construction</span>
+          </a>
+      </div>
+  </div>
+
+  <div>
+      <nz-badge [nzCount]="total" [nzStyle]="{ backgroundColor: '#5796F6' }"></nz-badge> Elément(s)
+  </div>
+  <nz-table
+    nzShowSizeChanger
+    [nzData]="typesConstruction"
+    [nzFrontPagination]="false"
+    [nzLoading]="loading"
+    [nzTotal]="total"
+    [nzPageSize]="params.itemsPerPage"
+    [nzPageIndex]="params.page"
+    (nzQueryParams)="onQueryParamsChange($event)"
+  >
+      <thead>
+          <tr>
+              <th nzColumnKey="name" [nzSortFn]="true">Nom</th>
+              <th nzColumnKey="slug">Description</th>
+              <th nzRight>Actions</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let data of typesConstruction">
+              <td>{{ data.label }}</td>
+              <td>{{ data.description }}</td>
+              <td nzRight class="text-md-right">
+                  <a 
+                      class="m-r-5"
+                      nz-button nzType="default" 
+                      nzShape="circle" 
+                      nz-tooltip 
+                      nzTooltipTitle="Modifier" 
+                      (click)="openEdit(data)"
+                      nSize="small">
+                      <i nz-icon nzType="edit" theme="outline"></i>
+                  </a>
+                  <button nz-button 
+                      nzType="default" 
+                      nzShape="circle" 
+                      nz-tooltip 
+                      nzTooltipTitle="Supprimer"
+                      (click)="deleteItem(data)"
+                      nSize="small">
+                      <i nz-icon nzType="delete" theme="outline"></i>
+                  </button>
+              </td>
+          </tr>
+      </tbody>
+  </nz-table>
+  
+</nz-card>

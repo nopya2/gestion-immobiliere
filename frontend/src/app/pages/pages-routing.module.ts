@@ -21,8 +21,17 @@ import { EtablishmentShowComponent } from './etablishment/etablishment-show/etab
 import { PermissionComponent } from './permission/permission.component';
 import { ModuleComponent } from './module/module.component';
 import { RoleComponent } from './role/role.component';
+import { TypeConstructionListComponent } from './type-construction/components/list/list.component';
 
 const routes: Routes = [
+    {
+        path: 'types-construction',
+        component: TypeConstructionListComponent,
+        canActivate: [AuthGuard],
+        data: {
+            title: 'Gestion des types de construction',
+        }
+    },
     {
         path: 'users',
         component: UserComponent,

@@ -2,16 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from "../../../environments/environment";
+import { TypeConstruction } from '../interfaces/type-construction';
 
-import { Module } from '@app/shared/interfaces/global.type';
-
-const API_URL = "api/modules";
-
+const API_URL = "api/type_constructions";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ModuleService {
+export class TypeConstructionService {
 
   constructor(
     private http: HttpClient
@@ -25,29 +23,29 @@ export class ModuleService {
 
   getOne(id){
     return this.http.get<any>(`${environment.endpoint}/${API_URL}/${id}`)
-        .pipe(map((module: Module) => {
-            return module;
+        .pipe(map((typeConstruction: TypeConstruction) => {
+            return typeConstruction;
         }));
   }
 
-  create(data: Module){
+  create(data: TypeConstruction){
     return this.http.post<any>(`${environment.endpoint}/${API_URL}`, data)
-        .pipe(map((module: Module) => {
-            return module;
+        .pipe(map((typeConstruction: TypeConstruction) => {
+            return typeConstruction;
         }));
   }
 
-  update(data: Module){
+  update(data: TypeConstruction){
     return this.http.put<any>(`${environment.endpoint}/${API_URL}/${data.id}`, data)
-        .pipe(map((module: Module) => {
-            return module;
+        .pipe(map((typeConstruction: TypeConstruction) => {
+            return typeConstruction;
         }));
   }
 
-  patch(data: Module){
+  patch(data: TypeConstruction){
     return this.http.patch<any>(`${environment.endpoint}/${API_URL}/${data.id}`, data)
-        .pipe(map((module: Module) => {
-            return module;
+        .pipe(map((typeConstruction: TypeConstruction) => {
+            return typeConstruction;
         }));
   }
 
