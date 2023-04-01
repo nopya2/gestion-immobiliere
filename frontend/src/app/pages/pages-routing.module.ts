@@ -22,6 +22,7 @@ import { PermissionComponent } from './permission/permission.component';
 import { ModuleComponent } from './module/module.component';
 import { RoleComponent } from './role/role.component';
 import { TypeConstructionListComponent } from './type-construction/components/list/list.component';
+import { TypeProduitListComponent } from './type-produit/components/list/list.component';
 
 const routes: Routes = [
     {
@@ -30,6 +31,14 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
             title: 'Gestion des types de construction',
+        }
+    },
+    {
+        path: 'types-produit',
+        component: TypeProduitListComponent,
+        canActivate: [AuthGuard],
+        data: {
+            title: 'Gestion des types de produit',
         }
     },
     {

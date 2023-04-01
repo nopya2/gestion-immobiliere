@@ -4,23 +4,23 @@ import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
 //interfaces
-import { TypeConstruction } from '@app/shared/interfaces/type-construction.type';
+import { TypeProduit } from '@app/shared/interfaces/type-produit.type';
 //services
-import { TypeConstructionService } from "@app/shared/services/type-construction.service";
+import { TypeProduitService } from "@app/shared/services/type-produit.service";
 //others
 import { Helper } from '@app/shared/helper';
-import { TypeConstructionFormModalComponent } from '../modal/form/form.component';
+import { TypeProduitFormModalComponent } from '../modal/form/form.component';
 //components
 // import { ModuleModalComponent } from './module-modal/module-modal.component';
 
 @Component({
-  selector: 'app-list',
+  selector: 'app-type-produit-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
-export class TypeConstructionListComponent implements OnInit {
+export class TypeProduitListComponent implements OnInit {
 
-  typesConstruction: TypeConstruction[] = [];
+  typesProduit: TypeProduit[] = [];
   total = 0;
   loading = true;
   searchInput: string = "";
@@ -34,7 +34,7 @@ export class TypeConstructionListComponent implements OnInit {
   confirmModal?: NzModalRef;
 
   constructor(
-    private typeConstructionService: TypeConstructionService,
+    private typeProduitService: TypeProduitService,
     private notification: NzNotificationService,
     private modalService: NzModalService
   ) { }
@@ -44,10 +44,10 @@ export class TypeConstructionListComponent implements OnInit {
 
   getTypes(): void {
     this.loading = true;
-    this.typeConstructionService.getAll(this.params)
+    this.typeProduitService.getAll(this.params)
       .subscribe((res) => {
         this.loading = false;
-        this.typesConstruction = res['hydra:member'];
+        this.typesProduit = res['hydra:member'];
         this.total = res['hydra:totalItems'];
       }, error => {
         this.loading = false;
@@ -78,8 +78,8 @@ export class TypeConstructionListComponent implements OnInit {
   openAdd(){
     this.action = 'create';
     const a: any = this.modalService.create({
-      nzTitle: 'Ajouter un type de construction',
-      nzContent: TypeConstructionFormModalComponent,
+      nzTitle: 'Ajouter un type de produit',
+      nzContent: TypeProduitFormModalComponent,
       nzComponentParams: {
         action: this.action
       },
@@ -98,13 +98,13 @@ export class TypeConstructionListComponent implements OnInit {
     });
   }
 
-  openEdit(typeConstruction: TypeConstruction){
+  openEdit(typeProduit: TypeProduit){
     this.action = 'edit';
     const a: any = this.modalService.create({
-      nzTitle: 'Modifier le type de construction',
-      nzContent: TypeConstructionFormModalComponent,
+      nzTitle: 'Modifier le type de produit',
+      nzContent: TypeProduitFormModalComponent,
       nzComponentParams: {
-        typeConstruction: {...typeConstruction},
+        typeProduit: {...typeProduit},
         action: this.action
       },
       nzStyle: {
@@ -121,15 +121,15 @@ export class TypeConstructionListComponent implements OnInit {
           this.search();
         }
         if(this.action === 'edit'){
-          let index = this.typesConstruction.findIndex(x => x.id === e.id);
+          let index = this.typesProduit.findIndex(x => x.id === e.id);
           if(index !== -1)
-            this.typesConstruction[index] = {...e};
+            this.typesProduit[index] = {...e};
         }
       }
     });
   }
 
-  deleteItem(typeConstruction: TypeConstruction){
+  deleteItem(typeProduit: TypeProduit){
     this.confirmModal = this.modalService.confirm({
       nzTitle: 'Etes-vous sûr de vouloir supprimer cet élément?',
       nzContent: 'Une fois supprimée, vous ne pourrez plus récupérer cet élement',
@@ -137,7 +137,7 @@ export class TypeConstructionListComponent implements OnInit {
       nzOkText: 'Confirmer',
       nzOnOk: () =>
         new Promise((resolve, reject) => {
-          this.typeConstructionService.delete(typeConstruction.id)
+          this.typeProduitService.delete(typeProduit.id)
             .subscribe(() => {
               this.notification.success("Succès", "Elément supprimé avec succès!");
               this.search();

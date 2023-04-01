@@ -4,27 +4,27 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 //interfaces
-import { TypeConstruction } from '@app/shared/interfaces/type-construction.type';
+import { TypeProduit } from '@app/shared/interfaces/type-produit.type';
 //services
-import { TypeConstructionService } from '@app/shared/services/type-construction.service';
+import { TypeProduitService } from '@app/shared/services/type-produit.service';
 
 @Component({
-  selector: 'app-type-construction-form',
+  selector: 'app-type-produit-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css']
 })
-export class TypeConstructionFormModalComponent implements OnInit {
+export class TypeProduitFormModalComponent implements OnInit {
 
   keys = Object.keys;
   validateForm: FormGroup;
   isLoading: Boolean = false;
-  @Input() typeConstruction: TypeConstruction;
+  @Input() typeProduit: TypeProduit;
   @Input() action: string;
 
   constructor(
     private fb: FormBuilder,
     private modal: NzModalRef,
-    private typeConstructionService: TypeConstructionService,
+    private typeProduitService: TypeProduitService,
     private notification: NzNotificationService) {}
 
   ngOnInit(): void {
@@ -34,7 +34,7 @@ export class TypeConstructionFormModalComponent implements OnInit {
 
   initForm(){
     if(this.action === 'create'){
-      this.typeConstruction = {
+      this.typeProduit = {
         label: '',
         description: ''
       }
@@ -45,8 +45,8 @@ export class TypeConstructionFormModalComponent implements OnInit {
       });
     }else{
       this.validateForm = this.fb.group({
-        label: [this.action == 'edit' ? this.typeConstruction.label : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-        description: [this.action == 'edit' ? this.typeConstruction.description : null]
+        label: [this.action == 'edit' ? this.typeProduit.label : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+        description: [this.action == 'edit' ? this.typeProduit.description : null]
       });
     }
   }
@@ -57,23 +57,23 @@ export class TypeConstructionFormModalComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
 
-    //Format typeConstruction
-    this.typeConstruction.label = this.validateForm.value.label; 
-    this.typeConstruction.description = this.validateForm.value.description;
+    //Format typeProduit
+    this.typeProduit.label = this.validateForm.value.label; 
+    this.typeProduit.description = this.validateForm.value.description;
 
     this.isLoading = true;
     if(this.action === 'create'){
-      this.typeConstructionService.create(this.typeConstruction)
+      this.typeProduitService.create(this.typeProduit)
         .subscribe((res) => {
           this.isLoading = false;
           this.notification.success("Succés", "Elément ajouté avec succè!");
           this.modal.close(res);
         }, error => {
           this.isLoading = false;
-          this.notification.error("Echec création", "Erreur lors de la création du type de construction!");
+          this.notification.error("Echec création", "Erreur lors de la création du type de produit!");
         });
     }else{
-      this.typeConstructionService.update(this.typeConstruction)
+      this.typeProduitService.update(this.typeProduit)
         .subscribe((res) => {
           this.isLoading = false;
           this.notification.success("Succés", "Informations enregistrées!");
