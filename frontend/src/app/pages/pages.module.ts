@@ -72,6 +72,9 @@ import { OperationTypeFormModalComponent } from './operation-type/components/mod
 import { OwnerListComponent } from './owner/components/list/list.component';
 import { OwnerFormModalComponent } from './owner/components/modal/form/form.component';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { CustomerListComponent } from './customer/components/list/list.component';
+import { CustomerFormModalComponent } from './customer/components/modal/form/form.component';
+import { ProductListComponent } from './product/components/list/list.component';
 
 const antdModule = [
     NzCardModule,
@@ -148,7 +151,10 @@ const antdModule = [
         OperationTypeListComponent,
         OperationTypeFormModalComponent,
         OwnerListComponent,
-        OwnerFormModalComponent
+        OwnerFormModalComponent,
+        CustomerListComponent,
+        CustomerFormModalComponent,
+        ProductListComponent
     ],
     providers: [
     ]

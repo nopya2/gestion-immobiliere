@@ -1,0 +1,100 @@
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" nzLayout="vertical">
+    <nz-alert nzType="info" 
+        nzMessage="Le numéro de dossier sera généré automatique" 
+        nzShowIcon class="p-b-20"
+        *ngIf="action !== 'edit'"></nz-alert>
+    <div nz-row [nzGutter]="16">
+        <div nz-col class="gutter-row" nzSpan="24" *ngIf="action === 'edit'">
+            <nz-form-item>
+                <nz-form-label nzFor="label">N° de dossier</nz-form-label>
+                <nz-form-control nzHasFeedback>
+                    <input nz-input autocomplete="off" readonly [value]="customer.numFolder"/>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div nz-col class="gutter-row" nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="label">Nom</nz-form-label>
+                <nz-form-control nzHasFeedback [nzErrorTip]="errorName">
+                    <input nz-input formControlName="name" id="name" nzSize="small" autocomplete="off"/>
+                    <ng-template #errorName let-control>
+                        <ng-container *ngIf="control.hasError('minlength')">
+                            Le champs doit contenir au moins 3 caractères!
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                            Le champs doit contenir au plus 50 caractères!
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Le champs est requis!
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div nz-col class="gutter-row" nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzFor="label">Prénom</nz-form-label>
+                <nz-form-control nzHasFeedback>
+                    <input nz-input formControlName="firstname" id="firstname" nzSize="small" autocomplete="off"/>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div nz-col class="gutter-row" nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="contact">Contact</nz-form-label>
+                <nz-form-control nzHasFeedback [nzErrorTip]="errorContact">
+                    <input nz-input formControlName="contact" id="contact" nzSize="small" autocomplete="off"/>
+                    <ng-template #errorContact let-control>
+                        <ng-container *ngIf="control.hasError('minlength')">
+                            Le champs doit contenir au moins 3 caractères!
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('maxlength')">
+                            Le champs doit contenir au plus 50 caractères!
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Le champs est requis!
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div nz-col class="gutter-row" nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="email">E-mail</nz-form-label>
+                <nz-form-control nzHasFeedback [nzErrorTip]="errorEmail">
+                    <input nz-input formControlName="email" id="email" nzSize="small" autocomplete="off"/>
+                    <ng-template #errorEmail let-control>
+                        <ng-container *ngIf="control.hasError('email')">
+                            L'email est invalide!
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Le champs est requis!
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div nz-col class="gutter-row" nzSpan="24">
+            <nz-form-item>
+                <nz-form-label nzFor="address">Adresse</nz-form-label>
+                <nz-form-control nzHasFeedback [nzErrorTip]="errorAddress">
+                    <textarea nz-input formControlName="address" id="address" nzSize="small" autocomplete="off"></textarea>
+                    <ng-template #errorAddress let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Le champs est requis!
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+</form>
+
+<div *nzModalFooter>
+  <button nz-button nzType="default" (click)="closeModal()">Annuler</button>
+  <button 
+      nz-button nzType="primary" 
+      (click)="submitForm()" 
+      [nzLoading]="isLoading" 
+      [disabled]="!validateForm.valid">Enregistrer</button>
+</div>

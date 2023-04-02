@@ -25,14 +25,39 @@ import { TypeConstructionListComponent } from './type-construction/components/li
 import { TypeProduitListComponent } from './type-produit/components/list/list.component';
 import { OperationTypeListComponent } from './operation-type/components/list/list.component';
 import { OwnerListComponent } from './owner/components/list/list.component';
+import { CustomerListComponent } from './customer/components/list/list.component';
+import { ProductListComponent } from './product/components/list/list.component';
 
 const routes: Routes = [
+    {
+        path: 'products',
+        data: {
+            title: "Gestion des produits"
+        },
+        children: [
+            {
+                path: '',
+                component: ProductListComponent,
+                data: {
+                    title: 'Liste'
+                }
+            }
+        ]
+    },
     {
         path: 'owners',
         component: OwnerListComponent,
         canActivate: [AuthGuard],
         data: {
             title: 'Gestion des propriétaires',
+        }
+    },
+    {
+        path: 'customers',
+        component: CustomerListComponent,
+        canActivate: [AuthGuard],
+        data: {
+            title: 'Gestion des clients',
         }
     },
     {

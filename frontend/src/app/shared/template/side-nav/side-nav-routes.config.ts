@@ -59,6 +59,44 @@ export const ROUTES: SideNavInterface[] = [
         ]
     },
     {
+        path: '/pages/customers',
+        title: 'Clients',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        icon: 'appstore',
+        roles: [],
+        submenu: [
+        ]
+    },
+    {
+        path: '',
+        title: 'Produits',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        icon: 'database',
+        roles: [],
+        submenu: [
+            {
+                path: '/pages/products',
+                title: 'Liste',
+                iconType: 'nzIcon',
+                iconTheme: 'outline',
+                icon: 'unordered-list',
+                roles: ['ROLE_DECIMA'],
+                submenu: []
+            },
+            {
+                path: '/pages/products/new',
+                title: 'Ajouter',
+                iconType: 'nzIcon',
+                iconTheme: 'outline',
+                icon: 'plus',
+                roles: ['ROLE_DECIMA'],
+                submenu: []
+            },
+        ]
+    },
+    {
         path: '',
         title: 'Administration',
         iconType: 'nzIcon',
