@@ -2,10 +2,11 @@
 
 namespace App\Config;
 
-enum RoleEnum : string {
-    case ROLE_ADMIN = 'Administrateur';
-    case ROLE_DG = 'Directeur Général';
-    case ROLE_DAF = 'Directeur des affaires financières';
-    case ROLE_RES_ETA = 'Responsable d\'établissement';
-    case ROLE_EMPLOYEE = 'Employé';
+enum RoleEnum
+{
+    case ROLE_ADMIN;
+    case ROLE_DG;
+    case ROLE_DAF;
+    case ROLE_RES_ETA;
+    case ROLE_EMPLOYEE;
 }
