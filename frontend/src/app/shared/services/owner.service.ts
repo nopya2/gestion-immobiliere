@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from "../../../environments/environment";
 import { Owner } from '../interfaces/owner.type';
+import { AuthenticationService } from './authentication.service';
 
 const API_URL = "api/owners";
 
@@ -12,10 +13,12 @@ const API_URL = "api/owners";
 export class OwnerService {
 
   constructor(
-    private http: HttpClient
-  ) { }
+    private http: HttpClient,
+    private auth: AuthenticationService
+  ) { 
+  }
 
-  getAll(params: any){
+  getAll(params: any){    
     return this.http.get<any>(`${environment.endpoint}/${API_URL}`, {
       params: params
     });
@@ -29,6 +32,7 @@ export class OwnerService {
   }
 
   create(data: Owner){
+    data.user = `/api/users/${this.auth.currentUserValue.id}`;
     return this.http.post<any>(`${environment.endpoint}/${API_URL}`, data)
         .pipe(map((owner: Owner) => {
             return owner;

@@ -71,6 +71,7 @@ import { OperationTypeListComponent } from './operation-type/components/list/lis
 import { OperationTypeFormModalComponent } from './operation-type/components/modal/form/form.component';
 import { OwnerListComponent } from './owner/components/list/list.component';
 import { OwnerFormModalComponent } from './owner/components/modal/form/form.component';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 const antdModule = [
     NzCardModule,
@@ -101,7 +102,8 @@ const antdModule = [
     NzPopoverModule,
     StoreModule.forRoot({ countries: countryReducer }),
     NzImageModule,
-    NzTypographyModule
+    NzTypographyModule,
+    NzAlertModule
 ]
 
 @NgModule({

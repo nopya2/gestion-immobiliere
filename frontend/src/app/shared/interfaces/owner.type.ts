@@ -11,5 +11,5 @@ export interface Owner {
   email: string;
   createdAt?: Date;
   updatedAt?: Date;
-  user?: User
+  user?: User | string
 }

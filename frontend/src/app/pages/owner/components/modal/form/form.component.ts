@@ -33,31 +33,19 @@ export class OwnerFormModalComponent implements OnInit {
 
 
   initForm(){
-    if(this.action === 'create'){
-      this.owner = {
-        name: '',
-        firstname: '',
-        contact: '',
-        address: '',
-        email: ''
-      }
+    this.validateForm = this.fb.group({
+      id: [null],
+      name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      firstname: [null],
+      contact: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      address: [null, [Validators.required]],
+      email: [null, [Validators.required, Validators.email]],
+    });
 
-      this.validateForm = this.fb.group({
-        name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-        firstname: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-        contact: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-        address: [null, [Validators.required]],
-        email: [null, [Validators.required, Validators.email]],
-      });
-    }else{
-      this.validateForm = this.fb.group({
-        name: [this.action == 'edit' ? this.owner.name : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-        firstname: [this.action == 'edit' ? this.owner.firstname : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-        contact: [this.action == 'edit' ? this.owner.contact : null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-        address: [this.action == 'edit' ? this.owner.address : null, [Validators.required]],
-        email: [this.action == 'edit' ? this.owner.email : null, [Validators.email]],
-      });
+    if(this.action === "edit"){
+      this.validateForm.reset(this.owner);
     }
+    
   }
 
   submitForm(): void {
@@ -66,26 +54,19 @@ export class OwnerFormModalComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
 
-    //Format owner
-    this.owner.name = this.validateForm.value.name; 
-    this.owner.firstname = this.validateForm.value.firstname;
-    this.owner.contact = this.validateForm.value.contact;
-    this.owner.address = this.validateForm.value.address;
-    this.owner.email = this.validateForm.value.email;
-
     this.isLoading = true;
     if(this.action === 'create'){
-      this.ownerService.create(this.owner)
+      this.ownerService.create(this.validateForm.value)
         .subscribe((res) => {
           this.isLoading = false;
           this.notification.success("Succés", "Elément ajouté avec succè!");
           this.modal.close(res);
         }, error => {
           this.isLoading = false;
-          this.notification.error("Echec création", "Erreur lors de la création du type de produit!");
+          this.notification.error("Echec création", "Erreur lors de la création du propriétaire!");
         });
     }else{
-      this.ownerService.update(this.owner)
+      this.ownerService.update(this.validateForm.value)
         .subscribe((res) => {
           this.isLoading = false;
           this.notification.success("Succés", "Informations enregistrées!");

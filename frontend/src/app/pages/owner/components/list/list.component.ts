@@ -27,8 +27,7 @@ export class OwnerListComponent implements OnInit {
   params: any = {
     page : 1,
     itemsPerPage : 10,
-    "order[label]": 'asc',
-    label: "",
+    simplesearch: "",
   }
   action: string;
   confirmModal?: NzModalRef;
@@ -47,7 +46,7 @@ export class OwnerListComponent implements OnInit {
     this.ownerService.getAll(this.params)
       .subscribe((res) => {
         this.loading = false;
-        this.owners = res['hydra:member'];
+        this.owners = res['hydra:member'] as Owner[];
         this.total = res['hydra:totalItems'];
       }, error => {
         this.loading = false;
@@ -58,34 +57,34 @@ export class OwnerListComponent implements OnInit {
   onQueryParamsChange(params: NzTableQueryParams): void {
     const { pageSize, pageIndex, sort, filter } = params;
     const currentSort = sort.find(item => item.value !== null);
-    const sortField = (currentSort && currentSort.key) || 'name';
+    const sortField = (currentSort && currentSort.key) || 'numFolder';
     const sortOrder = (currentSort && currentSort.value) || 'asc';
     
     this.params.page = pageIndex;
     this.params.itemsPerPage = pageSize;
-    console.log(sortOrder);
-    this.params['order['+sortField+']'] = Helper.transformOrder(sortOrder);
+    this.resetParams(sortField, sortOrder);
     // this.loadDataFromServer(pageIndex, pageSize, sortField, sortOrder, filter);
     this.getTypes();
   }
 
   search(){
     this.params.page = 1;
-    this.params.label = this.searchInput;
+    this.params.simplesearch = this.searchInput;
     this.getTypes();
   }
 
   openAdd(){
     this.action = 'create';
     const a: any = this.modalService.create({
-      nzTitle: 'Ajouter un type de produit',
+      nzTitle: 'Ajouter un propriétaire',
       nzContent: OwnerFormModalComponent,
       nzComponentParams: {
         action: this.action
       },
       nzStyle: {
-        top: '30px'
+        top: '30px',
       },
+      nzWidth: "700px",
       nzMaskClosable: false,
       nzOnOk: (event) => {
       }
@@ -101,7 +100,7 @@ export class OwnerListComponent implements OnInit {
   openEdit(owner: Owner){
     this.action = 'edit';
     const a: any = this.modalService.create({
-      nzTitle: 'Modifier le type de produit',
+      nzTitle: 'Modifier le propriétaire',
       nzContent: OwnerFormModalComponent,
       nzComponentParams: {
         owner: {...owner},
@@ -110,6 +109,7 @@ export class OwnerListComponent implements OnInit {
       nzStyle: {
         top: '30px'
       },
+      nzWidth: "700px",
       nzMaskClosable: false,
       nzOnOk: (event) => {
       }
@@ -149,6 +149,16 @@ export class OwnerListComponent implements OnInit {
           this.notification.error("Erreur", "Une erreur s'est produite lors de la suppression!");
         })
     });
+  }
+
+  resetParams(sortField, sortOrder){
+    this.params = {
+      page : 1,
+      itemsPerPage : 10,
+      simplesearch: "",
+    }
+
+    this.params['order['+sortField+']'] = Helper.transformOrder(sortOrder);
   }
 
 }
