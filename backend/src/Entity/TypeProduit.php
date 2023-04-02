@@ -42,7 +42,8 @@ class TypeProduit
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups([
-        "read:typeProduit", "write:typeProduit"
+        "read:typeProduit", "write:typeProduit",
+        "read:product"
     ])]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]

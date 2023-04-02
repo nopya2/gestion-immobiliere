@@ -22,23 +22,37 @@ class Image
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["read:etablishment", "write:etablishment"])]
+    #[Groups([
+        "read:etablishment", "write:etablishment",
+        "read:product","write:product",
+    ])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["read:etablishment", "write:etablishment"])]
+    #[Groups([
+        "read:etablishment", "write:etablishment",
+        "read:product","write:product",
+    ])]
     private $filename;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["read:etablishment", "write:etablishment"])]
+    #[Groups([
+        "read:etablishment", "write:etablishment",
+        "read:product","write:product",
+    ])]
     private $extension;
 
     #[ORM\Column(type: 'float')]
-    #[Groups(["read:etablishment", "write:etablishment"])]
+    #[Groups([
+        "read:etablishment", "write:etablishment",
+        "read:product","write:product",
+    ])]
     private $size;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["read:etablishment", "write:etablishment"])]
+    #[Groups(["read:etablishment", "write:etablishment",
+        "read:product","write:product",
+    ])]
     private $url;
 
     public function getId(): ?int

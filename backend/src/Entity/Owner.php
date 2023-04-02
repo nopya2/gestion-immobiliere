@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\OwnerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
@@ -54,7 +56,8 @@ class Owner
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups([
-        "read:owner", "write:owner"
+        "read:owner", "write:owner",
+        "read:product"
     ])]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
@@ -62,7 +65,8 @@ class Owner
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Groups([
-        "read:owner", "write:owner"
+        "read:owner", "write:owner",
+        "read:product"
     ])]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
@@ -109,9 +113,13 @@ class Owner
     ])]
     private $user;
 
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Product::class)]
+    private $products;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -223,6 +231,36 @@ class Owner
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            // set the owning side to null (unless already changed)
+            if ($product->getOwner() === $this) {
+                $product->setOwner(null);
+            }
+        }
 
         return $this;
     }

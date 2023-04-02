@@ -42,7 +42,8 @@ class OperationType
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups([
-        "read:operationType", "write:operationType"
+        "read:operationType", "write:operationType",
+        "read:product"
     ])]
     #[Assert\NotBlank]
     private $label;

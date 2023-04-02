@@ -42,7 +42,8 @@ class TypeConstruction
     
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups([
-        "read:typeConstruction", "write:typeConstruction"
+        "read:typeConstruction", "write:typeConstruction",
+        "read:product"
     ])]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]

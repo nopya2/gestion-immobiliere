@@ -63,4 +63,14 @@ class CustomerRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function getLastCustomer(): ?Customer
+    {
+        return $qb = $this->createQueryBuilder('c')
+            ->orderBy('c.createdAt', 'desc')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }

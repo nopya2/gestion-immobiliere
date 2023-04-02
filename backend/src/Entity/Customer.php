@@ -21,13 +21,17 @@ use Symfony\Component\Validator\Constraints as Assert;
         "pagination_client_items_per_page" => true
     ]
 )]
+// #[ApiFilter(
+//     SearchFilter::class,
+//     properties: ["numFolder" => "ipartial"]
+// )]
 #[ApiFilter(
-    SearchFilter::class,
-    properties: ["label" => "ipartial"]
+    SimpleSearchFilter::class,
+    properties: ["numFolder", "name"]
 )]
 #[ApiFilter(
     OrderFilter::class,
-    properties: ["label"],
+    properties: ["numFolder", "name", "firstname"],
     arguments: ["orderParameterName" => "order"]
 )]
 class Customer
@@ -40,11 +44,13 @@ class Customer
     ])]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     #[Groups([
         "read:customer"
     ])]
-    private $numFolder;
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 2, max: 50)]
+    private $numFolder = "A INITIALISER";
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups([
@@ -76,7 +82,7 @@ class Customer
     #[Assert\NotBlank]
     private $address;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, unique: true)]
     #[Groups([
         "read:customer", "write:customer"
     ])]
@@ -96,12 +102,17 @@ class Customer
     ])]
     private $updatedAt;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ["persist"])]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups([
         "read:customer", "write:customer"
     ])]
     private $user;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
