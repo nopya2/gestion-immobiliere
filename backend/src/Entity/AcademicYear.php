@@ -7,7 +7,7 @@ use App\Repository\AcademicYearRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AcademicYearRepository::class)]
-#[ApiResource]
+// #[ApiResource]
 class AcademicYear
 {
     #[ORM\Id]

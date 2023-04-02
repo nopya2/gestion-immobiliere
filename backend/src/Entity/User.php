@@ -68,6 +68,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         "read:user", 
         "read:manager", 
         "read:etablishment", "write:etablishment",
+        "read:owner",
+        "read:customer", "write:customer",
         "read:employee"])]
     private ?int $id = null;
 
@@ -114,14 +116,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
     #[Groups(["read:user", "write:user", "read:manager", "write:manager", "read:etablishment",
-        "read:employee", "write:employee"])]
+        "read:employee", "write:employee",
+        "read:owner",])]
     private $name;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
     #[Groups(["read:user", "write:user", "read:manager", "write:manager", "read:etablishment",
-        "read:employee", "write:employee"])]
+        "read:employee", "write:employee",
+        "read:owner",])]
     private $firstname;
 
     #[ORM\Column(type: 'boolean', nullable: true)]
@@ -323,5 +327,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->role = $role;
 
         return $this;
+    }
+
+    public function isEnabled(): ?bool
+    {
+        return $this->enabled;
     }
 }
