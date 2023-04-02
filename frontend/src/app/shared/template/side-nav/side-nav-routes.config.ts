@@ -49,6 +49,16 @@ export const ROUTES: SideNavInterface[] = [
         ]
     },
     {
+        path: '/pages/owners',
+        title: 'Propriétaires',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        icon: 'team',
+        roles: [],
+        submenu: [
+        ]
+    },
+    {
         path: '',
         title: 'Administration',
         iconType: 'nzIcon',

@@ -69,6 +69,8 @@ import { TypeProduitListComponent } from './type-produit/components/list/list.co
 import { TypeProduitFormModalComponent } from './type-produit/components/modal/form/form.component';
 import { OperationTypeListComponent } from './operation-type/components/list/list.component';
 import { OperationTypeFormModalComponent } from './operation-type/components/modal/form/form.component';
+import { OwnerListComponent } from './owner/components/list/list.component';
+import { OwnerFormModalComponent } from './owner/components/modal/form/form.component';
 
 const antdModule = [
     NzCardModule,
@@ -142,7 +144,9 @@ const antdModule = [
         TypeProduitListComponent,
         TypeProduitFormModalComponent,
         OperationTypeListComponent,
-        OperationTypeFormModalComponent
+        OperationTypeFormModalComponent,
+        OwnerListComponent,
+        OwnerFormModalComponent
     ],
     providers: [
     ]

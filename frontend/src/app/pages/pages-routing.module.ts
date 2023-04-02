@@ -24,8 +24,17 @@ import { RoleComponent } from './role/role.component';
 import { TypeConstructionListComponent } from './type-construction/components/list/list.component';
 import { TypeProduitListComponent } from './type-produit/components/list/list.component';
 import { OperationTypeListComponent } from './operation-type/components/list/list.component';
+import { OwnerListComponent } from './owner/components/list/list.component';
 
 const routes: Routes = [
+    {
+        path: 'owners',
+        component: OwnerListComponent,
+        canActivate: [AuthGuard],
+        data: {
+            title: 'Gestion des propriétaires',
+        }
+    },
     {
         path: 'types-construction',
         component: TypeConstructionListComponent,
