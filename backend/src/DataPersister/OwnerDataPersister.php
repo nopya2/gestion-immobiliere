@@ -30,7 +30,9 @@ final class OwnerDataPersister implements ContextAwareDataPersisterInterface
      */
     public function persist($data, array $context = [])
     {
-        $data->setNumFolder($this->numeroGenerator->getOwnerNumber());
+        if(!$data->getId()){
+            $data->setNumFolder($this->numeroGenerator->getOwnerNumber());
+        }
 
         if(!$data->getId()){
             $data->setUpdatedAt(new \DateTimeImmutable());

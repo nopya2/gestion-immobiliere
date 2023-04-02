@@ -21,13 +21,17 @@ use Symfony\Component\Validator\Constraints as Assert;
         "pagination_client_items_per_page" => true
     ]
 )]
+// #[ApiFilter(
+//     SearchFilter::class,
+//     properties: ["numFolder" => "ipartial"]
+// )]
 #[ApiFilter(
-    SearchFilter::class,
-    properties: ["label" => "ipartial"]
+    SimpleSearchFilter::class,
+    properties: ["numFolder", "name"]
 )]
 #[ApiFilter(
     OrderFilter::class,
-    properties: ["label"],
+    properties: ["numFolder", "name", "firstname"],
     arguments: ["orderParameterName" => "order"]
 )]
 class Owner

@@ -67,7 +67,7 @@ class OwnerRepository extends ServiceEntityRepository
     public function getLastOwner(): ?Owner
     {
         return $qb = $this->createQueryBuilder('o')
-            ->orderBy('o.id', 'desc')
+            ->orderBy('o.createdAt', 'desc')
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()
