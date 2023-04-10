@@ -1,0 +1,289 @@
+<form nz-form [formGroup]="form" nzLayout="vertical">
+  <div class="row">
+    <div class="col-md-8 col-lg-8 col-sm-12">
+      <nz-card nzTitle="Informations du produit">
+
+        <div nz-row [nzGutter]="16">
+          <!-- begin:name -->
+          <div nz-col class="gutter-row" nzSpan="12">
+              <nz-form-item>
+                  <nz-form-label nzRequired nzFor="label">Nom</nz-form-label>
+                  <nz-form-control nzHasFeedback [nzErrorTip]="errorName">
+                      <input nz-input formControlName="name" id="name" nzSize="normal" autocomplete="off"/>
+                      <ng-template #errorName let-control>
+                          <ng-container *ngIf="control.hasError('minlength')">
+                              Le champs doit contenir au moins 3 caractères!
+                          </ng-container>
+                          <ng-container *ngIf="control.hasError('maxlength')">
+                              Le champs doit contenir au plus 50 caractères!
+                          </ng-container>
+                          <ng-container *ngIf="control.hasError('required')">
+                              Le champs est requis!
+                          </ng-container>
+                      </ng-template>
+                  </nz-form-control>
+              </nz-form-item>
+          </div>   
+          <!-- end:name -->   
+
+          <!-- begin:reference -->
+          <div nz-col class="gutter-row" nzSpan="12">
+              <nz-form-item>
+                  <nz-form-label nzRequired nzFor="label">Référence</nz-form-label>
+                  <nz-form-control nzHasFeedback [nzErrorTip]="errorReference">
+                      <input nz-input formControlName="reference" id="reference" nzSize="normal" autocomplete="off"/>
+                      <ng-template #errorReference let-control>
+                          <ng-container *ngIf="control.hasError('required')">
+                              Le champs est requis!
+                          </ng-container>
+                      </ng-template>
+                  </nz-form-control>
+              </nz-form-item>
+          </div>   
+          <!-- end:reference -->   
+        </div>
+
+        <div nz-row [nzGutter]="16">
+          <!-- begin:owner -->
+          <div nz-col class="gutter-row" nzSpan="12">
+              <nz-form-item>
+                  <nz-form-label nzRequired nzFor="label">Propriétaire</nz-form-label>
+                  <nz-form-control nzHasFeedback [nzErrorTip]="errorOwner">
+                    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Sélectionnez un propriétaire" formControlName="owner">
+                      <nz-option [nzLabel]="data.name + ' ' + data.firstname" [nzValue]="data['@id']" *ngFor="let data of owners"></nz-option>
+                    </nz-select>
+                    <ng-template #errorOwner let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Le champs est requis!
+                        </ng-container>
+                    </ng-template>
+                  </nz-form-control>
+              </nz-form-item>
+          </div>   
+          <!-- end:owner -->   
+
+          <!-- begin:constructionType -->
+          <div nz-col class="gutter-row" nzSpan="12">
+              <nz-form-item>
+                  <nz-form-label nzRequired nzFor="label">Type de construction</nz-form-label>
+                  <nz-form-control nzHasFeedback [nzErrorTip]="errorConstructionType">
+                    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Sélectionnez un type de construction" formControlName="constructionType">
+                      <nz-option [nzLabel]="data.label" [nzValue]="data['@id']" *ngFor="let data of constructionTypes"></nz-option>
+                    </nz-select>
+                      <ng-template #errorConstructionType let-control>
+                          <ng-container *ngIf="control.hasError('required')">
+                              Le champs est requis!
+                          </ng-container>
+                      </ng-template>
+                  </nz-form-control>
+              </nz-form-item>
+          </div>   
+          <!-- end:constructionType -->   
+        </div>
+
+        <div nz-row [nzGutter]="16">
+          <!-- begin:productType -->
+          <div nz-col class="gutter-row" nzSpan="12">
+              <nz-form-item>
+                  <nz-form-label nzRequired nzFor="label">Type de produit</nz-form-label>
+                  <nz-form-control nzHasFeedback [nzErrorTip]="errorProductType">
+                      <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Sélectionnez un type de produit" formControlName="productType">
+                        <nz-option [nzLabel]="data.label" [nzValue]="data['@id']" *ngFor="let data of productTypes"></nz-option>
+                      </nz-select>
+                      <ng-template #errorProductType let-control>
+                          <ng-container *ngIf="control.hasError('required')">
+                              Le champs est requis!
+                          </ng-container>
+                      </ng-template>
+                  </nz-form-control>
+              </nz-form-item>
+          </div>   
+          <!-- end:productType -->   
+
+          <!-- begin:operation -->
+          <div nz-col class="gutter-row" nzSpan="12">
+              <nz-form-item>
+                  <nz-form-label nzRequired nzFor="label">Type d'opération</nz-form-label>
+                  <nz-form-control nzHasFeedback [nzErrorTip]="errorOperation">
+                      <nz-select nzShowSearch nzAllowClear 
+                        nzPlaceHolder="Sélectionnez les types d'opération" 
+                        formControlName="operationTypes"
+                        nzMode="multiple"
+                        (ngModelChange)="selectOperationType($event)">
+                        <nz-option [nzLabel]="data.label" [nzValue]="data['@id']" *ngFor="let data of operationTypes"></nz-option>
+                      </nz-select>
+                      <ng-template #errorOperation let-control>
+                          <ng-container *ngIf="control.hasError('required')">
+                              Le champs est requis!
+                          </ng-container>
+                      </ng-template>
+                  </nz-form-control>
+              </nz-form-item>
+          </div>   
+          <!-- end:operation -->   
+        </div>
+
+        <div nz-row [nzGutter]="16">
+          <!-- begin:city -->
+          <div nz-col class="gutter-row" nzSpan="12">
+              <nz-form-item>
+                  <nz-form-label nzRequired nzFor="label">Ville</nz-form-label>
+                  <nz-form-control nzHasFeedback [nzErrorTip]="errorCity">
+                      <input nz-input formControlName="city" id="city" nzSize="normal" autocomplete="off"/>
+                      <ng-template #errorCity let-control>
+                          <ng-container *ngIf="control.hasError('required')">
+                              Le champs est requis!
+                          </ng-container>
+                          <ng-container *ngIf="control.hasError('minlength')">
+                            Le champs doit contenir au moins 3 caractères!
+                          </ng-container>
+                          <ng-container *ngIf="control.hasError('maxlength')">
+                              Le champs doit contenir au plus 50 caractères!
+                          </ng-container>
+                      </ng-template>
+                  </nz-form-control>
+              </nz-form-item>
+          </div>   
+          <!-- end:city -->   
+
+          <!-- begin:neighborhood -->
+          <div nz-col class="gutter-row" nzSpan="12">
+              <nz-form-item>
+                  <nz-form-label nzRequired nzFor="label">Quartier</nz-form-label>
+                  <nz-form-control nzHasFeedback [nzErrorTip]="errorNeighborhood">
+                      <input nz-input formControlName="neighborhood" id="neighborhood" nzSize="normal" autocomplete="off"/>
+                      <ng-template #errorNeighborhood let-control>
+                          <ng-container *ngIf="control.hasError('required')">
+                              Le champs est requis!
+                          </ng-container>
+                          <ng-container *ngIf="control.hasError('minlength')">
+                            Le champs doit contenir au moins 3 caractères!
+                          </ng-container>
+                          <ng-container *ngIf="control.hasError('maxlength')">
+                              Le champs doit contenir au plus 50 caractères!
+                          </ng-container>
+                      </ng-template>
+                  </nz-form-control>
+              </nz-form-item>
+          </div>   
+          <!-- end:neighborhood -->   
+        </div>
+
+        <div nz-row [nzGutter]="16">
+          <!-- begin:commission -->
+          <div nz-col class="gutter-row" nzSpan="8">
+              <nz-form-item>
+                  <nz-form-label nzRequired nzFor="label">Commission</nz-form-label>
+                  <nz-form-control nzHasFeedback [nzErrorTip]="errorCommission">
+                      <input nz-input formControlName="commission" id="commission" nzSize="normal" autocomplete="off"/>
+                      <ng-template #errorCommission let-control>
+                          <ng-container *ngIf="control.hasError('required')">
+                              Le champs est requis!
+                          </ng-container>
+                      </ng-template>
+                  </nz-form-control>
+              </nz-form-item>
+          </div>   
+          <!-- end:commission -->   
+
+          <!-- begin:lat -->
+          <div nz-col class="gutter-row" nzSpan="8">
+              <nz-form-item>
+                  <nz-form-label nzFor="label">Latitude</nz-form-label>
+                  <nz-form-control nzHasFeedback>
+                      <input nz-input formControlName="lat" id="lat" nzSize="normal" autocomplete="off"/>
+                  </nz-form-control>
+              </nz-form-item>
+          </div>   
+          <!-- end:lat -->
+
+          <!-- begin:lon -->
+          <div nz-col class="gutter-row" nzSpan="8">
+            <nz-form-item>
+                <nz-form-label nzFor="label">Longitude</nz-form-label>
+                <nz-form-control nzHasFeedback>
+                    <input nz-input formControlName="lon" id="lon" nzSize="normal" autocomplete="off"/>
+                </nz-form-control>
+            </nz-form-item>
+          </div>   
+          <!-- end:lon -->   
+        </div>
+
+      </nz-card>
+    </div>
+    <div class="col-md-4 col-lg-4 col-sm-12">
+      <nz-card nzTitle="Prix">
+        <nz-alert 
+          nzType="warning" 
+          nzMessage="Veuillez sélectionner au moins un type d'opération" 
+          nzShowIcon
+          *ngIf="prices.controls.length <= 0"></nz-alert>
+        <ng-container formArrayName="prices">
+          <nz-form-item *ngFor="let price of prices.controls; let i = index" [formGroupName]="i">
+            <nz-form-label [nzFor]="price.controlInstance">
+              {{ showLabelByJsonId(price.value.operationType) }}
+            </nz-form-label>
+            <nz-form-control
+              nzErrorTip="Veuillez saisir le prix"
+            >
+              <nz-input-number
+                class="price-input"
+                placeholder="Saisissez le prix"
+                formControlName="amount"
+                [nzMin]="10000"
+                [nzStep]="1000"
+              ></nz-input-number>
+            </nz-form-control>
+          </nz-form-item>
+        </ng-container>
+      </nz-card>
+
+      <nz-card nzTitle="Images">
+        <div class="clearfix">
+          <nz-upload
+            nzListType="picture-card"
+            [(nzFileList)]="fileList"
+            [nzShowButton]="fileList.length < 5"
+            [nzPreview]="handlePreview"
+            [nzBeforeUpload]="beforeUpload"
+            nzAccept="image/png,image/jpeg,image/jpg"
+            [nzRemove]="removeUpload"
+          >
+            <div>
+              <span nz-icon nzType="plus"></span>
+              <div style="margin-top: 8px">Téléverser une image</div>
+            </div>
+          </nz-upload>
+          <nz-modal
+            [nzVisible]="previewVisible"
+            [nzContent]="modalContent"
+            [nzFooter]="null"
+            (nzOnCancel)="previewVisible = false"
+          >
+            <ng-template #modalContent>
+              <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+            </ng-template>
+          </nz-modal>
+        </div>
+      </nz-card>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <!-- <button class="btn btn-success" type="submit">
+        Enregistrer
+      </button> -->
+
+      <button nz-button nzType="primary" nzSize="large" (click)="saveAndContinue()">
+        <span nz-icon nzType="save"></span>
+        Enregister et continuer
+      </button>
+
+      <button nz-button nzType="primary" nzSize="large" (click)="saveAndCreate()">
+        <span nz-icon nzType="save"></span>
+        Enregister et créer un nouveau
+      </button>
+    </div>
+  </div>
+</form>

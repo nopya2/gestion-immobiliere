@@ -27,6 +27,7 @@ import { OperationTypeListComponent } from './operation-type/components/list/lis
 import { OwnerListComponent } from './owner/components/list/list.component';
 import { CustomerListComponent } from './customer/components/list/list.component';
 import { ProductListComponent } from './product/components/list/list.component';
+import { ProductNewComponent } from './product/components/new/new.component';
 
 const routes: Routes = [
     {
@@ -40,6 +41,13 @@ const routes: Routes = [
                 component: ProductListComponent,
                 data: {
                     title: 'Liste'
+                }
+            },
+            {
+                path: 'new',
+                component: ProductNewComponent,
+                data: {
+                    title: 'Nouveau Produit'
                 }
             }
         ]

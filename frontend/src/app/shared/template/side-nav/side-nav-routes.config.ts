@@ -105,33 +105,6 @@ export const ROUTES: SideNavInterface[] = [
         roles: Object.keys(RoleEnum),
         submenu: [
             {
-                path: '/pages/etablishments',
-                title: 'Etablissements',
-                iconType: '',
-                icon: '',
-                iconTheme: '',
-                roles: ['ROLE_DECIMA'],
-                submenu: []
-            },
-            {
-                path: '/pages/managers',
-                title: 'Responsables d\'établissement',
-                iconType: '',
-                icon: '',
-                iconTheme: '',
-                roles: [],
-                submenu: []
-            },
-            {
-                path: '/pages/employees',
-                title: 'Employés',
-                iconType: '',
-                icon: '',
-                iconTheme: '',
-                roles: [],
-                submenu: []
-            },
-            {
                 path: '/pages/types-construction',
                 title: 'Types de construction',
                 iconType: '',

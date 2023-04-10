@@ -120,7 +120,7 @@ export class UserAddComponent implements OnInit {
           // this.notification.error("Echec création", "Login ou mot de passse invalide!");
         });
     }else{
-      this.userService.patch(this.user)
+      this.userService.update(this.user)
         .subscribe((res) => {
           this.isLoading = false;
           this.notification.success("Succés", "Informations enregistrées!");

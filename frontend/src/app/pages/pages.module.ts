@@ -33,6 +33,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 
 import { ProfileComponent } from './profile/profile.component';
 import { InvoiceComponent } from './invoice/invoice.component';
@@ -75,6 +76,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { CustomerListComponent } from './customer/components/list/list.component';
 import { CustomerFormModalComponent } from './customer/components/modal/form/form.component';
 import { ProductListComponent } from './product/components/list/list.component';
+import { ProductNewComponent } from './product/components/new/new.component';
 
 const antdModule = [
     NzCardModule,
@@ -106,7 +108,8 @@ const antdModule = [
     StoreModule.forRoot({ countries: countryReducer }),
     NzImageModule,
     NzTypographyModule,
-    NzAlertModule
+    NzAlertModule,
+    NzInputNumberModule
 ]
 
 @NgModule({
@@ -154,7 +157,8 @@ const antdModule = [
         OwnerFormModalComponent,
         CustomerListComponent,
         CustomerFormModalComponent,
-        ProductListComponent
+        ProductListComponent,
+        ProductNewComponent
     ],
     providers: [
     ]
