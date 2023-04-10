@@ -11,49 +11,58 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 
-#[ORM\Entity(repositoryClass: PermissionRepository::class)]
-#[ApiResource(
-    normalizationContext: ["groups" => ["read:permission"]],
-    denormalizationContext: ["groups" => ["write:permission"]],
-    attributes: [
-        "pagination_client_enabled" => true,
-        "pagination_client_items_per_page" => true
-    ]
-)]
-#[ApiFilter(
-    SearchFilter::class,
-    properties: ["name" => "ipartial"]
-)]
-#[ApiFilter(
-    OrderFilter::class,
-    properties: ["name"],
-    arguments: ["orderParameterName" => "order"]
-)]
+/**
+ * @ORM\Entity(repositoryClass=PermissionRepository::class)
+ * @ApiResource(
+ *   normalizationContext= {"groups"={"read:permission"}},
+ *   denormalizationContext= {"groups"={"write:permission"}},
+ *   attributes={
+ *       "pagination_client_enabled"=true,
+ *       "pagination_client_items_per_page"=true
+ *   }
+ * )
+ * @ApiFilter(
+ *   SearchFilter::class,
+ *   properties={"name"="ipartial"}
+ * )
+ * @ApiFilter(
+ *   OrderFilter::class,
+ *   properties= {"name"},
+ *   arguments= {"orderParameterName"="order"}
+ * )
+ */
+
 class Permission
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    #[Groups(["read:permission", "read:module", "write:module", "read:role", "write:role"])]
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     * @Groups({"read:permission", "read:module", "write:module", "read:role", "write:role"})
+     */
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        "read:permission", "write:permission", 
-        "read:module", "write:module", 
-        "read:role", "write:role",
-        "read:user",
-        "read:privilege"
-    ])]
+    /**
+     * @ORM\Column(type= "string", length= 255)
+     * @Groups({
+     *   "read:permission", "write:permission", 
+     *   "read:module", "write:module", 
+     *   "read:role", "write:role",
+     *   "read:user",
+     *   "read:privilege"
+     * })
+     */
     private $name;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        "read:permission", "write:permission", 
-        "read:module", "write:module", 
-        "read:role", "write:role",
-        "read:user"
-    ])]
+    /**
+     * @ORM\Column(type= "string", length= 255)
+     * @Groups({
+     *   "read:permission", "write:permission", 
+     *   "read:module", "write:module", 
+     *   "read:role", "write:role",
+     *   "read:user"
+     * })
+     */
     private $slug;
 
     public function getId(): ?int

@@ -14,130 +14,161 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: ProductRepository::class)]
-#[ApiResource(
-    normalizationContext: ["groups" => ["read:product"]],
-    denormalizationContext: ["groups" => ["write:product"]],
-    attributes: [
-        "pagination_client_enabled" => true,
-        "pagination_client_items_per_page" => true
-    ]
-)]
-// #[ApiFilter(
-//     SearchFilter::class,
-//     properties: ["numFolder" => "ipartial"]
-// )]
-#[ApiFilter(
-    SimpleSearchFilter::class,
-    properties: ["numFolder", "name"]
-)]
-#[ApiFilter(
-    OrderFilter::class,
-    properties: ["numFolder", "name", "firstname"],
-    arguments: ["orderParameterName" => "order"]
-)]
+/**
+ * @ORM\Entity(repositoryClass=ProductRepository::class)
+ * @ApiResource(
+ *   normalizationContext={"groups"={"read:product"}},
+ *   denormalizationContext={"groups"={"write:product"}},
+ *   attributes={
+ *       "pagination_client_enabled"=true,
+ *       "pagination_client_items_per_page"=true
+ *   }
+ * )
+ * @ApiFilter(
+ *   SimpleSearchFilter::class,
+ *   properties={"numFolder", "name"}
+ * )
+ * @ApiFilter(
+ *   OrderFilter::class,
+ *   properties={"numFolder", "name", "firstname"},
+ *   arguments={"orderParameterName"="order"}
+ * )
+ */
+
 class Product
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    #[Groups([
-        "read:product"
-    ])]
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     * @Groups({
+     *   "read:product"
+     * })
+     */
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        "read:product","write:product",
-    ])]
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({
+     *   "read:product","write:product",
+     * })
+     */
     private $name;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        "read:product","write:product",
-    ])]
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({
+     *   "read:product","write:product",
+     * })
+     */
     private $reference;
 
-    #[ORM\ManyToOne(targetEntity: Owner::class, inversedBy: 'products')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups([
-        "read:product","write:product",
-    ])]
+    /**
+     * @ORM\ManyToOne(targetEntity=Owner::class, inversedBy="products")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({
+     *   "read:product","write:product",
+     * })
+     */
     private $owner;
 
-    #[ORM\ManyToOne(targetEntity: TypeConstruction::class)]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups([
-        "read:product","write:product",
-    ])]
+    /**
+     * @ORM\ManyToOne(targetEntity=TypeConstruction::class)
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({
+     *   "read:product","write:product",
+     * })
+     */
     private $constructionType;
 
-    #[ORM\ManyToOne(targetEntity: TypeProduit::class)]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups([
-        "read:product","write:product",
-    ])]
+    /**
+     * @ORM\ManyToOne(targetEntity=TypeProduit::class)
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({
+     *   "read:product","write:product",
+     * })
+     */
     private $productType;
 
-    #[ORM\ManyToOne(targetEntity: OperationType::class)]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups([
-        "read:product","write:product",
-    ])]
+    /**
+     * @ORM\ManyToOne(targetEntity=OperationType::class)
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({
+     *   "read:product","write:product",
+     * })
+     */
     private $operation;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        "read:product","write:product",
-    ])]
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({
+     *   "read:product","write:product",
+     * })
+     */
     private $city;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        "read:product","write:product",
-    ])]
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({
+     *   "read:product","write:product",
+     * })
+     */
     private $neighborhood;
 
-    #[ORM\Column(type: 'text')]
-    #[Groups([
-        "read:product","write:product",
-    ])]
+    /**
+     * @ORM\Column(type="text")
+     * @Groups({
+     *   "read:product","write:product",
+     * })
+     */
     private $observation;
 
-    #[ORM\Column(type: 'float')]
-    #[Groups([
-        "read:product","write:product",
-    ])]
+    /**
+     * @ORM\Column(type="float")
+     * @Groups({
+     *   "read:product","write:product",
+     * })
+     */
     private $commission;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        "read:product","write:product",
-    ])]
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({
+     *   "read:product","write:product",
+     * })
+     */
     private $status;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductPrice::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
-    #[Groups([
-        "read:product","write:product",
-    ])]
+    /**
+     * @ORM\OneToMany(mappedBy="product", targetEntity=ProductPrice::class, orphanRemoval=true, cascade={"persist", "remove"})
+     * @Groups({
+     *    "read:product","write:product",
+     * })
+     */
     private $prices;
 
-    #[ORM\Column(type: 'float', nullable: true)]
-    #[Groups([
-        "read:product","write:product",
-    ])]
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Groups({
+     *   "read:product","write:product",
+     * })
+     */
     private $lon;
 
-    #[ORM\Column(type: 'float', nullable: true)]
-    #[Groups([
-        "read:product","write:product",
-    ])]
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Groups({
+     *   "read:product","write:product",
+     * })
+     */
     private $lat;
 
-    #[ORM\ManyToMany(targetEntity: Image::class)]
-    #[Groups([
-        "read:product","write:product",
-    ])]
+    /**
+     * @ORM\ManyToMany(targetEntity=Image::class)
+     * @Groups({
+     *   "read:product","write:product",
+     * })
+     */
     private $images;
 
     public function __construct()

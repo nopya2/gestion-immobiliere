@@ -12,101 +12,120 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: CustomerRepository::class)]
-#[ApiResource(
-    normalizationContext: ["groups" => ["read:customer"]],
-    denormalizationContext: ["groups" => ["write:customer"]],
-    attributes: [
-        "pagination_client_enabled" => true,
-        "pagination_client_items_per_page" => true
-    ]
-)]
-// #[ApiFilter(
-//     SearchFilter::class,
-//     properties: ["numFolder" => "ipartial"]
-// )]
-#[ApiFilter(
-    SimpleSearchFilter::class,
-    properties: ["numFolder", "name"]
-)]
-#[ApiFilter(
-    OrderFilter::class,
-    properties: ["numFolder", "name", "firstname"],
-    arguments: ["orderParameterName" => "order"]
-)]
+/**
+ * @ORM\Entity(repositoryClass=CustomerRepository::class)
+ * @ApiResource(
+ *   normalizationContext={"groups"={"read:customer"}},
+ *   denormalizationContext={"groups"={"write:customer"}},
+ *   attributes={
+ *       "pagination_client_enabled"=true,
+ *       "pagination_client_items_per_page"=true
+ *   }
+ * )
+ * @ApiFilter(
+ *   SimpleSearchFilter::class,
+ *   properties= {"numFolder", "name"}
+ * )
+ * @ApiFilter(
+ *   OrderFilter::class,
+ *   properties= {"numFolder", "name", "firstname"},
+ *   arguments= {"orderParameterName"="order"}
+ * )
+ */
 class Customer
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    #[Groups([
-        "read:customer"
-    ])]
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     * @Groups({"read:customer"})
+     */
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255, unique: true)]
-    #[Groups([
-        "read:customer"
-    ])]
-    #[Assert\NotBlank()]
-    #[Assert\Length(min: 2, max: 50)]
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Groups({
+     *   "read:customer"
+     * })
+     * @Assert\NotBlank(
+     *    message = "Ce champs est obligatoire."
+     * )
+     * @Assert\Length(min=2, max=50)
+     */
     private $numFolder = "A INITIALISER";
 
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        "read:customer", "write:customer"
-    ])]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 2, max: 50)]
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({
+     *   "read:customer", "write:customer"
+     * })
+     * @Assert\NotBlank
+     * @Assert\Length(min=2, max=50)
+     * @ORM\Column(type="string", length="255", nullable=true)
+     * Groups({
+     *   "read:customer", "write:customer"
+     * })
+     * @Assert\NotBlank
+     * @Assert\Length(min=2, max=50)
+     * 
+     */
     private $name;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups([
-        "read:customer", "write:customer"
-    ])]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 2, max: 50)]
     private $firstname;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        "read:customer", "write:customer"
-    ])]
-    #[Assert\NotBlank]
+    
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({
+     *  "read:customer", "write:customer"
+     * })
+     * @Assert\NotBlank
+     */
     private $contact;
 
-    #[ORM\Column(type: 'text')]
-    #[Groups([
-        "read:customer", "write:customer"
-    ])]
-    #[Assert\NotBlank]
+    /**
+     * @ORM\Column(type="text")
+     * @Groups({
+     *   "read:customer", "write:customer"
+     * })
+     * @Assert\NotBlank
+     */
     private $address;
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true, unique: true)]
-    #[Groups([
-        "read:customer", "write:customer"
-    ])]
-    #[Assert\NotBlank()]
-    #[Assert\Email()]
+    
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true, unique=true)]
+     * @Groups({
+     *   "read:customer", "write:customer"
+     * })
+     * @Assert\NotBlank()
+     * @Assert\Email()
+     */
     private $email;
 
-    #[ORM\Column(type: 'datetime_immutable')]
-    #[Groups([
-        "read:customer"
-    ])]
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     * @Groups({
+     *   "read:customer"
+     * })
+     */
     private $createdAt;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    #[Groups([
-        "read:customer"
-    ])]
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)]
+     * @Groups({
+     *   "read:customer"
+     * })
+     */
+    
     private $updatedAt;
 
-    #[ORM\ManyToOne(targetEntity: User::class, cascade: ["persist"])]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups([
-        "read:customer", "write:customer"
-    ])]
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)]
+     * @Groups({
+     *   "read:customer", "write:customer"
+     * })
+     */
+    
     private $user;
 
     public function __construct()

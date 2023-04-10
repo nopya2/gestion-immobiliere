@@ -8,37 +8,44 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ORM\Entity(repositoryClass: InformationRepository::class)]
-#[ApiResource(
-    normalizationContext: ["groups" => ["read:information"]],
-    denormalizationContext: ["groups" => ["write:information"]],
-    attributes: [
-        "pagination_client_enabled" => true,
-        "pagination_client_items_per_page" => true
-    ]
-)]
+/**
+ * @ORM\Entity(repositoryClass=InformationRepository::class)
+ * @ApiResource(
+ *   normalizationContext={"groups"={"read:information"}},
+ *   denormalizationContext={"groups"={"write:information"}},
+ *   attributes={
+ *       "pagination_client_enabled"= true,
+ *       "pagination_client_items_per_page"= true
+ *   }
+ * )
+ */
 class Information
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    #[Groups(["read:information", "write:information"])]
+    
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     * @Groups({"read:information", "write:information"})
+     */
     private $id;
 
-    #[ORM\OneToOne(inversedBy: 'information', targetEntity: Etablishment::class, cascade: ['persist', 'remove'])]
-    #[Groups(["read:information", "write:information", "write:etablishment"])]
-    private $etablishment;
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(["read:information", "write:information", "read:etablishment", "write:etablishment"])]
+    /**
+     * @ORM\Column(type="string", length= 255, nullable= true)
+     * @Groups({"read:information", "write:information", "read:etablishment", "write:etablishment"})
+     */
     private $academicYear;
 
-    #[ORM\Column(type: 'date', nullable: true)]
-    #[Groups(["read:information", "write:information", "read:etablishment", "write:etablishment"])]
+    /**
+     * @ORM\Column(type="date", nullable= true)
+     * @Groups({"read:information", "write:information", "read:etablishment", "write:etablishment"})
+     */
     private $startYear;
 
-    #[ORM\Column(type: 'date', nullable: true)]
-    #[Groups(["read:information", "write:information", "read:etablishment", "write:etablishment"])]
+    /**
+     * @ORM\Column(type="date", nullable= true)
+     * @Groups({"read:information", "write:information", "read:etablishment", "write:etablishment"})
+     */
     private $endYear;
 
     public function getId(): ?int
@@ -46,17 +53,6 @@ class Information
         return $this->id;
     }
 
-    public function getEtablishment(): ?Etablishment
-    {
-        return $this->etablishment;
-    }
-
-    public function setEtablishment(?Etablishment $etablishment): self
-    {
-        $this->etablishment = $etablishment;
-
-        return $this;
-    }
 
     public function getAcademicYear(): ?string
     {

@@ -14,106 +14,124 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: OwnerRepository::class)]
-#[ApiResource(
-    normalizationContext: ["groups" => ["read:owner"]],
-    denormalizationContext: ["groups" => ["write:owner"]],
-    attributes: [
-        "pagination_client_enabled" => true,
-        "pagination_client_items_per_page" => true
-    ]
-)]
-// #[ApiFilter(
-//     SearchFilter::class,
-//     properties: ["numFolder" => "ipartial"]
-// )]
-#[ApiFilter(
-    SimpleSearchFilter::class,
-    properties: ["numFolder", "name"]
-)]
-#[ApiFilter(
-    OrderFilter::class,
-    properties: ["numFolder", "name", "firstname"],
-    arguments: ["orderParameterName" => "order"]
-)]
+/**
+ * @ORM\Entity(repositoryClass=OwnerRepository::class)
+ * @ApiResource(
+ *     normalizationContext={"groups"={"read:owner"}},
+ *     denormalizationContext={"groups"={"write:owner"}},
+ *     attributes={
+ *         "pagination_client_enabled"=true,
+ *         "pagination_client_items_per_page"=true
+ *     }
+ * )
+ * @ApiFilter(
+ *     SimpleSearchFilter::class,
+ *     properties={"numFolder", "name"}
+ * )
+ * @ApiFilter(
+ *     OrderFilter::class,
+ *     properties={"numFolder", "name", "firstname"},
+ *     arguments={"orderParameterName"="order"}
+ * )
+ * */
 class Owner
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    #[Groups([
-        "read:owner"
-    ])]
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     * @Groups({"read:owner"})
+     * */
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255, unique: true)]
-    #[Groups([
-        "read:owner"
-    ])]
-    #[Assert\NotBlank()]
-    #[Assert\Length(min: 2, max: 50)]
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Groups({
+     *   "read:owner"
+     * })
+     * @Assert\NotBlank()
+     * @Assert\Length(min=2, max=50)
+     */
     private $numFolder = "A INITIALISER";
 
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        "read:owner", "write:owner",
-        "read:product"
-    ])]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 2, max: 50)]
+    /**
+     * @ORM\Column(type="string", length=255)
+     *@Groups({
+     *   "read:owner", "write:owner",
+     *   "read:product"
+     * })
+     * @Assert\NotBlank
+     * @Assert\Length(min=2, max=50)
+     */
     private $name;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups([
-        "read:owner", "write:owner",
-        "read:product"
-    ])]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 2, max: 50)]
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({
+     *   "read:owner", "write:owner",
+     *   "read:product"
+     * })
+     * @Assert\NotBlank
+     * @Assert\Length(min=2, max=50)
+     */
     private $firstname;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        "read:owner", "write:owner"
-    ])]
-    #[Assert\NotBlank]
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({
+     *   "read:owner", "write:owner"
+     * })
+     * @Assert\NotBlank
+     */
     private $contact;
-
-    #[ORM\Column(type: 'text')]
-    #[Groups([
-        "read:owner", "write:owner"
-    ])]
-    #[Assert\NotBlank]
+    
+    /**
+     * @ORM\Column(type="text")
+     * @Groups({
+     *   "read:owner", "write:owner"
+     * })
+     * @Assert\NotBlank
+     */
     private $address;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true, unique: true)]
-    #[Groups([
-        "read:owner", "write:owner"
-    ])]
-    #[Assert\NotBlank()]
-    #[Assert\Email()]
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true, unique=true)
+     * @Groups({
+     *   "read:owner", "write:owner"
+     * })
+     * @Assert\NotBlank()
+     * @Assert\Email()
+     */
     private $email;
 
-    #[ORM\Column(type: 'datetime_immutable')]
-    #[Groups([
-        "read:owner"
-    ])]
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     * @Groups({
+     *   "read:owner"
+     * })
+     */
     private $createdAt;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    #[Groups([
-        "read:owner"
-    ])]
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @Groups({
+     *   "read:owner"
+     * })
+     */
     private $updatedAt;
 
-    #[ORM\ManyToOne(targetEntity: User::class, cascade: ["persist"])]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups([
-        "read:owner", "write:owner"
-    ])]
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({
+     *   "read:owner", "write:owner"
+     * })
+     */
     private $user;
 
-    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Product::class)]
+    /**
+     * @ORM\OneToMany(mappedBy="owner", targetEntity=Product::class)
+     */
     private $products;
 
     public function __construct()

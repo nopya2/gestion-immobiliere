@@ -12,33 +12,43 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: ProductPriceRepository::class)]
-#[ApiResource]
+/**
+ * @ORM\Entity(repositoryClass=ProductPriceRepository::class)
+ * @ApiResource
+ */
 class ProductPrice
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    #[Groups([
-        "read:product"
-    ])]
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     * @Groups({
+     *   "read:product"
+     * })
+     */
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: OperationType::class)]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups([
-        "read:product","write:product",
-    ])]
+    /**
+     * @ORM\ManyToOne(targetEntity=OperationType::class)
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({
+     *   "read:product","write:product",
+     * })
+     */
     private $operation;
 
-    #[ORM\Column(type: 'integer')]
-    #[Groups([
-        "read:product","write:product",
-    ])]
+    /**
+     * @ORM\Column(type="integer")
+     * @Groups({
+     *   "read:product","write:product",
+     * })
+     */
     private $amount;
 
-    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'prices')]
-    #[ORM\JoinColumn(nullable: false)]
+    /**
+     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="prices")
+     * @ORM\JoinColumn(nullable=false)
+     */
     private $product;
 
     public function getId(): ?int

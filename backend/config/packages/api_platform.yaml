@@ -1,16 +1,12 @@
 api_platform:
+    title: 'Gestion Immobiliere'
+    description: 'Logiciel de gestion immobilire'
+    version: '1.0.0'
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
     patch_formats:
-        json: ['application/json']
+        json: ['application/merge-patch+json']
     swagger:
         versions: [3]
-        # api_keys:
-        #      apiKey:
-        #         name: Authorization
-        #         type: header
     defaults:
-        pagination_client_items_per_page: true
-    collection:
-        pagination:
-            items_per_page_parameter_name: itemsPerPage # Default value
+        pagination_items_per_page: 30 # Default value

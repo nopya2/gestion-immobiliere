@@ -12,46 +12,54 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: OperationTypeRepository::class)]
-#[ApiResource(
-    normalizationContext: ["groups" => ["read:operationType"]],
-    denormalizationContext: ["groups" => ["write:operationType"]],
-    attributes: [
-        "pagination_client_enabled" => true,
-        "pagination_client_items_per_page" => true
-    ]
-)]
-#[ApiFilter(
-    SearchFilter::class,
-    properties: ["label" => "ipartial"]
-)]
-#[ApiFilter(
-    OrderFilter::class,
-    properties: ["label"],
-    arguments: ["orderParameterName" => "order"]
-)]
+/**
+ * @ORM\Entity(repositoryClass=OperationTypeRepository::class)
+ * @ApiResource(
+ *   normalizationContext={"groups"= {"read:operationType"}},
+ *   denormalizationContext={"groups"= {"write:operationType"}},
+ *   attributes={
+ *       "pagination_client_enabled"= true,
+ *       "pagination_client_items_per_page"= true
+ *   }
+ * )
+ * @ApiFilter(
+ *   SearchFilter::class,
+ *   properties={"label"= "ipartial"}
+ * )
+ * @ApiFilter(
+ *   OrderFilter::class,
+ *   properties={"label"},
+ *   arguments={"orderParameterName"= "order"}
+ * )
+ */
 class OperationType
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    #[Groups([
-        "read:operationType"
-    ])]
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     * @Groups({
+     *   "read:operationType"
+     * })
+     */
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        "read:operationType", "write:operationType",
-        "read:product"
-    ])]
-    #[Assert\NotBlank]
+    /**
+     * @ORM\Column(type="string", length= 255)
+     * @Groups({
+     *    "read:operationType", "write:operationType",
+     *   "read:product"
+     * })
+     * @Assert\NotBlank
+     */
     private $label;
 
-    #[ORM\Column(type: 'text', nullable: true)]
-    #[Groups([
-        "read:operationType", "write:operationType"
-    ])]
+    /**
+     * @ORM\Column(type="text", nullable= true)
+     * @Groups({
+     *   "read:operationType", "write:operationType"
+     * })
+     */
     private $description;
 
     public function getId(): ?int

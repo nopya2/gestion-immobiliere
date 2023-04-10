@@ -36,112 +36,136 @@ use Doctrine\ORM\Mapping\InheritanceType;
  * @author Ryan Weaver <weaverryan@gmail.com>
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  */
-#[ORM\Entity(repositoryClass: UserRepository::class)]
-#[InheritanceType("JOINED")]
-#[DiscriminatorColumn(name: 'discr', type: 'string')]
-#[DiscriminatorMap(["user" => "User", "manager" => "Manager", "employee" => "Employee"])]
-// #[ORM\Table(name: 'symfony_demo_user')]
-#[ApiResource(
-    normalizationContext: ["groups" => ["read:user"]],
-    denormalizationContext: ["groups" => ["write:user"]],
-    attributes: [
-        "pagination_client_enabled" => true,
-        "pagination_client_items_per_page" => true
-    ]
-)]
-#[ApiFilter(
-    SearchFilter::class,
-    properties: ["name" => "ipartial", "role" => "exact"]
-)]
-#[ApiFilter(
-    OrderFilter::class,
-    properties: ["name", "firstname"],
-    arguments: ["orderParameterName" => "order"]
-)]
-#[ApiFilter(BooleanFilter::class, properties: ['enabled'])]
+
+/**
+ * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ApiResource(
+ *   normalizationContext= {"groups"={"read:user"}},
+ *   denormalizationContext= {"groups"={"write:user"}},
+ *   attributes= {
+ *       "pagination_client_enabled"=true,
+ *       "pagination_client_items_per_page"=true
+ *   }
+ * )
+ * @ApiFilter(
+ *   SearchFilter::class,
+ *   properties= {"name"="ipartial", "role"="exact"}
+ * )
+ * @ApiFilter(
+ *   OrderFilter::class,
+ *   properties={"name", "firstname"},
+ *  arguments={"orderParameterName"="order"}
+ * )
+ * @ApiFilter(BooleanFilter::class, properties={"enabled"})
+ */
+
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    #[Groups([
-        "read:user", 
-        "read:manager", 
-        "read:etablishment", "write:etablishment",
-        "read:owner",
-        "read:customer",
-        "read:employee"])]
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     * @Groups({
+     *   "read:user", 
+     *   "read:manager", 
+     *   "read:etablishment", "write:etablishment",
+     *   "read:owner",
+     *   "read:customer",
+     *   "read:employee"})
+     */
     private ?int $id = null;
-
-    #[ORM\Column(type: 'string', unique: true)]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 2, max: 50)]
-    #[Groups(["read:user", "write:user", "read:manager", "write:manager",
-        "read:employee", "write:employee",
-        "read:etablishment"])]
+    
+    /**
+     * @ORM\Column(type="string", unique=true)
+     * @Assert\NotBlank
+     * @Assert\Length(min=2, max=50)
+     * @Groups({"read:user", "write:user", "read:manager", "write:manager",
+     *   "read:employee", "write:employee",
+     *   "read:etablishment"})
+     */
     private ?string $username = null;
 
-    #[ORM\Column(type: 'string', unique: true)]
-    #[Assert\Email]
-    #[Groups(["read:user", "write:user", "read:manager", "write:manager",
-        "read:employee", "write:employee",
-        "read:etablishment"])]
+    /**
+     * @ORM\Column(type="string", unique=true)
+     * @Assert\Email
+     * @Groups({"read:user", "write:user", "read:manager", "write:manager",
+     *   "read:etablishment"})
+     */
+    
     private ?string $email = null;
 
-    #[ORM\Column(type: 'string')]
-    #[Groups(["write:user", "write:manager",
-        "write:employee"])]
+    /**
+     * @ORM\Column(type="string")
+     * @Groups({"write:user", "write:manager",
+     *   "write:employee"})
+     */
     private ?string $password = null;
 
-    #[ORM\Column(type: 'json')]
-    #[Groups(["read:user", "write:user", "read:manager", "write:manager",
-        "read:employee", "write:employee"])]
+    /**
+     * @ORM\Column(type="json")
+     * @Groups({"read:user", "write:user", "read:manager", "write:manager",
+     *   "read:employee", "write:employee"})
+     */
     private array $roles = [];
 
-    #[Groups(["read:user", "read:manager", "read:employee"])]
+    /**
+     * @Groups({"read:user", "read:manager", "read:employee"})
+     */
     private ?string $token = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["read:user", "write:user", "read:manager", "write:manager",
-        "read:employee", "write:employee"])]
-    #[Assert\NotBlank]
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({"read:user", "write:user", "read:manager", "write:manager",
+     *   "read:employee", "write:employee"})
+     * @Assert\NotBlank
+     */
     private $phoneNumber1;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(["read:user", "write:user", "read:manager", "write:manager",
-        "read:employee", "write:employee"])]
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"read:user", "write:user", "read:manager", "write:manager",
+     *   "read:employee", "write:employee"})
+     */
     private $phoneNumber2;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 2, max: 50)]
-    #[Groups(["read:user", "write:user", "read:manager", "write:manager", "read:etablishment",
-        "read:employee", "write:employee",
-        "read:owner",
-        "read:customer",])]
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank]
+     * @Assert\Length(min=2, max=50)
+     * @Groups({"read:user", "write:user", "read:manager", "write:manager", "read:etablishment",
+     *   "read:employee", "write:employee",
+     *   "read:owner",
+     *   "read:customer",})
+     */
     private $name;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 2, max: 50)]
-    #[Groups(["read:user", "write:user", "read:manager", "write:manager", "read:etablishment",
-        "read:employee", "write:employee",
-        "read:owner",
-        "read:customer"])]
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank]
+     * @Assert\Length(min=2, max=50)
+     * @Groups({"read:user", "write:user", "read:manager", "write:manager", "read:etablishment",
+     *   "read:employee", "write:employee",
+     *   "read:owner",
+     *   "read:customer"})
+     */
     private $firstname;
 
-    #[ORM\Column(type: 'boolean', nullable: true)]
-    #[Groups(["read:user", "write:user", "read:manager", "write:manager",
-        "read:employee", "write:employee"])]
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Groups({"read:user", "write:user", "read:manager", "write:manager",
+     *   "read:employee", "write:employee"})
+     */
     private $enabled = true;
 
-    #[ORM\ManyToOne(targetEntity: Role::class, cascade: ['persist'])]
-    #[Assert\NotBlank]
-    #[ORM\JoinColumn(nullable: true, onDelete: "set null")]
-    #[Groups([
-        "read:user", "write:user", 
-        "read:manager", "write:manager",
-        "read:employee", "write:employee"])]
+    /**
+     * @ORM\ManyToOne(targetEntity=Role::class, cascade={"persist"})
+     * @Assert\NotBlank]
+     * @ORM\JoinColumn(nullable=true, onDelete="set null")
+     * @Groups({
+     *   "read:user", "write:user", 
+     *   "read:manager", "write:manager",
+     *   "read:employee", "write:employee"})
+     */
     private $role;
 
     public function __construct()

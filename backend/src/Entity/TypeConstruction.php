@@ -12,47 +12,55 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: TypeConstructionRepository::class)]
-#[ApiResource(
-    normalizationContext: ["groups" => ["read:typeConstruction"]],
-    denormalizationContext: ["groups" => ["write:typeConstruction"]],
-    attributes: [
-        "pagination_client_enabled" => true,
-        "pagination_client_items_per_page" => true
-    ]
-)]
-#[ApiFilter(
-    SearchFilter::class,
-    properties: ["label" => "ipartial"]
-)]
-#[ApiFilter(
-    OrderFilter::class,
-    properties: ["label"],
-    arguments: ["orderParameterName" => "order"]
-)]
+/**
+ * @ORM\Entity(repositoryClass=TypeConstructionRepository::class)
+ * @ApiResource(
+ *   normalizationContext={"groups"={"read:typeConstruction"}},
+ *   denormalizationContext={"groups"={"write:typeConstruction"}},
+ *   attributes={
+ *       "pagination_client_enabled"=true,
+ *       "pagination_client_items_per_page"=true
+ *   }
+ * )
+ * @ApiFilter(
+ *   SearchFilter::class,
+ *   properties={"label"="ipartial"}
+ * )
+ * @ApiFilter(
+ *   OrderFilter::class,
+ *   properties={"label"},
+ *   arguments={"orderParameterName"="order"}
+ * )
+ */
 class TypeConstruction
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    #[Groups([
-        "read:typeConstruction"
-    ])]
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     * @Groups({
+     *   "read:typeConstruction"
+     * })
+     */
     private $id;
     
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        "read:typeConstruction", "write:typeConstruction",
-        "read:product"
-    ])]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 2, max: 50)]
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({
+     *   "read:typeConstruction", "write:typeConstruction",
+     *   "read:product"
+     * })
+     * @Assert\NotBlank
+     * @Assert\Length(min= 2, max= 50)
+     */
     private $label;
 
-    #[ORM\Column(type: 'text', nullable: true)]
-    #[Groups([
-        "read:typeConstruction", "write:typeConstruction"
-    ])]
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups({
+     *   "read:typeConstruction", "write:typeConstruction"
+     * })
+     */
     private $description;
 
     public function getId(): ?int

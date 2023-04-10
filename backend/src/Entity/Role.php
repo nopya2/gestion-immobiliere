@@ -13,54 +13,66 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 
-#[ORM\Entity(repositoryClass: RoleRepository::class)]
-#[ApiResource(
-    normalizationContext: ["groups" => ["read:role"]],
-    denormalizationContext: ["groups" => ["write:role"]],
-    attributes: [
-        "pagination_client_enabled" => true,
-        "pagination_client_items_per_page" => true
-    ]
-)]
-#[ApiFilter(
-    SearchFilter::class,
-    properties: ["name" => "ipartial"]
-)]
-#[ApiFilter(
-    OrderFilter::class,
-    properties: ["name"],
-    arguments: ["orderParameterName" => "order"]
-)]
+/**
+ * @ORM\Entity(repositoryClass=RoleRepository::class)
+ * @ApiResource(
+ *   normalizationContext={"groups"={"read:role"}},
+ *   denormalizationContext={"groups"={"write:role"}},
+ *   attributes= {
+ *       "pagination_client_enabled"=true,
+ *       "pagination_client_items_per_page"=true
+ *   }
+ * )
+ * @ApiFilter(
+ *   SearchFilter::class,
+ *   properties={"name"="ipartial"}
+ * )
+ * @ApiFilter(
+ *   OrderFilter::class,
+ *   properties={"name"},
+ *   arguments={"orderParameterName"="order"}
+ * )
+ */
+
 class Role
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    #[Groups([
-        "read:role", "read:user",
-        "read:employee", "write:employee"
-    ])]
+    /**
+     * @ORM\Id]
+     * @ORM\GeneratedValue]
+     * @ORM\Column(type="integer")
+     * @Groups({
+     *   "read:role", "read:user",
+     *   "read:employee", "write:employee"
+     * })
+     */
+    
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        "read:role", "write:role",
-        "read:user", "write:user",
-        "read:employee", "write:employee"
-    ])]
+    /**
+     * @ORM\Column(type="string", length= 255)
+     * @Groups({
+     *   "read:role", "write:role",
+     *   "read:user", "write:user",
+     *   "read:employee", "write:employee"
+     * })
+     */
     private $name;
-
-    #[ORM\Column(type: 'text', nullable: true)]
-    #[Groups(["read:role", "write:role"])]
+    
+    /**
+     * @ORM\Column(type="text", nullable= true)
+     * @Groups({"read:role", "write:role"})
+     */
     private $description;
 
-    #[ORM\OneToMany(mappedBy: 'role', targetEntity: Privilege::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(onDelete: 'cascade')]
-    #[Groups([
-        "read:role", "write:role",
-        "read:employee",
-        "read:user"
-    ])]
+    /**
+     * @ORM\OneToMany(mappedBy="role", targetEntity=Privilege::class, orphanRemoval=true, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(onDelete= "cascade")
+     * @Groups({
+     *   "read:role", "write:role",
+     *   "read:employee",
+     *   "read:user"
+     * })
+     */
     private $privileges;
 
     public function __construct()

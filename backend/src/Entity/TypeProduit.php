@@ -12,47 +12,55 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: TypeProduitRepository::class)]
-#[ApiResource(
-    normalizationContext: ["groups" => ["read:typeProduit"]],
-    denormalizationContext: ["groups" => ["write:typeProduit"]],
-    attributes: [
-        "pagination_client_enabled" => true,
-        "pagination_client_items_per_page" => true
-    ]
-)]
-#[ApiFilter(
-    SearchFilter::class,
-    properties: ["label" => "ipartial"]
-)]
-#[ApiFilter(
-    OrderFilter::class,
-    properties: ["label"],
-    arguments: ["orderParameterName" => "order"]
-)]
+/**
+ * @ORM\Entity(repositoryClass=TypeProduitRepository::class)
+ * @ApiResource(
+ *   normalizationContext={"groups"={"read:typeProduit"}},
+ *   denormalizationContext={"groups"={"write:typeProduit"}},
+ *   attributes={
+ *       "pagination_client_enabled"=true,
+ *       "pagination_client_items_per_page"=true
+ *   }
+ * )
+ * @ApiFilter(
+ *   SearchFilter::class,
+ *   properties={"label"="ipartial"}
+ * )
+ * @ApiFilter(
+ *   OrderFilter::class,
+ *   properties={"label"},
+ *   arguments={"orderParameterName"="order"}
+ * )
+ */
 class TypeProduit
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    #[Groups([
-        "read:typeProduit"
-    ])]
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     * @Groups({
+     *   "read:typeProduit"
+     * })
+     */
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        "read:typeProduit", "write:typeProduit",
-        "read:product"
-    ])]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 2, max: 50)]
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({
+     *   "read:typeProduit", "write:typeProduit",
+     *   "read:product"
+     * })
+     * @Assert\NotBlank
+     * @Assert\Length(min= 2, max= 50)
+     */
     private $label;
 
-    #[ORM\Column(type: 'text', nullable: true)]
-    #[Groups([
-        "read:typeProduit", "write:typeProduit"
-    ])]
+    /**
+     * @ORM\Column(type="text", nullable= true)
+     * @Groups({
+     *   "read:typeProduit", "write:typeProduit"
+     * })
+     */
     private $description;
 
     public function getId(): ?int
