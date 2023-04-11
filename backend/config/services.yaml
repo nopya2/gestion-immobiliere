@@ -20,5 +20,25 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: ['controller.service_arguments']
+        autowire: true
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # App\EventListener\DeserializeListener:
+    #     tags:
+    #         - {name: 'kernel.event_listener', event: 'kernel.request', method: 'onKernelRequest', priority: 2}
+    #     decorates: 'api_platform.listener.request.deserialize'
+    #     autoconfigure: false
+    # App\EventListener\DeserializeProductListener:
+    #     tags:
+    #         - {name: 'kernel.event_listener', event: 'kernel.request', method: 'onKernelRequest', priority: 2}
+    #     decorates: 'api_platform.listener.request.deserialize'
+    #     autoconfigure: false
+    
+    

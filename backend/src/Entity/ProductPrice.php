@@ -23,7 +23,7 @@ class ProductPrice
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({
-     *   "read:product"
+     *   "read:product","write:product"
      * })
      */
     private $id;
@@ -35,7 +35,7 @@ class ProductPrice
      *   "read:product","write:product",
      * })
      */
-    private $operation;
+    private $operationType;
 
     /**
      * @ORM\Column(type="integer")
@@ -54,18 +54,6 @@ class ProductPrice
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getOperation(): ?OperationType
-    {
-        return $this->operation;
-    }
-
-    public function setOperation(?OperationType $operation): self
-    {
-        $this->operation = $operation;
-
-        return $this;
     }
 
     public function getAmount(): ?int
@@ -88,6 +76,18 @@ class ProductPrice
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getOperationType(): ?OperationType
+    {
+        return $this->operationType;
+    }
+
+    public function setOperationType(?OperationType $operationType): self
+    {
+        $this->operationType = $operationType;
 
         return $this;
     }

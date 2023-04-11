@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
@@ -28,7 +29,7 @@ class Image
      * @ORM\Column(type="integer")
      * @Groups({
      *   "read:etablishment", "write:etablishment",
-     *   "read:product","write:product",
+     *   "read:product"
      * })
      */
     private $id;
@@ -37,7 +38,7 @@ class Image
      * @ORM\Column(type="string", length= 255)
      * @Groups({
      *         "read:etablishment", "write:etablishment",
-     *         "read:product","write:product",
+     *         "read:product"
      * })
      * */
     private $filename;
@@ -46,7 +47,7 @@ class Image
      * @ORM\Column(type="string", length= 255)
      * @Groups({
      *   "read:etablishment", "write:etablishment",
-     *   "read:product","write:product",
+     *   "read:product"
      * })
      */
     
@@ -56,7 +57,7 @@ class Image
      * @ORM\Column(type="float")
      * @Groups({
      *   "read:etablishment", "write:etablishment",
-     *   "read:product","write:product",
+     *   "read:product"
      * })
      */
     private $size;
@@ -64,10 +65,15 @@ class Image
     /**
      * @ORM\Column(type="string", length= 255)
      * @Groups({"read:etablishment", "write:etablishment",
-     *   "read:product","write:product",
+     *   "read:product"
      * })
      */
     private $url;
+    
+    /**
+     * @var File|null
+     */
+    private $file;
 
     public function getId(): ?int
     {
@@ -119,6 +125,23 @@ class Image
     {
         $this->url = $url;
 
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param File|null $file
+     */
+    public function setFile(?File $file)
+    {
+        $this->file = $file;
         return $this;
     }
 }

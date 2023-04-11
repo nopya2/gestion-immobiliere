@@ -13,16 +13,32 @@ use App\Filter\SimpleSearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Metadata\Post;
+use App\Controller\PostProductImageController;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
  * @ApiResource(
  *   normalizationContext={"groups"={"read:product"}},
- *   denormalizationContext={"groups"={"write:product"}},
+ *   denormalizationContext={
+ *      "groups"={"write:product"}
+ *   },
  *   attributes={
  *       "pagination_client_enabled"=true,
  *       "pagination_client_items_per_page"=true
- *   }
+ *   },
+ *   collectionOperations={
+ *      "get", 
+ *      "post",
+ *      "image"={
+ *          "name"="Add image to product",
+ *          "method"="POST",
+ *          "path"="/products/{id}/image",
+ *          "deserialize"=false,
+ *          "controller"=PostProductImageController::class
+ *      }
+ *   },
+ *   itemOperations={"get", "put", "delete", "patch"}
  * )
  * @ApiFilter(
  *   SimpleSearchFilter::class,
@@ -91,15 +107,6 @@ class Product
     private $productType;
 
     /**
-     * @ORM\ManyToOne(targetEntity=OperationType::class)
-     * @ORM\JoinColumn(nullable=false)
-     * @Groups({
-     *   "read:product","write:product",
-     * })
-     */
-    private $operation;
-
-    /**
      * @ORM\Column(type="string", length=255)
      * @Groups({
      *   "read:product","write:product",
@@ -137,7 +144,7 @@ class Product
      *   "read:product","write:product",
      * })
      */
-    private $status;
+    private $status = 'free';
 
     /**
      * @ORM\OneToMany(mappedBy="product", targetEntity=ProductPrice::class, orphanRemoval=true, cascade={"persist", "remove"})
@@ -165,16 +172,48 @@ class Product
 
     /**
      * @ORM\ManyToMany(targetEntity=Image::class)
+     */
+    private $images;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=OperationType::class, cascade={"persist"})
      * @Groups({
      *   "read:product","write:product",
      * })
      */
-    private $images;
+    private $operationTypes;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({
+     *   "read:product","write:product",
+     * })
+     */
+    private $user;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     * @Groups({
+     *   "read:product"
+     * })
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @Groups({
+     *   "read:product"
+     * })
+     */
+    private $updatedAt;
 
     public function __construct()
     {
         $this->prices = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->operationTypes = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -242,18 +281,6 @@ class Product
         return $this;
     }
 
-    public function getOperation(): ?OperationType
-    {
-        return $this->operation;
-    }
-
-    public function setOperation(?OperationType $operation): self
-    {
-        $this->operation = $operation;
-
-        return $this;
-    }
-
     public function getCity(): ?string
     {
         return $this->city;
@@ -290,12 +317,12 @@ class Product
         return $this;
     }
 
-    public function getCommission(): ?float
+    public function getCommission(): float
     {
         return $this->commission;
     }
 
-    public function setCommission(float $commission): self
+    public function setCommission(float $commission)
     {
         $this->commission = $commission;
 
@@ -388,6 +415,66 @@ class Product
     public function removeImage(Image $image): self
     {
         $this->images->removeElement($image);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OperationType>
+     */
+    public function getOperationTypes(): Collection
+    {
+        return $this->operationTypes;
+    }
+
+    public function addOperationType(OperationType $operationType): self
+    {
+        if (!$this->operationTypes->contains($operationType)) {
+            $this->operationTypes[] = $operationType;
+        }
+
+        return $this;
+    }
+
+    public function removeOperationType(OperationType $operationType): self
+    {
+        $this->operationTypes->removeElement($operationType);
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

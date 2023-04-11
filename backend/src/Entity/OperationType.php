@@ -39,7 +39,8 @@ class OperationType
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({
-     *   "read:operationType"
+     *   "read:operationType",
+     *   "read:product"
      * })
      */
     private $id;
@@ -47,8 +48,8 @@ class OperationType
     /**
      * @ORM\Column(type="string", length= 255)
      * @Groups({
-     *    "read:operationType", "write:operationType",
-     *   "read:product"
+     *   "read:operationType", "write:operationType",
+     *   "read:product", "write:product"
      * })
      * @Assert\NotBlank
      */
