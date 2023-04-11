@@ -160,15 +160,10 @@ export class ProductNewComponent implements OnInit {
 
   addImage = async (file: NzUploadFile) => {
     const imageForm = this.fb.group({
-      filename: [file?.name, Validators.required],
-      extension: [file?.type, Validators.required],
-      size: [file?.size, Validators.required],
-      url: [file?.thumbUrl, Validators.required],
       file: [file, Validators.required],
     });
 
     this.images.push(imageForm);
-    
   }
 
   deleteImage(index: number) {
@@ -238,10 +233,24 @@ export class ProductNewComponent implements OnInit {
     return "N/A";
   }
 
-  saveAndContinue = () => {
-    this.isLoadingOne = true;
+  saveAndContinue = () => {;
     
-    this.productService.create(this.form.value).subscribe(() => {
+    this.isLoadingOne = true;
+    var data = {...this.form.value};
+    delete data.images;
+    
+    //On cree d'abord le produit
+    this.productService.create(this.form.value).subscribe((res: Product) => {
+      this.isLoadingOne = false
+
+      //ensuite on ajoute les images au produit
+      this.productService.addProductImage(res, this.transformToFormData({images: [...this.images.value]})).subscribe(() => {
+
+      }, er => {
+
+      }, () => {
+
+      });
 
     }, er => {
 
@@ -254,9 +263,9 @@ export class ProductNewComponent implements OnInit {
 
   }
 
-  get dataToSave(): FormData {
+  transformToFormData = (obj): FormData => {
     const formData = serialize(
-      this.form.value,
+      obj,
       this.options, // optional
     );
 

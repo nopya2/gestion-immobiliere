@@ -64,4 +64,11 @@ export class ProductService {
   delete(id){
     return this.http.delete<any>(`${environment.endpoint}/${API_URL}/${id}`);
   }
+
+  addProductImage(product: Product, formData){
+    return this.http.post<any>(`${environment.endpoint}/${API_URL}/${product.id}/image`, formData)
+        .pipe(map((product: Product) => {
+            return product;
+        }));
+  }
 }
