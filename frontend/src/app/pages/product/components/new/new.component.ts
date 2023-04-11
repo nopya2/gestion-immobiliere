@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators, ValidationErrors, Form
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { serialize } from 'object-to-formdata';
 
 //interfaces
 import { Product } from '@app/shared/interfaces/product.type';
@@ -33,13 +34,47 @@ const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
 export class ProductNewComponent implements OnInit {
 
   form: FormGroup;
-  isLoading: Boolean = false;
+  isLoadingOne: Boolean = false;
+  isLoadingTwo: Boolean = false;
   product: Product;
   owners: Owner[] = [];
   constructionTypes: TypeConstruction[] = [];
   productTypes: TypeProduit[] = [];
   operationTypes: OperationType[] = [];
   fileList: NzUploadFile[] = [];
+
+  options = {
+    /**
+     * include array indices in FormData keys
+     * defaults to false
+     */
+    indices: true,
+    /**
+     * treat null values like undefined values and ignore them
+     * defaults to false
+     */
+    nullsAsUndefineds: false,
+    /**
+     * convert true or false to 1 or 0 respectively
+     * defaults to false
+     */
+    booleansAsIntegers: false,
+    /**
+     * store arrays even if they're empty
+     * defaults to false
+     */
+    allowEmptyArrays: false,
+    /**
+     * don't include array notation in FormData keys for Files in arrays
+     * defaults to false
+     */
+    noFilesWithArrayNotation: false,
+    /**
+     * use dots instead of brackets for object notation in FormData keys
+     * defaults to false
+     */
+    dotsForObjectNotation: false,
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -101,7 +136,7 @@ export class ProductNewComponent implements OnInit {
       prices: this.fb.array([]),
       lon: [null],
       lat: [null],
-      images: this.fb.array([], [Validators.maxLength(5), Validators.minLength(2)])
+      images: this.fb.array([])
     }); 
     
   }
@@ -123,7 +158,7 @@ export class ProductNewComponent implements OnInit {
     //     });
   }
 
-  addImage(file: NzUploadFile){
+  addImage = async (file: NzUploadFile) => {
     const imageForm = this.fb.group({
       filename: [file?.name, Validators.required],
       extension: [file?.type, Validators.required],
@@ -132,7 +167,8 @@ export class ProductNewComponent implements OnInit {
       file: [file, Validators.required],
     });
 
-    this.images.push(imageForm);    
+    this.images.push(imageForm);
+    
   }
 
   deleteImage(index: number) {
@@ -203,14 +239,27 @@ export class ProductNewComponent implements OnInit {
   }
 
   saveAndContinue = () => {
+    this.isLoadingOne = true;
+    
+    this.productService.create(this.form.value).subscribe(() => {
 
+    }, er => {
+
+    }, () => {
+      this.isLoadingOne = false
+    })
   }
 
   saveAndCreate = () => {
 
   }
 
-  dataToSave = () => {
-    
+  get dataToSave(): FormData {
+    const formData = serialize(
+      this.form.value,
+      this.options, // optional
+    );
+
+    return formData
   }
 }

@@ -39,6 +39,14 @@ export class ProductService {
         }));
   }
 
+  createWithFormData(formData: FormData){
+    formData.append('user', `/api/users/${this.auth.currentUserValue.id}`);
+    return this.http.post<any>(`${environment.endpoint}/${API_URL}`, formData)
+        .pipe(map((product: Product) => {
+            return product;
+        }));
+  }
+
   update(data: Product){
     return this.http.put<any>(`${environment.endpoint}/${API_URL}/${data.id}`, data)
         .pipe(map((product: Product) => {

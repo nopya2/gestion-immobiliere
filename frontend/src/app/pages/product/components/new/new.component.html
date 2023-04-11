@@ -175,7 +175,9 @@
               <nz-form-item>
                   <nz-form-label nzRequired nzFor="label">Commission</nz-form-label>
                   <nz-form-control nzHasFeedback [nzErrorTip]="errorCommission">
-                      <input nz-input formControlName="commission" id="commission" nzSize="normal" autocomplete="off"/>
+                      <nz-input-number 
+                        formControlName="commission"
+                        class="input-commission"></nz-input-number>
                       <ng-template #errorCommission let-control>
                           <ng-container *ngIf="control.hasError('required')">
                               Le champs est requis!
@@ -191,7 +193,10 @@
               <nz-form-item>
                   <nz-form-label nzFor="label">Latitude</nz-form-label>
                   <nz-form-control nzHasFeedback>
-                      <input nz-input formControlName="lat" id="lat" nzSize="normal" autocomplete="off"/>
+                      <nz-input-number 
+                        formControlName="lat"
+                        class="input-coord"
+                        [nzStep]="0.0000000000001"></nz-input-number>
                   </nz-form-control>
               </nz-form-item>
           </div>   
@@ -202,11 +207,32 @@
             <nz-form-item>
                 <nz-form-label nzFor="label">Longitude</nz-form-label>
                 <nz-form-control nzHasFeedback>
-                    <input nz-input formControlName="lon" id="lon" nzSize="normal" autocomplete="off"/>
+                    <nz-input-number 
+                      formControlName="lon"
+                      class="input-coord"
+                      [nzStep]="0.0000000000001"></nz-input-number>
                 </nz-form-control>
             </nz-form-item>
           </div>   
           <!-- end:lon -->   
+        </div>
+
+        <div nz-row [nzGutter]="16">
+          <!-- begin:observation -->
+          <div nz-col class="gutter-row" nzSpan="24">
+              <nz-form-item>
+                  <nz-form-label nzRequired nzFor="label">Observation</nz-form-label>
+                  <nz-form-control nzHasFeedback [nzErrorTip]="errorObservation">
+                      <textarea nz-input formControlName="observation" id="observation" nzSize="normal" autocomplete="off"></textarea>
+                      <ng-template #errorObservation let-control>
+                          <ng-container *ngIf="control.hasError('required')">
+                              Le champs est requis!
+                          </ng-container>
+                      </ng-template>
+                  </nz-form-control>
+              </nz-form-item>
+          </div>   
+          <!-- end:observation -->   
         </div>
 
       </nz-card>
@@ -275,12 +301,25 @@
         Enregistrer
       </button> -->
 
-      <button nz-button nzType="primary" nzSize="large" (click)="saveAndContinue()">
+      <button 
+        nz-button 
+        nzType="primary" 
+        nzSize="large" 
+        (click)="saveAndContinue()"
+        [disabled]="form.invalid || isLoadingOne || isLoadingTwo"
+        [nzLoading]="isLoadingOne">
         <span nz-icon nzType="save"></span>
         Enregister et continuer
       </button>
 
-      <button nz-button nzType="primary" nzSize="large" (click)="saveAndCreate()">
+      <button 
+        nz-button 
+        nzType="primary" 
+        nzSize="large" 
+        (click)="saveAndCreate()"
+        [disabled]="form.invalid || isLoadingOne || isLoadingTwo"
+        [nzLoading]="isLoadingTwo"
+        >
         <span nz-icon nzType="save"></span>
         Enregister et créer un nouveau
       </button>
