@@ -30,6 +30,7 @@ export class ProductListComponent implements OnInit {
   }
   action: string;
   confirmModal?: NzModalRef;
+  expandSet = new Set<number>();
 
   constructor(
     private productService: ProductService,
@@ -110,6 +111,14 @@ export class ProductListComponent implements OnInit {
     }
 
     this.params['order['+sortField+']'] = Helper.transformOrder(sortOrder);
+  }
+
+  onExpandChange(id: number, checked: boolean): void {
+    if (checked) {
+      this.expandSet.add(id);
+    } else {
+      this.expandSet.delete(id);
+    }
   }
 
 }

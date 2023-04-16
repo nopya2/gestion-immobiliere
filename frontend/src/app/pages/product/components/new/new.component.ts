@@ -244,13 +244,22 @@ export class ProductNewComponent implements OnInit {
       this.isLoadingOne = false
 
       //ensuite on ajoute les images au produit
-      this.productService.addProductImage(res, this.transformToFormData({images: [...this.images.value]})).subscribe(() => {
+      var uploadedFiles = 0;
+      this.images.value.forEach(el => {
+        this.productService.addProductImage(res, this.transformToFormData({image: el})).subscribe(() => {
 
-      }, er => {
-
-      }, () => {
-
+        }, er => {
+          uploadedFiles++;
+        }, () => {
+  
+        });
       });
+      
+      if(uploadedFiles === this.images.value.length){
+        alert("OK")
+      }else{
+        alert("Televersement de fichiers interrompus")
+      }
 
     }, er => {
 
