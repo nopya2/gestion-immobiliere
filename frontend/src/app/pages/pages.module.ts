@@ -77,6 +77,7 @@ import { CustomerListComponent } from './customer/components/list/list.component
 import { CustomerFormModalComponent } from './customer/components/modal/form/form.component';
 import { ProductListComponent } from './product/components/list/list.component';
 import { ProductNewComponent } from './product/components/new/new.component';
+import { ProductShowComponent } from './product/components/show/show.component';
 
 const antdModule = [
     NzCardModule,
@@ -158,7 +159,8 @@ const antdModule = [
         CustomerListComponent,
         CustomerFormModalComponent,
         ProductListComponent,
-        ProductNewComponent
+        ProductNewComponent,
+        ProductShowComponent
     ],
     providers: [
     ]

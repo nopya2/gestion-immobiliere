@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from "../../../environments/environment";
 import { Product } from '../interfaces/product.type';
 import { AuthenticationService } from './authentication.service';
+import { Observable } from 'rxjs';
 
 const API_URL = "api/products";
+export type EntityResponseType = HttpResponse<Product>;
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +31,10 @@ export class ProductService {
         .pipe(map((product: Product) => {
             return product;
         }));
+  }
+
+  find(id: number): Observable<EntityResponseType> {
+    return this.http.get<Product>(`${environment.endpoint}/${API_URL}/${id}`, { observe: 'response' });
   }
 
   create(data: Product){

@@ -17,6 +17,7 @@ import { OwnerService } from '@app/shared/services/owner.service';
 import { TypeConstructionService } from '@app/shared/services/type-construction.service';
 import { TypeProduitService } from '@app/shared/services/type-produit.service';
 import { OperationTypeService } from '@app/shared/services/operation-type.service';
+import { Router } from '@angular/router';
 
 const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
   new Promise((resolve, reject) => {
@@ -83,7 +84,9 @@ export class ProductNewComponent implements OnInit {
     private constructionTypeService: TypeConstructionService,
     private productTypeService: TypeProduitService,
     private operationTypeService: OperationTypeService,
-    private notification: NzNotificationService) {}
+    private notification: NzNotificationService,
+    private modalService: NzModalService,
+    private router: Router,) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -233,38 +236,53 @@ export class ProductNewComponent implements OnInit {
     return "N/A";
   }
 
-  saveAndContinue = () => {;
+  saveAndContinue = async () => {;
     
     this.isLoadingOne = true;
     var data = {...this.form.value};
     delete data.images;
     
     //On cree d'abord le produit
-    this.productService.create(this.form.value).subscribe((res: Product) => {
+    await this.productService.create(this.form.value).subscribe((res: Product) => {
       this.isLoadingOne = false
 
       //ensuite on ajoute les images au produit
       var uploadedFiles = 0;
-      this.images.value.forEach(el => {
-        this.productService.addProductImage(res, this.transformToFormData({image: el})).subscribe(() => {
-
-        }, er => {
+      var nbrI = 0;
+      this.images.value.forEach(async (el)=> {
+        await this.productService.addProductImage(res, this.transformToFormData({image: el})).subscribe(() => {
           uploadedFiles++;
+
+          if(uploadedFiles === this.images.value.length){
+            this.notification.success("Création de produit", "Votre produit a correctement été créé!");
+
+            this.router.navigate([`/pages/products/${res.id}/show`]);
+          }
+          
+        }, er => {
+
+          if(nbrI === this.images.value.length){
+            // this.notification.error("Création de produit", `Votre produit a été créé, mais toutes 
+            //   les images n'ont pas été téleversées!`)
+            var modal = this.modalService.error({
+              nzTitle: 'Création de produit',
+              nzContent: `Votre produit a été créé, mais toutes les images n'ont pas été téleversées!`
+            });
+
+            modal.afterClose.subscribe(() => {
+              this.router.navigate([`/pages/products/${res.id}/show`]);
+            })
+            
+          }
+          
         }, () => {
-  
+          nbrI++;
         });
       });
       
-      if(uploadedFiles === this.images.value.length){
-        alert("OK")
-      }else{
-        alert("Televersement de fichiers interrompus")
-      }
-
     }, er => {
-
-    }, () => {
       this.isLoadingOne = false
+      this.notification.error("Création de produit", "Une erreur est survenue la création du produit: "+ er)
     })
   }
 

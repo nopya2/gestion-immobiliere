@@ -28,6 +28,8 @@ import { OwnerListComponent } from './owner/components/list/list.component';
 import { CustomerListComponent } from './customer/components/list/list.component';
 import { ProductListComponent } from './product/components/list/list.component';
 import { ProductNewComponent } from './product/components/new/new.component';
+import { ProductShowComponent } from './product/components/show/show.component';
+import { ProductRoutingResolver } from './product/routes/product-routing.resolver';
 
 const routes: Routes = [
     {
@@ -48,6 +50,16 @@ const routes: Routes = [
                 component: ProductNewComponent,
                 data: {
                     title: 'Nouveau Produit'
+                }
+            },
+            {
+                path: ':id/show',
+                component: ProductShowComponent,
+                resolve: {
+                    product: ProductRoutingResolver,
+                },
+                data: {
+                    title: 'Détails du produit'
                 }
             }
         ]

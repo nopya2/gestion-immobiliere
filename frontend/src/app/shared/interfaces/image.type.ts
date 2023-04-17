@@ -6,4 +6,5 @@ export interface Image {
     size: number;
     url: string;
     oldUrl?: string;
+    filePath?: string;
 }

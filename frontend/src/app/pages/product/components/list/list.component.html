@@ -61,7 +61,17 @@
                     <td>{{ data.status }}</td>
                     <td nzRight class="text-md-right">
                         <a 
-                            class="m-r-5"
+                            class="m-r-5 m-b-5"
+                            nz-button 
+                            nzType="default" 
+                            nzShape="circle" 
+                            nz-tooltip 
+                            nzTooltipTitle="Détails"
+                            [routerLink]="['/pages/products', data.id, 'show']">
+                            <i nz-icon nzType="eye" nzTheme="outline"></i>
+                        </a>
+                        <a 
+                            class="m-r-5 m-b-5"
                             nz-button nzType="default" 
                             nzShape="circle" 
                             nz-tooltip 
@@ -71,6 +81,7 @@
                             <i nz-icon nzType="edit" theme="outline"></i>
                         </a>
                         <button nz-button 
+                            class="m-r-5 m-b-5"
                             nzType="default" 
                             nzShape="circle" 
                             nz-tooltip 
