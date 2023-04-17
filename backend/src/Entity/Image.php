@@ -7,6 +7,7 @@ use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
 /**
@@ -20,6 +21,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     }
  * )
  * @ORM\HasLifecycleCallbacks()
+ * @Vich\Uploadable()
+ * 
  **/
 class Image
 {
@@ -35,7 +38,7 @@ class Image
     private $id;
 
     /**
-     * @ORM\Column(type="string", length= 255)
+     * @ORM\Column(type="string", length= 255, nullable=true)
      * @Groups({
      *         "read:etablishment", "write:etablishment",
      *         "read:product"
@@ -44,7 +47,7 @@ class Image
     private $filename;
 
     /**
-     * @ORM\Column(type="string", length= 255)
+     * @ORM\Column(type="string", length= 255, nullable=true)
      * @Groups({
      *   "read:etablishment", "write:etablishment",
      *   "read:product"
@@ -54,7 +57,7 @@ class Image
     private $extension;
     
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      * @Groups({
      *   "read:etablishment", "write:etablishment",
      *   "read:product"
@@ -63,15 +66,16 @@ class Image
     private $size;
 
     /**
-     * @ORM\Column(type="string", length= 255)
+     * @ORM\Column(type="string", length= 255, nullable=true)
      * @Groups({"read:etablishment", "write:etablishment",
      *   "read:product"
      * })
      */
-    private $url;
+    private $filePath;
     
     /**
      * @var File|null
+     * @Vich\UploadableField(mapping="product_image", fileNameProperty="filePath")
      */
     private $file;
 
@@ -116,18 +120,6 @@ class Image
         return $this;
     }
 
-    public function getUrl(): ?string
-    {
-        return $this->url;
-    }
-
-    public function setUrl(string $url): self
-    {
-        $this->url = $url;
-
-        return $this;
-    }
-
     /**
      * @return File|null
      */
@@ -142,6 +134,18 @@ class Image
     public function setFile(?File $file)
     {
         $this->file = $file;
+        return $this;
+    }
+
+    public function getFilePath(): ?string
+    {
+        return $this->filePath;
+    }
+
+    public function setFilePath(string $filePath): self
+    {
+        $this->filePath = $filePath;
+
         return $this;
     }
 }

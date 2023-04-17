@@ -79,7 +79,8 @@ class Owner
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({
-     *   "read:owner", "write:owner"
+     *   "read:owner", "write:owner",
+     *   "read:product"
      * })
      * @Assert\NotBlank
      */
@@ -88,7 +89,8 @@ class Owner
     /**
      * @ORM\Column(type="text")
      * @Groups({
-     *   "read:owner", "write:owner"
+     *   "read:owner", "write:owner",
+     *   "read:product"
      * })
      * @Assert\NotBlank
      */
@@ -97,7 +99,8 @@ class Owner
     /**
      * @ORM\Column(type="string", length=255, nullable=true, unique=true)
      * @Groups({
-     *   "read:owner", "write:owner"
+     *   "read:owner", "write:owner",
+     *   "read:product"
      * })
      * @Assert\NotBlank()
      * @Assert\Email()
@@ -107,7 +110,8 @@ class Owner
     /**
      * @ORM\Column(type="datetime_immutable")
      * @Groups({
-     *   "read:owner"
+     *   "read:owner",
+     *   "read:product"
      * })
      */
     private $createdAt;
@@ -115,7 +119,8 @@ class Owner
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
      * @Groups({
-     *   "read:owner"
+     *   "read:owner",
+     *   "read:product"
      * })
      */
     private $updatedAt;
@@ -124,7 +129,8 @@ class Owner
      * @ORM\ManyToOne(targetEntity=User::class, cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Groups({
-     *   "read:owner", "write:owner"
+     *   "read:owner", "write:owner",
+     *   "read:product"
      * })
      */
     private $user;

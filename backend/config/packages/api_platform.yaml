@@ -11,8 +11,6 @@ api_platform:
         multipart: ['multipart/form-data']
     patch_formats:
         json: ['application/merge-patch+json']
-        formData: ['multipart/form-data']
-        multipart: ['multipart/form-data']
     swagger:
         versions: [3]
     defaults:

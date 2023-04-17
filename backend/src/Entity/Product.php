@@ -171,7 +171,10 @@ class Product
     private $lat;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Image::class)
+     * @ORM\ManyToMany(targetEntity=Image::class, cascade={"persist"})
+     * @Groups({
+     *   "read:product"
+     * })
      */
     private $images;
 
